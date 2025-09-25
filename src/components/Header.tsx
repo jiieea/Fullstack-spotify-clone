@@ -17,7 +17,6 @@ const Header = () => {
         //  arrow forward and back
         <div className="h-[4rem] flex items-center justify-between px-3 w-full gap-x-3 ">
              <Image  src={icon} alt='icon' width={50} height={50} 
-                    className=''
                 />
             {/* Left: Arrows */}
             <div className="flex gap-x-3 p-3  items-center">

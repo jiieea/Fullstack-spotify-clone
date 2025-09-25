@@ -3,22 +3,19 @@ import { Montserrat } from "next/font/google";
 import "./globals.css";
 import { Sidebar } from "@/components/Sidebar";
 import Header from "@/components/Header";
-
+import SupabaseProvider from "@/providers/SupabaseProvider";
+import { MdQueueMusic } from "react-icons/md";
+import { ModalProviders } from "@/providers/ModalProviders";
+import { UserProvider } from "@/providers/UserProvider";
 
 const montserrat = Montserrat({
   variable: '--font-montserrat',
   subsets: ['latin']
 })
-
 export const metadata: Metadata = {
   title: "Spotify Clone",
   description: "NextJs Spotify clone app",
 };
-
-
-const LibraryIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-library"><path d="m16 6 4 14" /><path d="M12 6v14" /><path d="M8 8v12" /><path d="M4 4v16" /><path d="M20 2v20" /></svg>
-);
 
 export default function RootLayout({
   children,
@@ -31,14 +28,19 @@ export default function RootLayout({
       <body
         className={`${montserrat.className} antialiased bg-black`}
       >
-        <Header />
+        <SupabaseProvider>
+          <UserProvider>
+            <ModalProviders />
+            <Header />
         <Sidebar
-          icon={<LibraryIcon />}>
+          icon={<MdQueueMusic  size={30}/>}>
           {children}
         </Sidebar>
         <div>
           <h1 className="text-white">This is where player container at</h1>
         </div>
+          </UserProvider>
+        </SupabaseProvider>
       </body>
     </html>
   );

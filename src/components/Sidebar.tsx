@@ -49,7 +49,7 @@ export const Sidebar: React.FC<SidebarProps> = (
       <div
         className={`bg-neutral-900 transition-all 
           duration-300 hidden md:block 
-          ${isSidebarOpen ? 'w-64' : 'w-25'} 
+          ${isSidebarOpen ? 'w-64' : 'w-20'} 
         flex flex-col rounded-r-2xl shadow-xl `}
       >
         {/* Sidebar Header */}
@@ -58,7 +58,7 @@ export const Sidebar: React.FC<SidebarProps> = (
             <button
               title='open'
               onClick={handleOpenSidebar}
-              className="p-2 rounded-full hover:bg-gray-700 transition-colors"
+              className="p-2 rounded-full hover:bg-neutral-800 transition-colors"
             >
               {Icon}
             </button>
@@ -91,7 +91,7 @@ export const Sidebar: React.FC<SidebarProps> = (
         </div>
 
         {/* Sidebar Navigation */}
-        <nav className="flex-1 p-4 space-y-2">
+        <nav className="flex-1 p-2 space-y-2">
           {/* Home Link */}
           {
             routes.map((route) => (
