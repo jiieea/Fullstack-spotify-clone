@@ -23,7 +23,6 @@ export default  function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const { user } = useUsers()
   return (
     <html lang="en">
        <link rel="icon" href="/icon.png" />
@@ -33,7 +32,7 @@ export default  function RootLayout({
         <SupabaseProvider>
           <UserProvider>
             <ModalProviders />
-            <Header  user={ user }/>
+            <Header  />
         <Sidebar
           icon={<MdQueueMusic  size={30}/>}>
           {children}

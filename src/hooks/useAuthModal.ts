@@ -1,12 +1,7 @@
 import { create } from "zustand";
+import {ModalProps} from '../app/interfaces/types'
 
-interface AuthModalHookProps {
-    isOpen : boolean,
-    onOpen : () => void,
-    onClose : () => void
-}
-
-const useAuthModal =  create<AuthModalHookProps>((set) => ({
+const useAuthModal =  create<ModalProps>((set) => ({
     isOpen : false,
     onOpen:() => set({ isOpen : true }),
     onClose : () => set({ isOpen : false})

@@ -8,6 +8,9 @@ import SidebarItems from './SidebarItems';
 import { GoPlus } from "react-icons/go";
 import { twMerge } from 'tailwind-merge';
 import { toast, Toaster } from 'sonner';
+import useUploadSongModal from '@/hooks/useUploadSongModal';
+import { useUsers } from '@/hooks/useUsers';
+import useAuthModal from '@/hooks/useAuthModal';
 interface SidebarProps {
   children: React.ReactNode
   icon: JSX.Element;
@@ -20,10 +23,19 @@ export const Sidebar: React.FC<SidebarProps> = (
 ) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const pathname = usePathname();
+  const { onOpen } = useUploadSongModal();
+  const { user } = useUsers()
+  const authModal = useAuthModal()
 
-  const openUploadModal = () => {
-    toast.success('open!')
+  const handleOpenModal = () => {
+    // if user not login  , open auth modal
+    if (!user) {
+      return authModal.onOpen()
+    } else {
+      return onOpen()
+    }
   }
+
 
   const handleOpenSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen)
@@ -63,7 +75,7 @@ export const Sidebar: React.FC<SidebarProps> = (
               {Icon}
             </button>
             <div
-              onClick={openUploadModal}
+              onClick={handleOpenModal}
               className={twMerge(
                 `rounded-full 
               bg-neutral-800 
@@ -83,7 +95,7 @@ export const Sidebar: React.FC<SidebarProps> = (
               w-[25px] h-[25px] 
               flex items-center justify-center`
             )}
-              onClick={openUploadModal}
+              onClick={handleOpenModal}
             >
               <GoPlus size={20} className='text-neutral-700 hover:text-neutral-400 transition' />
             </div>
@@ -107,7 +119,7 @@ export const Sidebar: React.FC<SidebarProps> = (
       >
         {children}
       </main>
-      <Toaster position='top-center' expand={true} />
+      <Toaster position='top-center' expand={true} richColors />
     </div>
 
   )
