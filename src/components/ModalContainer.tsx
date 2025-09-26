@@ -39,7 +39,9 @@ const ModalContainer: React.FC<ModalContainerProps> = ({
                     text-center text-4xl font-bold 
                     mb-4 flex flex-col justify-center 
                     items-center gap-y-3">
-                        <LuAudioWaveform size={30} className='bg-white rounded-full text-neutral-800 ' />
+                       <div className='p-2 bg-white rounded-full'>
+                       <LuAudioWaveform size={30} className=' rounded-full text-neutral-800 ' />
+                       </div>
                         {title}
                     </Dialog.Title>
 

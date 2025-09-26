@@ -9,11 +9,21 @@ import { GoHome } from "react-icons/go";
 import icon from '../../public/icon.png'
 import Btn from './Button'
 import Image from 'next/image';
+import useAuthModal from '@/hooks/useAuthModal';
+import { User } from '@supabase/auth-helpers-nextjs';
+interface HeaderProps {
+    user : User  | null
+}
 
-
-const Header = () => {
+const Header:React.FC<HeaderProps> = ({
+    user
+}) => {
     const router = useRouter();
-    return (
+    const { onOpen } = useAuthModal();
+
+
+    // handle logout user
+        return (
         //  arrow forward and back
         <div className="h-[4rem] flex items-center justify-between px-3 w-full gap-x-3 ">
              <Image  src={icon} alt='icon' width={50} height={50} 
@@ -59,8 +69,16 @@ const Header = () => {
 
             {/* Right: Auth Buttons */}
             <div className="flex gap-x-6  w-[200px]">
-                <Btn className="bg-transparent text-neutral-500 p-1 ">Sign Up</Btn>
-                <Btn className='' >Sign In</Btn>
+                {
+                    user ? (
+                      <>
+                        <Btn className="bg-transparent text-neutral-500 p-1 ">Sign Up</Btn>
+                        <Btn className=''  onClick={onOpen}>Sign In</Btn>
+                      </>
+                    ) : (
+                        <Btn className=''  onClick={onOpen}>Logout</Btn>
+                    )
+                }
             </div>
         </div>
     )

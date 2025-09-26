@@ -7,6 +7,7 @@ import SupabaseProvider from "@/providers/SupabaseProvider";
 import { MdQueueMusic } from "react-icons/md";
 import { ModalProviders } from "@/providers/ModalProviders";
 import { UserProvider } from "@/providers/UserProvider";
+import { useUsers } from "@/hooks/useUsers";
 
 const montserrat = Montserrat({
   variable: '--font-montserrat',
@@ -17,11 +18,12 @@ export const metadata: Metadata = {
   description: "NextJs Spotify clone app",
 };
 
-export default function RootLayout({
+export default  function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const { user } = useUsers()
   return (
     <html lang="en">
        <link rel="icon" href="/icon.png" />
@@ -31,7 +33,7 @@ export default function RootLayout({
         <SupabaseProvider>
           <UserProvider>
             <ModalProviders />
-            <Header />
+            <Header  user={ user }/>
         <Sidebar
           icon={<MdQueueMusic  size={30}/>}>
           {children}
