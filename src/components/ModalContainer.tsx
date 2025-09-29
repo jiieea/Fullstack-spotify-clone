@@ -2,14 +2,8 @@ import React from 'react';
 import * as Dialog from "@radix-ui/react-dialog";
 import { IoMdClose } from 'react-icons/io';
 import { LuAudioWaveform } from "react-icons/lu";
+import { ModalContainerProps } from '../../src/app/interfaces/types'
 
-interface ModalContainerProps {
-    children: React.ReactNode;
-    title: string;
-    description: string;
-    isOpen: boolean;
-    onChange: (open: boolean) => void;
-}
 
 const ModalContainer: React.FC<ModalContainerProps> = ({
     children,
@@ -21,7 +15,9 @@ const ModalContainer: React.FC<ModalContainerProps> = ({
     return (
         <Dialog.Root open={isOpen} onOpenChange={onChange}>
             <Dialog.Portal>
-                <Dialog.Overlay className="fixed inset-0 bg-neutral-900/80 backdrop-blur-sm z-50" />
+                <Dialog.Overlay 
+                className="fixed inset-0 
+                bg-neutral-900/80 backdrop-blur-sm z-50" />
 
                 <Dialog.Content
                     className='fixed 

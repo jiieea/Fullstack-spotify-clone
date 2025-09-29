@@ -1,31 +1,28 @@
 "use client"
 
-import { usePathname } from 'next/navigation';
-import React, { useState, useMemo, JSX } from 'react'
-import { BiSearch } from 'react-icons/bi';
-import { HiHome } from 'react-icons/hi';
+import React, { useState } from 'react'
+
 import SidebarItems from './SidebarItems';
 import { GoPlus } from "react-icons/go";
 import { twMerge } from 'tailwind-merge';
-import { toast, Toaster } from 'sonner';
+import { Toaster } from 'sonner';
 import useUploadSongModal from '@/hooks/useUploadSongModal';
 import { useUsers } from '@/hooks/useUsers';
 import useAuthModal from '@/hooks/useAuthModal';
-interface SidebarProps {
-  children: React.ReactNode
-  icon: JSX.Element;
-}
+import { SidebarProps } from '../../src/app/interfaces/types'
+
 export const Sidebar: React.FC<SidebarProps> = (
   {
     icon: Icon,
-    children
+    children,
+    songs
   }
 ) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const pathname = usePathname();
   const { onOpen } = useUploadSongModal();
   const { user } = useUsers()
   const authModal = useAuthModal()
+
 
   const handleOpenModal = () => {
     // if user not login  , open auth modal
@@ -41,19 +38,6 @@ export const Sidebar: React.FC<SidebarProps> = (
     setIsSidebarOpen(!isSidebarOpen)
   }
 
-  const routes = useMemo(() => [
-    {
-      icon: HiHome,
-      label: "Home",
-      active: pathname !== '/search',
-      href: "/"
-    }, {
-      icon: BiSearch,
-      label: "Search",
-      active: pathname === "/acount",
-      href: "/account"
-    }
-  ], [pathname])
 
   return (
     <div className="flex min-h-screen bg-black text-white gap-x-4">
@@ -105,10 +89,23 @@ export const Sidebar: React.FC<SidebarProps> = (
         {/* Sidebar Navigation */}
         <nav className="flex-1 p-2 space-y-2">
           {/* Home Link */}
+
           {
-            routes.map((route) => (
-              <SidebarItems key={route.href} {...route} isSidebarOpen={isSidebarOpen} />
-            ))
+            user ? (
+              <div>
+                {
+                  songs.map((song) => (
+                    <SidebarItems key={song.id} data={song} isSidebarOpen={isSidebarOpen} />
+                  ))
+                }
+              </div>
+            ) : (
+              <div className={twMerge(
+                `bg-neutral-800 rounded-2xl w-full h-20 p-3 text-center text-[15px]`, !isSidebarOpen && "hidden"
+              )}>
+                You must login to upload a song
+              </div>
+            )
           }
         </nav>
       </div>

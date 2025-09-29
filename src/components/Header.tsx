@@ -13,25 +13,20 @@ import useAuthModal from '@/hooks/useAuthModal';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import { useUsers } from '@/hooks/useUsers';
 import { toast } from 'sonner';
-import { useNavigationTracker } from '@/hooks/useNavigationTracker';
 import { twMerge } from 'tailwind-merge';
 
 const Header = ({
 }) => {
-    const { canGoback, canGoForward } = useNavigationTracker()
     const router = useRouter();
     const { user } = useUsers()
     const { onOpen } = useAuthModal();
     const supabase = useSupabaseClient();
-
-
 
     // handle logout user
     const handleLogout = async () => {
         try {
             const { error: logoutError } = await supabase.auth.signOut();
             router.refresh();
-
             if (logoutError) {
                 toast.error('failed to logout');
             } else {
@@ -46,26 +41,24 @@ const Header = ({
     return (
         //  arrow forward and back
         <div className="h-[4rem] flex items-center justify-between px-3 w-full gap-x-3 ">
-            <Image src={icon} alt='icon' width={50} height={50}
+            <Image src={icon} alt='icon' width={50} height={50} className='w-[35px] h-[35px] md:w-[50px] md:h-[50px] '
             />
             {/* Left: Arrows */}
-            <div className="flex gap-x-3 p-3  items-center">
+            <div className="md:flex gap-x-3 p-3  items-center hidden">
                 <IoIosArrowBack
-                    onClick={() => canGoback && router.back()}
                     size={30}
+                    onClick={() => router.back()}
                     className={twMerge(
                         `text-neutral-400 
                         hover:text-neutral-300
-                         transition cursor-pointer`,
-                        !canGoback && "text-neutral-900 cursor-not-allowed"
+                        transition cursor-pointer`,
                     )}
                 />
                 <IoIosArrowForward
-                    onClick={() =>canGoForward && router.forward()}
+                    onClick={() => router.forward()}
                     size={30}
                     className={twMerge(
                         `text-neutral-400 hover:text-neutral-300 transition cursor-pointer`
-                        , !canGoForward && "cursor-not-allowed text-neutral-900 transition hover:text-neutral-800"
                     )}
                 />
             </div>
@@ -74,14 +67,14 @@ const Header = ({
             <div className="flex items-center gap-x-4 flex-grow justify-center">
                 <div
                     onClick={() => router.push('/')}
-                    className="bg-neutral-900 hover:bg-neutral-800 transition hover:scale-110 p-2 rounded-full"
+                    className="bg-neutral-900 hover:bg-neutral-800 transition hover:scale-110 p-2 rounded-full hidden md:block"
                 >
                     <GoHome
                         size={30}
                         className="text-neutral-600 hover:text-neutral-400 transition"
                     />
                 </div>
-                <div className="relative w-full max-w-md">
+                <div className="relative w-full max-w-md hidden md:block">
                     <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-green-500">
                         <IoSearch size={25} className="text-neutral-500" />
                     </span>
@@ -103,7 +96,7 @@ const Header = ({
                             <Btn className='' onClick={onOpen}>Sign In</Btn>
                         </>
                     ) : (
-                        <div className='items-center flex gap-x-6 ml-3'>
+                        <div className='items-center flex gap-x-4 ml-5 '>
                             <Btn className='' onClick={handleLogout}>SignOut</Btn>
                             {/* // avatar image */}
                             <Btn className='bg-neutral-800 p-1 rounded-full'

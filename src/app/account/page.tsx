@@ -1,10 +1,14 @@
 import React from 'react'
-
-const page = () => {
+import AccountHeader from './components/AccountHeader'
+import getUserData from '../action/getUserData'
+const page = async() => {
+  const data =  await getUserData();
   return (
-    <div>
-      This is account page
-    </div>
+    <>
+      <AccountHeader 
+        data = { data }
+      />
+    </>
   )
 }
 

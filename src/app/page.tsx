@@ -1,7 +1,5 @@
 import getUserData from "./action/getUserData";
 
-
-
 export default async function Home() {
   const userData = await getUserData();
   return (
