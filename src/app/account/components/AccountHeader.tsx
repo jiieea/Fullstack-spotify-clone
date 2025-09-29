@@ -2,6 +2,7 @@
 
 import { AccountHeaderProps } from '@/app/interfaces/types'
 import {useGetDominantColor} from '@/hooks/useGetDominantColor'
+import useLoadAvatar from '@/hooks/useLoadAvatar'
 import useUpdateProfile from '@/hooks/useUpdateProfile'
 import Image from 'next/image'
 import React from 'react'
@@ -12,18 +13,21 @@ const AccountHeader:React.FC<AccountHeaderProps> = (
         data
     }
 ) => {
-    const avatar = data?.avatar_url;
+    const loadAvatar = useLoadAvatar(data!)
     const { onOpen } = useUpdateProfile()
-    const bgColor = useGetDominantColor(data?.avatar_url)
-    console.log(bgColor);
+    // The bgColor is calculated but not used in the provided JSX, so I'll keep it as is.
+    const bgColor = useGetDominantColor(data?.avatar_url) 
+    
   return (
-  <div className='mt-3 p-6 '>
+    <div className='mt-3 p-4 sm:p-6 lg:p-8'> {/* Adjusted padding for different screen sizes */}
+      {/* Header Text - Already Responsive */}
       <h1 className='text-white text-2xl md:text-3xl lg:text-4xl font-bold mb-6'>
         Account Settings
       </h1>
       
-      <div className="flex flex-col md:flex-row gap-x-4 items-center md:items-start">
-        {/* Image and Overlay Container */}
+      <div className="flex flex-col md:flex-row gap-y-6 md:gap-y-0 gap-x-6 items-center md:items-start"> {/* Increased vertical gap on mobile */}
+        
+        {/* Image and Overlay Container - Sizes are already responsive */}
         <div
           onClick={onOpen}
           className='
@@ -31,9 +35,10 @@ const AccountHeader:React.FC<AccountHeaderProps> = (
             group
             cursor-pointer
             rounded-full
-            w-32 h-32 /* Reduced size for mobile */
-            md:w-48 md:h-48 /* Slightly larger on medium screens */
-            lg:w-56 lg:h-56 /* Larger on large screens */
+            w-32 h-32 /* Small (mobile) */
+            sm:w-40 sm:h-40 /* Added sm size for a better transition */
+            md:w-48 md:h-48 /* Medium */
+            lg:w-56 lg:h-56 /* Large */
             overflow-hidden
             flex-shrink-0
           '
@@ -41,8 +46,9 @@ const AccountHeader:React.FC<AccountHeaderProps> = (
           {/* Avatar Image */}
           <Image
             alt="avatar"
-            src={avatar || "/assets/user.png"}
-            width={224}
+            src={loadAvatar || "/assets/user.png"}
+            // It's good practice to set width/height based on the largest possible container size
+            width={224} 
             height={224}
             className="
               object-cover
@@ -69,7 +75,8 @@ const AccountHeader:React.FC<AccountHeaderProps> = (
               group-hover:opacity-100
             "
           >
-            <RxPencil1 className='text-white mb-2' size={32} />
+            {/* Pencil Icon - Adjusted size to be responsive (optional) */}
+            <RxPencil1 className='text-white mb-2' size={24}  />
             <p className='
               font-semibold
               text-sm
@@ -85,11 +92,14 @@ const AccountHeader:React.FC<AccountHeaderProps> = (
         </div>
 
         {/* User Name Section */}
-        <div className="flex flex-col justify-center mt-4 md:mt-16 md:ml-4">
+        {/* Adjusted vertical alignment on small screens and positioning on medium screens */}
+        <div className="flex flex-col justify-center items-center md:items-start mt-4 md:mt-10"> 
           <p className='text-neutral-400 font-semibold text-sm'>Profile</p>
           <p
           onClick={onOpen}
-          className='text-white font-bold text-3xl md:text-5xl lg:text-6xl'>{data?.full_name || "User Name"}</p>
+          className='text-white font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-center md:text-left'>
+            {data?.full_name || "User Name"}
+          </p>
         </div>
       </div>
     </div>

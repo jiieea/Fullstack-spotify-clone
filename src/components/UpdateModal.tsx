@@ -20,7 +20,8 @@ const UpdateModal = () => {
     const [isLoading, setIsLoading] = useState(false);
     const supabaseClient = useSupabaseClient()
     const { onClose, isOpen } = useUpdateProfile()
-    const { user } = useUsers()
+    const { user } = useUsers();
+    const [previewImg, setPreviewImg] = useState<string | null>(null)
     const router = useRouter()
 
     const handleOpenModal = (isOpen: boolean) => {
@@ -95,7 +96,7 @@ const UpdateModal = () => {
             isOpen={isOpen}
             onChange={handleOpenModal}
         >
-            <form className="flex flex-col gap-y-4">
+            <form className="flex flex-col gap-y-4" onSubmit={handleSubmit(handleSubmitForm)}>
                 <div className="flex items-center gap-x-6">
                     {/* Avatar Section */}
                     <div className="relative w-44 h-44 rounded-full overflow-hidden bg-neutral-700 flex-shrink-0">
