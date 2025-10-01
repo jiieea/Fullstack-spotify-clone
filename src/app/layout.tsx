@@ -4,11 +4,11 @@ import "./globals.css";
 import { Sidebar } from "@/components/Sidebar";
 import Header from "@/components/Header";
 import SupabaseProvider from "@/providers/SupabaseProvider";
-import { MdQueueMusic } from "react-icons/md";
 import { ModalProviders } from "@/providers/ModalProviders";
 import { UserProvider } from "@/providers/UserProvider";
 import getSong from "./action/getSong";
 import getUserData from "./action/getUserData";
+import { TbPlaylist } from 'react-icons/tb'
 const montserrat = Montserrat({
   variable: '--font-montserrat',
   subsets: ['latin']
@@ -36,10 +36,10 @@ export default async function RootLayout({
       >
         <SupabaseProvider>
           <UserProvider>
-            <ModalProviders  userData={  userData! }/>
-            <Header  data = { userData!}/>
+            <ModalProviders  userData={  userData ?? undefined }/>
+          <Header  data = { userData ?? undefined}/>
         <Sidebar
-          icon={<MdQueueMusic  size={30}/>}
+          icon={<TbPlaylist  size={30}/>}
           songs ={ songs }
           >
           {children}

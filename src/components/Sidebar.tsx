@@ -10,6 +10,7 @@ import useUploadSongModal from '@/hooks/useUploadSongModal';
 import { useUsers } from '@/hooks/useUsers';
 import useAuthModal from '@/hooks/useAuthModal';
 import { SidebarProps } from '../../src/app/interfaces/types'
+import { Button } from './ui/button';
 
 export const Sidebar: React.FC<SidebarProps> = (
   {
@@ -22,7 +23,6 @@ export const Sidebar: React.FC<SidebarProps> = (
   const { onOpen } = useUploadSongModal();
   const { user } = useUsers()
   const authModal = useAuthModal()
-
 
   const handleOpenModal = () => {
     // if user not login  , open auth modal
@@ -45,7 +45,7 @@ export const Sidebar: React.FC<SidebarProps> = (
       <div
         className={`bg-neutral-900 transition-all 
           duration-300 hidden md:block 
-          ${isSidebarOpen ? 'w-64' : 'w-20'} 
+          ${isSidebarOpen ? 'w-74' : 'w-20'} 
         flex flex-col rounded-r-2xl shadow-xl `}
       >
         {/* Sidebar Header */}
@@ -73,16 +73,21 @@ export const Sidebar: React.FC<SidebarProps> = (
             <div className={`ml-4 text-xl font-bold transition-opacity duration-300 ${isSidebarOpen ? 'opacity-100' : 'opacity-0'}`}>
               Library
             </div>
-            <div className={twMerge(
-              `rounded-full 
-              bg-neutral-800 
-              w-[25px] h-[25px] 
-              flex items-center justify-center`
-            )}
-              onClick={handleOpenModal}
-            >
-              <GoPlus size={20} className='text-neutral-700 hover:text-neutral-400 transition' />
-            </div>
+          <Button 
+          variant="default"
+  className={twMerge(
+    `rounded-4xl
+     bg-neutral-800 
+     py-2 px-4
+     hover:scale-106 transition
+     gap-x-1
+     flex  items-center justify-center` 
+  )}
+  onClick={handleOpenModal}
+>
+  <GoPlus size={30} className='text-neutral-400 hover:text-neutral-400 transition' />
+  <p className='text-xs text-white font-semibold'>Create</p> 
+</Button>
           </div>
         </div>
 

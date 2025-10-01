@@ -6,7 +6,7 @@ import { IoIosArrowForward } from "react-icons/io";
 import { IoIosArrowBack } from "react-icons/io";
 import { IoSearch } from "react-icons/io5";
 import { GoHome } from "react-icons/go";
-import icon from '../../public/icon.png'
+import { LuAudioWaveform } from "react-icons/lu";
 import Btn from './Button'
 import Image from 'next/image';
 import useAuthModal from '@/hooks/useAuthModal';
@@ -17,14 +17,15 @@ import { twMerge } from 'tailwind-merge';
 import { HeaderProps } from '../app/interfaces/types'
 import useLoadAvatar from '@/hooks/useLoadAvatar';
 
-const Header:React.FC<HeaderProps> = ({
+
+const Header: React.FC<HeaderProps> = ({
     data
 }) => {
     const router = useRouter();
     const { user } = useUsers()
     const { onOpen } = useAuthModal();
     const supabase = useSupabaseClient();
-    const avatar = useLoadAvatar(data)
+    const avatar = useLoadAvatar(data!)
 
     // handle logout user
     const handleLogout = async () => {
@@ -45,8 +46,9 @@ const Header:React.FC<HeaderProps> = ({
     return (
         //  arrow forward and back
         <div className="h-[4rem] flex items-center justify-between px-3 w-full gap-x-3 ">
-            <Image src={icon} alt='icon' width={50} height={50} className='w-[35px] h-[35px] md:w-[50px] md:h-[50px] '
-            />
+        <LuAudioWaveform  
+        className='w-[25px]  p-3  h-[25px] md:w-[50px] md:h-[50px]
+         rounded-full text-black bg-white' />
             {/* Left: Arrows */}
             <div className="md:flex gap-x-3 p-3  items-center hidden">
                 <IoIosArrowBack
@@ -75,7 +77,8 @@ const Header:React.FC<HeaderProps> = ({
                 >
                     <GoHome
                         size={30}
-                        className="text-neutral-600 hover:text-neutral-400 transition"
+                        className="cursor-pointer text-neutral-600
+                         hover:text-neutral-400 transition"
                     />
                 </div>
                 <div className="relative w-full max-w-md hidden md:block">

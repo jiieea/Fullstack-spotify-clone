@@ -6,10 +6,11 @@ import useLoadAvatar from '@/hooks/useLoadAvatar'
 import useUpdateProfile from '@/hooks/useUpdateProfile'
 import Image from 'next/image'
 import React from 'react'
-import { RxPencil1 } from 'react-icons/rx'
+import { RxPencil1 } from 'react-icons/rx';
 
 const AccountHeader: React.FC<AccountHeaderProps> = (
   {
+    songs,
     data
   }
 ) => {
@@ -20,7 +21,7 @@ const AccountHeader: React.FC<AccountHeaderProps> = (
 
   return (
     <div
-     className='w-full h-full bg-neutral-900 rounded-md  md:mb-0 overflow-y-auto'
+
     >
       <div className='  sm:p-6 lg:p-8 bg-gradient-to-b  from-[var(--playlist-color)] to-neutral-900'
         style={{ '--playlist-color': bgColor } as React.CSSProperties}
@@ -81,7 +82,7 @@ const AccountHeader: React.FC<AccountHeaderProps> = (
             "
             >
               {/* Pencil Icon - Adjusted size to be responsive (optional) */}
-              <RxPencil1 className='text-white mb-2' size={24} />
+              <RxPencil1 className='text-white mb-2' size={54} />
               <p className='
               font-semibold
               text-sm
@@ -105,7 +106,10 @@ const AccountHeader: React.FC<AccountHeaderProps> = (
               className='text-white font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-center md:text-left'>
               {data?.full_name || "User Name"}
             </p>
-            <p className='text-white text-[12px]'>5 Playlist Public</p>
+            <div className='flex gap-x-5'>
+              <p className='text-white text-[12px]  font-semibold'>5 Playlist Public</p>
+              <p className='text-white text-[12px] font-semibold'>{songs.length} songs uploaded</p>
+            </div>
           </div>
         </div>
       </div>

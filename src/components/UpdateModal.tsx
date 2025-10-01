@@ -24,7 +24,7 @@ const UpdateModal:React.FC<ModalProvidersProps> = (
     }
 ) => {
     const [isLoading, setIsLoading] = useState(false);
-    const avatar = useLoadAvatar(userData)
+    const avatar = useLoadAvatar(userData!)
     const supabaseClient = useSupabaseClient()
     const { onClose, isOpen } = useUpdateProfile()
     const { user } = useUsers();
@@ -46,7 +46,7 @@ const UpdateModal:React.FC<ModalProvidersProps> = (
 
     } = useForm<FieldValues>({
         defaultValues: {
-            full_name: null,
+            full_name: userData?.full_name|| "",
             avatar_url: null,
         }
     })
@@ -174,6 +174,7 @@ const UpdateModal:React.FC<ModalProvidersProps> = (
                                     focus:border-white
                                     p-3 rounded-md
                                 "
+                                defaultValue={userData?.full_name}
                         {...register('full_name', { required: false })}
                         />
                         <div className="flex justify-end">

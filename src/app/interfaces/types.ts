@@ -3,7 +3,7 @@ import { Song, UserDetails } from "../../../types";
 
 
 export interface ModalProvidersProps {
-  userData : UserDetails
+  userData ?: UserDetails
 }
 
 
@@ -22,10 +22,11 @@ export interface ModalContainerProps {
 }
 
 export interface HeaderProps {
-  data : UserDetails
+  data ?: UserDetails
 }
 export interface AccountHeaderProps {
   data :  UserDetails | null
+  songs : Song[]
 }
 
 
