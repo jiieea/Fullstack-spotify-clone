@@ -1,36 +1,41 @@
 "use client"
 
 import { AccountHeaderProps } from '@/app/interfaces/types'
-import {useGetDominantColor} from '@/hooks/useGetDominantColor'
+import { useGetDominantColor } from '@/hooks/useGetDominantColor'
 import useLoadAvatar from '@/hooks/useLoadAvatar'
 import useUpdateProfile from '@/hooks/useUpdateProfile'
 import Image from 'next/image'
 import React from 'react'
 import { RxPencil1 } from 'react-icons/rx'
 
-const AccountHeader:React.FC<AccountHeaderProps> = (
-    {
-        data
-    }
+const AccountHeader: React.FC<AccountHeaderProps> = (
+  {
+    data
+  }
 ) => {
-    const loadAvatar = useLoadAvatar(data!)
-    const { onOpen } = useUpdateProfile()
-    // The bgColor is calculated but not used in the provided JSX, so I'll keep it as is.
-    const bgColor = useGetDominantColor(data?.avatar_url) 
-    
+  const loadAvatar = useLoadAvatar(data!)
+  const { onOpen } = useUpdateProfile()
+  // The bgColor is calculated but not used in the provided JSX, so I'll keep it as is.
+  const bgColor = useGetDominantColor(loadAvatar!);
+
   return (
-    <div className='mt-3 p-4 sm:p-6 lg:p-8'> {/* Adjusted padding for different screen sizes */}
-      {/* Header Text - Already Responsive */}
-      <h1 className='text-white text-2xl md:text-3xl lg:text-4xl font-bold mb-6'>
-        Account Settings
-      </h1>
-      
-      <div className="flex flex-col md:flex-row gap-y-6 md:gap-y-0 gap-x-6 items-center md:items-start"> {/* Increased vertical gap on mobile */}
-        
-        {/* Image and Overlay Container - Sizes are already responsive */}
-        <div
-          onClick={onOpen}
-          className='
+    <div
+     className='w-full h-full bg-neutral-900 rounded-md  md:mb-0 overflow-y-auto'
+    >
+      <div className='  sm:p-6 lg:p-8 bg-gradient-to-b  from-[var(--playlist-color)] to-neutral-900'
+        style={{ '--playlist-color': bgColor } as React.CSSProperties}
+      > {/* Adjusted padding for different screen sizes */}
+        {/* Header Text - Already Responsive */}
+        <h1 className='text-white text-2xl md:text-3xl lg:text-4xl font-bold mb-6'>
+          Account Settings
+        </h1>
+
+        <div className="flex flex-col md:flex-row gap-y-6 md:gap-y-0 gap-x-6 items-center md:items-start"> {/* Increased vertical gap on mobile */}
+
+          {/* Image and Overlay Container - Sizes are already responsive */}
+          <div
+            onClick={onOpen}
+            className='
             relative
             group
             cursor-pointer
@@ -42,25 +47,25 @@ const AccountHeader:React.FC<AccountHeaderProps> = (
             overflow-hidden
             flex-shrink-0
           '
-        >
-          {/* Avatar Image */}
-          <Image
-            alt="avatar"
-            src={loadAvatar || "/assets/user.png"}
-            // It's good practice to set width/height based on the largest possible container size
-            width={224} 
-            height={224}
-            className="
+          >
+            {/* Avatar Image */}
+            <Image
+              alt="avatar"
+              src={loadAvatar || "/assets/user.png"}
+              // It's good practice to set width/height based on the largest possible container size
+              width={224}
+              height={224}
+              className="
               object-cover
               rounded-full
               w-full h-full
               transition-transform
               group-hover:scale-105
             "
-          />
-          {/* Overlay for Hover Effect */}
-          <div
-            className="
+            />
+            {/* Overlay for Hover Effect */}
+            <div
+              className="
               absolute
               inset-0
               flex
@@ -74,10 +79,10 @@ const AccountHeader:React.FC<AccountHeaderProps> = (
               opacity-0
               group-hover:opacity-100
             "
-          >
-            {/* Pencil Icon - Adjusted size to be responsive (optional) */}
-            <RxPencil1 className='text-white mb-2' size={24}  />
-            <p className='
+            >
+              {/* Pencil Icon - Adjusted size to be responsive (optional) */}
+              <RxPencil1 className='text-white mb-2' size={24} />
+              <p className='
               font-semibold
               text-sm
               md:text-base
@@ -86,20 +91,22 @@ const AccountHeader:React.FC<AccountHeaderProps> = (
               text-center
               px-2
             '>
-              Select Picture
-            </p>
+                Select Picture
+              </p>
+            </div>
           </div>
-        </div>
 
-        {/* User Name Section */}
-        {/* Adjusted vertical alignment on small screens and positioning on medium screens */}
-        <div className="flex flex-col justify-center items-center md:items-start mt-4 md:mt-10"> 
-          <p className='text-neutral-400 font-semibold text-sm'>Profile</p>
-          <p
-          onClick={onOpen}
-          className='text-white font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-center md:text-left'>
-            {data?.full_name || "User Name"}
-          </p>
+          {/* User Name Section */}
+          {/* Adjusted vertical alignment on small screens and positioning on medium screens */}
+          <div className="flex flex-col justify-center items-center gap-y-4 md:items-start mt-4 md:mt-10">
+            <p className='text-neutral-400 font-semibold text-sm'>Profile</p>
+            <p
+              onClick={onOpen}
+              className='text-white font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-center md:text-left'>
+              {data?.full_name || "User Name"}
+            </p>
+            <p className='text-white text-[12px]'>5 Playlist Public</p>
+          </div>
         </div>
       </div>
     </div>

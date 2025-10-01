@@ -2,6 +2,10 @@ import {JSX} from "react";
 import { Song, UserDetails } from "../../../types";
 
 
+export interface ModalProvidersProps {
+  userData : UserDetails
+}
+
 
 export interface ModalProps {
     isOpen : boolean
@@ -17,7 +21,9 @@ export interface ModalContainerProps {
     onChange: (open: boolean) => void;
 }
 
-
+export interface HeaderProps {
+  data : UserDetails
+}
 export interface AccountHeaderProps {
   data :  UserDetails | null
 }

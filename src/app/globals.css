@@ -1,6 +1,13 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+
+:root {
+  height: 100%;
+  background-color: #000;
+  color-scheme: dark;
+  --playlist-color : #000
+}
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {

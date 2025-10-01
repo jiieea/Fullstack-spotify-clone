@@ -4,8 +4,14 @@ import AuthModal from '@/components/AuthModal';
 import UpdateModal from '@/components/UpdateModal';
 import UploadSongModal from '@/components/UploadSongModal';
 import React, { useEffect, useState } from 'react'
+import {ModalProvidersProps} from '../app/interfaces/types'
 
-export const ModalProviders = () => {
+
+export const ModalProviders:React.FC<ModalProvidersProps> = (
+  {
+    userData
+  }
+) => {
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
@@ -20,7 +26,7 @@ export const ModalProviders = () => {
     <>
       <AuthModal />
       <UploadSongModal />
-      <UpdateModal />
+      <UpdateModal  userData={ userData}/>
     </>
   )
 }

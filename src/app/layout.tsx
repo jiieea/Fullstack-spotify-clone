@@ -8,7 +8,7 @@ import { MdQueueMusic } from "react-icons/md";
 import { ModalProviders } from "@/providers/ModalProviders";
 import { UserProvider } from "@/providers/UserProvider";
 import getSong from "./action/getSong";
-
+import getUserData from "./action/getUserData";
 const montserrat = Montserrat({
   variable: '--font-montserrat',
   subsets: ['latin']
@@ -26,6 +26,8 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const songs = await getSong();
+  const userData = await getUserData();
+
   return (
     <html lang="en">
        <link rel="icon" href="/icon.png" />
@@ -34,8 +36,8 @@ export default async function RootLayout({
       >
         <SupabaseProvider>
           <UserProvider>
-            <ModalProviders />
-            <Header  />
+            <ModalProviders  userData={  userData! }/>
+            <Header  data = { userData!}/>
         <Sidebar
           icon={<MdQueueMusic  size={30}/>}
           songs ={ songs }

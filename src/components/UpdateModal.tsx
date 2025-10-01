@@ -1,7 +1,7 @@
 "use client"
 
 import uniqid from 'uniqid'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { UpdateModalContainer } from './UpdateModalContainer'
 import Button from './Button'
 import Image from 'next/image'
@@ -16,13 +16,20 @@ import { useSupabaseClient } from '@supabase/auth-helpers-react'
 import { useUsers } from '@/hooks/useUsers'
 import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
-const UpdateModal = () => {
+import { ModalProvidersProps } from '@/app/interfaces/types'
+import useLoadAvatar from '@/hooks/useLoadAvatar'
+const UpdateModal:React.FC<ModalProvidersProps> = (
+    {
+        userData
+    }
+) => {
     const [isLoading, setIsLoading] = useState(false);
+    const avatar = useLoadAvatar(userData)
     const supabaseClient = useSupabaseClient()
     const { onClose, isOpen } = useUpdateProfile()
     const { user } = useUsers();
     const [previewImg, setPreviewImg] = useState<string | null>(null)
-    const router = useRouter()
+    const router = useRouter();
 
     const handleOpenModal = (isOpen: boolean) => {
         if (!isOpen) {
@@ -43,6 +50,20 @@ const UpdateModal = () => {
             avatar_url: null,
         }
     })
+
+
+    const prevImage = watch('avatar_url');
+
+    useEffect(() => {
+        if(prevImage && prevImage.length > 0) {
+            const file =prevImage[0];
+            const previewUrl = URL.createObjectURL(file);
+            setPreviewImg(prevImage);
+            return () => URL.revokeObjectURL(previewUrl)
+        }else {
+            setPreviewImg(null);
+        }
+    },[prevImage])
 
 
     const handleSubmitForm: SubmitHandler<FieldValues> = async (values) => {
@@ -100,12 +121,23 @@ const UpdateModal = () => {
                 <div className="flex items-center gap-x-6">
                     {/* Avatar Section */}
                     <div className="relative w-44 h-44 rounded-full overflow-hidden bg-neutral-700 flex-shrink-0">
-                        <Image
-                            src={'/assets/user.png'}
-                            fill
-                            alt="User Avatar"
-                            className="object-cover"
-                        />
+                       {
+                        previewImg ? (
+                            <Image
+                                src={previewImg}
+                                alt='playlistImg'
+                                fill
+                                className='object-cover rounded-md'
+                            />
+                        ) : (
+                            <Image
+                                src={ avatar ||  '/images/liked.png'}
+                                alt='playlistImg'
+                                fill
+                                className='object-cover rounded-md'
+                            />
+                        )
+                    }
                         {/* Overlay for changing avatar */}
                         <label
                             htmlFor="image"

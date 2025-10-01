@@ -112,7 +112,7 @@ export const Sidebar: React.FC<SidebarProps> = (
 
       {/* Main content area */}
       <main
-        className={`p-2 flex-1  overflow-y-auto  bg-neutral-900 h-max-screen rounded-lg`}
+        className={` flex-1  overflow-y-auto  rounded-lg`}
       >
         {children}
       </main>

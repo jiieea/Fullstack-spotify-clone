@@ -14,13 +14,17 @@ import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import { useUsers } from '@/hooks/useUsers';
 import { toast } from 'sonner';
 import { twMerge } from 'tailwind-merge';
+import { HeaderProps } from '../app/interfaces/types'
+import useLoadAvatar from '@/hooks/useLoadAvatar';
 
-const Header = ({
+const Header:React.FC<HeaderProps> = ({
+    data
 }) => {
     const router = useRouter();
     const { user } = useUsers()
     const { onOpen } = useAuthModal();
     const supabase = useSupabaseClient();
+    const avatar = useLoadAvatar(data)
 
     // handle logout user
     const handleLogout = async () => {
@@ -106,7 +110,7 @@ const Header = ({
                              flex-shrink-0 overflow-y-auto'
                                 >
                                     <Image
-                                        src={"/assets/user.png"}
+                                        src={avatar || "/assets/user.png"}
                                         alt='user'
                                         width={30}
                                         height={30}

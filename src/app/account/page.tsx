@@ -4,11 +4,9 @@ import getUserData from '../action/getUserData'
 const page = async() => {
   const data =  await getUserData();
   return (
-    <>
       <AccountHeader 
         data = { data }
       />
-    </>
   )
 }
 

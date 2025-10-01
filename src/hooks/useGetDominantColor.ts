@@ -1,4 +1,4 @@
-// hooks/useGetDominantColor.ts
+// hooks/useDominantColor.ts
 import ColorThief from 'colorthief';
 import { useState, useEffect } from 'react';
 
