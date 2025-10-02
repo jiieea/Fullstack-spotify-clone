@@ -24,7 +24,8 @@ const SidebarItems: React.FC<SidebarItemsProps> = ({
               height={40}
               className=''
             />
-            <span
+<div className='flex flex-col'>
+<span
               className={twMerge(
                 `ml-4 text-lg transition-all
                 duration-300 overflow-hidden 
@@ -34,6 +35,17 @@ const SidebarItems: React.FC<SidebarItemsProps> = ({
             >
               {title}
             </span>
+<span
+              className={twMerge(
+                `ml-4 text-[12px] transition-all
+                duration-300 overflow-hidden 
+                whitespace-nowrap w-0 text-neutral-700
+                opacity-0` , isSidebarOpen && "w-auto opacity-100"
+              )}
+            >
+              {author}
+            </span>
+</div>
           </div>
     </>
   )

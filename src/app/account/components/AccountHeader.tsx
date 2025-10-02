@@ -21,7 +21,6 @@ const AccountHeader: React.FC<AccountHeaderProps> = (
 
   return (
     <div
-
     >
       <div className='  sm:p-6 lg:p-8 bg-gradient-to-b  from-[var(--playlist-color)] to-neutral-900'
         style={{ '--playlist-color': bgColor } as React.CSSProperties}

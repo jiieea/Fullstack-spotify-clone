@@ -3,12 +3,9 @@
 import React from 'react'
 import Image from 'next/image'
 import { FaPlay } from 'react-icons/fa'
-import { Song } from '../../types'
 import useLoadImage from '@/hooks/useLoadImage'
+import {MediaItemProps} from '../../src/app/interfaces/types'
 
-interface MediaItemProps {
-    data: Song
-}
 const MediaItem: React.FC<MediaItemProps> =
     (
         {

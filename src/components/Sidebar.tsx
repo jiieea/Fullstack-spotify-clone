@@ -10,7 +10,7 @@ import useUploadSongModal from '@/hooks/useUploadSongModal';
 import { useUsers } from '@/hooks/useUsers';
 import useAuthModal from '@/hooks/useAuthModal';
 import { SidebarProps } from '../../src/app/interfaces/types'
-import { Button } from './ui/button';
+import UploadMenu from './UploadMenu';
 
 export const Sidebar: React.FC<SidebarProps> = (
   {
@@ -73,21 +73,7 @@ export const Sidebar: React.FC<SidebarProps> = (
             <div className={`ml-4 text-xl font-bold transition-opacity duration-300 ${isSidebarOpen ? 'opacity-100' : 'opacity-0'}`}>
               Library
             </div>
-          <Button 
-          variant="default"
-  className={twMerge(
-    `rounded-4xl
-     bg-neutral-800 
-     py-2 px-4
-     hover:scale-106 transition
-     gap-x-1
-     flex  items-center justify-center` 
-  )}
-  onClick={handleOpenModal}
->
-  <GoPlus size={30} className='text-neutral-400 hover:text-neutral-400 transition' />
-  <p className='text-xs text-white font-semibold'>Create</p> 
-</Button>
+         <UploadMenu />
           </div>
         </div>
 

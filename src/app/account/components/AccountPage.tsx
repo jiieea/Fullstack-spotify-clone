@@ -1,10 +1,6 @@
 import React from 'react'
-import { Song } from '../../../../types'
 import MediaItem from '@/components/MediaItem'
-interface AccountPageProps {
-    songs: Song[]
-}
-
+import { AccountPageProps } from '../../interfaces/types'
 const AccountPage: React.FC<AccountPageProps> = (
     {
         songs

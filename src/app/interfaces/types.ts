@@ -21,9 +21,21 @@ export interface ModalContainerProps {
     onChange: (open: boolean) => void;
 }
 
+export 
+interface MediaItemProps {
+    data: Song
+}
+
 export interface HeaderProps {
   data ?: UserDetails
 }
+
+export interface AccountPageProps {
+  songs: Song[]
+}
+
+
+
 export interface AccountHeaderProps {
   data :  UserDetails | null
   songs : Song[]

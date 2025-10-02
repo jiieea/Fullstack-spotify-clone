@@ -5,6 +5,7 @@ import UpdateModal from '@/components/UpdateModal';
 import UploadSongModal from '@/components/UploadSongModal';
 import React, { useEffect, useState } from 'react'
 import {ModalProvidersProps} from '../app/interfaces/types'
+import UploadPlaylistModal from '@/components/UploadPlaylistModal';
 
 
 export const ModalProviders:React.FC<ModalProvidersProps> = (
@@ -27,6 +28,7 @@ export const ModalProviders:React.FC<ModalProvidersProps> = (
       <AuthModal />
       <UploadSongModal />
       <UpdateModal  userData={ userData}/>
+<UploadPlaylistModal />
     </>
   )
 }
