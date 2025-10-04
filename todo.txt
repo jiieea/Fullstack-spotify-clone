@@ -1,0 +1,41 @@
+Todo : 
+-   Create Liked songs page and Liked song feature
+-   create add song to playlist and crud feature for playlist
+
+
+
+
+    {/* <div className="flex  items-center justify-start  md:flex-row mr-[-1.5em] ml-[-2em] md:ml-0 md:mr-0 gap-x-2 flex-row-reverse">
+                <Button onClick={onHandlePlaylistImageClick} variant="ghost" className='bg-green-500 rounded-full hover:bg-green-300 transition hover:scale-110' >
+                    <Icon className='text-black ' />
+                </Button>
+                <PlaylistOption
+                    playlistData={playlistData}
+                    onHandleRemovePlaylist={onHandleRemovePlaylist} />
+                {/* playlist option mobile visible */}
+                {/* <PlaylistOptionMobile
+                    playlistSongs={playlistSongs}
+                    disabled={disabled}
+                    songs={songs}
+                    playlistImage={playlistImage}
+                    playlistData={playlistData}
+                    userName={userName!}
+                /> */}
+                {/* buttons to add sorting logic add song and update playlist */}
+                {/* <div className='flex gap-x-3 items-center md:hidden'>
+                    <Button variant="secondary" disabled={disabled} className='rounded-2xl p-1 bg-neutral-800'>
+                        <FaPlus className='text-white' size={10} />
+                        <p className='text-white font-semibold text-[10px] '>Add song</p>
+                    </Button>
+                    <SortButtonSheet
+                        onHandleSort={onHandleSortByTitle}
+                        sort={sort}
+                        onHandleSortByArtist={onHandleSortByArtist}
+                        onHandleSortByDate={onHandleSortByDate}
+                    />
+                    <UpdateButtonModal
+                        disabled={disabled}
+                        playlistData={playlistData}
+                    />
+                </div> */}
+                {/* </div> */}

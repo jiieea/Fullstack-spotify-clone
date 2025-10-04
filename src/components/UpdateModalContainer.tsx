@@ -37,7 +37,7 @@ export const UpdateModalContainer: React.FC<ModalContainerProps> = (
              p-[25px]
              z-[999]
              flex space-y-5 flex-col
-             bg-neutral-800
+             bg-neutral-900
              focus:outline-none
              overflow-y-auto {/* Added for scrollability if content exceeds max-height */}
 '

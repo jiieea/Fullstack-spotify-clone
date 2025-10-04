@@ -3,7 +3,7 @@
 import React from 'react'
 import Image from 'next/image'
 import { FaPlay } from 'react-icons/fa'
-import useLoadImage from '@/hooks/useLoadImage'
+import {useLoadImage} from '@/hooks/useLoadImage'
 import {MediaItemProps} from '../../src/app/interfaces/types'
 
 const MediaItem: React.FC<MediaItemProps> =

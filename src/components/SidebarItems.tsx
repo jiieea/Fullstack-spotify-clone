@@ -2,7 +2,7 @@ import Image from 'next/image'
 import React from 'react'
 import { twMerge } from 'tailwind-merge'
 import { SidebarItemsProps } from '../../src/app/interfaces/types'
-import useLoadImage from '@/hooks/useLoadImage'
+import {useLoadImage} from '@/hooks/useLoadImage'
 
 const SidebarItems: React.FC<SidebarItemsProps> = ({
   data,
@@ -28,7 +28,7 @@ const SidebarItems: React.FC<SidebarItemsProps> = ({
 <span
               className={twMerge(
                 `ml-4 text-lg transition-all
-                duration-300 overflow-hidden 
+                duration-300 overflow-hidden  text-neutral-400 font-semibold
                 whitespace-nowrap w-0 
                 opacity-0` , isSidebarOpen && "w-auto opacity-100"
               )}
@@ -37,9 +37,9 @@ const SidebarItems: React.FC<SidebarItemsProps> = ({
             </span>
 <span
               className={twMerge(
-                `ml-4 text-[12px] transition-all
+                `ml-4 text-[12px] transition-all text-neutral-400 font-semibold
                 duration-300 overflow-hidden 
-                whitespace-nowrap w-0 text-neutral-700
+                whitespace-nowrap w-0 
                 opacity-0` , isSidebarOpen && "w-auto opacity-100"
               )}
             >

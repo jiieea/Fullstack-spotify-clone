@@ -30,6 +30,7 @@ const UpdateModal:React.FC<ModalProvidersProps> = (
     const { user } = useUsers();
     const [previewImg, setPreviewImg] = useState<string | null>(null)
     const router = useRouter();
+    const fullName = userData?.full_name;
 
     const handleOpenModal = (isOpen: boolean) => {
         if (!isOpen) {
@@ -43,7 +44,6 @@ const UpdateModal:React.FC<ModalProvidersProps> = (
         handleSubmit,
         reset,
         register
-
     } = useForm<FieldValues>({
         defaultValues: {
             full_name: userData?.full_name|| "",
@@ -163,8 +163,8 @@ const UpdateModal:React.FC<ModalProvidersProps> = (
                         <Input
                             disabled={isLoading}
                             id="fullName"
-                            // defaultValue={userDetails?.full_name || ''}
                             placeholder="Enter your username"
+                            defaultValue={fullName}
                             className="
                                     bg-[#282828]
                                     border-neutral-700
@@ -174,7 +174,7 @@ const UpdateModal:React.FC<ModalProvidersProps> = (
                                     focus:border-white
                                     p-3 rounded-md
                                 "
-                                defaultValue={userData?.full_name}
+                                
                         {...register('full_name', { required: false })}
                         />
                         <div className="flex justify-end">

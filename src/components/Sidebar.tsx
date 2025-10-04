@@ -11,7 +11,7 @@ import { useUsers } from '@/hooks/useUsers';
 import useAuthModal from '@/hooks/useAuthModal';
 import { SidebarProps } from '../../src/app/interfaces/types'
 import UploadMenu from './UploadMenu';
-
+import LikedSongs from './LikedSongs';
 export const Sidebar: React.FC<SidebarProps> = (
   {
     icon: Icon,
@@ -22,7 +22,7 @@ export const Sidebar: React.FC<SidebarProps> = (
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const { onOpen } = useUploadSongModal();
   const { user } = useUsers()
-  const authModal = useAuthModal()
+  const authModal = useAuthModal();
 
   const handleOpenModal = () => {
     // if user not login  , open auth modal
@@ -73,14 +73,18 @@ export const Sidebar: React.FC<SidebarProps> = (
             <div className={`ml-4 text-xl font-bold transition-opacity duration-300 ${isSidebarOpen ? 'opacity-100' : 'opacity-0'}`}>
               Library
             </div>
-         <UploadMenu />
+            <UploadMenu isSidebarOpen={isSidebarOpen} />
           </div>
         </div>
 
         {/* Sidebar Navigation */}
-        <nav className="flex-1 p-2 space-y-2">
+        <nav className="flex-1 p-2 ">
           {/* Home Link */}
-
+          {user && <LikedSongs
+            href='/liked'
+            icon='/assets/liked.png'
+            isSidebarOpen={isSidebarOpen}
+          />}
           {
             user ? (
               <div>

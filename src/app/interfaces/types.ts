@@ -1,11 +1,15 @@
 import {JSX} from "react";
-import { Song, UserDetails } from "../../../types";
+import { Playlist, Song, UserDetails } from "../../../types";
 
 
 export interface ModalProvidersProps {
   userData ?: UserDetails
 }
 
+export interface PlaylistPageProps {
+  data : Playlist | null
+  userData : UserDetails | null
+}
 
 export interface ModalProps {
     isOpen : boolean

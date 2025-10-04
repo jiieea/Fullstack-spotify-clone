@@ -16,8 +16,15 @@ import useCreatePlaylistModal from '@/hooks/useCreatePlaylistModal'
 import { useUsers } from '@/hooks/useUsers'
 import useAuthModal from '@/hooks/useAuthModal'
 
+interface UploadMenuProps {
+    isSidebarOpen : boolean
+}
 
-const UploadMenu = () => {
+const UploadMenu:React.FC<UploadMenuProps> = (
+    {
+        isSidebarOpen
+    }
+) => {
     const { onOpen } = useUploadSongModal();
     const playlist = useCreatePlaylistModal();
     const { user } = useUsers()
@@ -31,7 +38,7 @@ const UploadMenu = () => {
         }
     }
     return (
-        <DropdownMenu>
+        <DropdownMenu >
             <DropdownMenuTrigger asChild>
                 <Button
                     variant="default"
@@ -41,7 +48,7 @@ const UploadMenu = () => {
      py-2 px-4
      hover:scale-106 transition
      gap-x-1
-     flex  items-center justify-center`
+     flex  items-center justify-center` , !isSidebarOpen && "hidden"
                     )}
                 // onClick={handleOpenModal}
                 >

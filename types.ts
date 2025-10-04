@@ -20,7 +20,7 @@ export interface Playlist {
     user_id: string,
     playlist_name: string,
     playlist_image: string
-    description: string| null
+    description?: string
 }
 export interface UserDetails {
     id?: string,
