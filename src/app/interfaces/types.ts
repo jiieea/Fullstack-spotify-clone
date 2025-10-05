@@ -27,7 +27,8 @@ export interface ModalContainerProps {
 
 export 
 interface MediaItemProps {
-    data: Song
+    data: Song,
+    index : number
 }
 
 export interface HeaderProps {
@@ -35,7 +36,7 @@ export interface HeaderProps {
 }
 
 export interface AccountPageProps {
-  songs: Song[]
+  songs: Song[],
 }
 
 

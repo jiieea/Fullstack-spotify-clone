@@ -13,7 +13,9 @@ const page = async () => {
         songs={songs}
         data={data}
       />
-      <AccountPage  songs={ songs }/>
+      <AccountPage  
+
+      songs={ songs }/>
     </div>
   )
 }

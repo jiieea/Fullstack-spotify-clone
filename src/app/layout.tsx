@@ -32,7 +32,7 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-       <link rel="icon" href="/assets/icon.png" />
+       <link rel="icon" href="/assets/soundwave.png" />
       <body
         className={`${montserrat.className} antialiased bg-black`}
       >

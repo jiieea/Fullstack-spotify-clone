@@ -1,15 +1,17 @@
 "use client";
 
 import { useRef, useEffect, ReactNode } from 'react';
-
+import { twMerge } from 'tailwind-merge';
 interface PlaylistWrapperProps {
   bgColor: string;
   children: ReactNode;
+  className ?: string
 }
 
 const PlaylistWrapper: React.FC<PlaylistWrapperProps> =
   ({ bgColor,
-    children
+    children,
+    className
   }) => {
     const containerRef = useRef<HTMLDivElement>(null);
 
@@ -22,10 +24,12 @@ const PlaylistWrapper: React.FC<PlaylistWrapperProps> =
     return (
       <div
         ref={containerRef}
-        className='py-15 px-6 flex items-center gap-x-9 h-full
+        className={twMerge(
+          `py-15 px-6 flex items-center gap-x-9 h-full
                  flex-col md:flex-row md:items-start bg-gradient-to-b
                  from-[var(--playlist-color)] to-neutral-900
-                 md:text-start justify-center text-center md:justify-start'
+                 md:text-start justify-center text-center md:justify-start` , className
+        )}
       >
         {children}
       </div>

@@ -11,19 +11,17 @@ import { RxPencil1 } from 'react-icons/rx';
 const AccountHeader: React.FC<AccountHeaderProps> = (
   {
     songs,
-    data
+    data,
   }
 ) => {
   const loadAvatar = useLoadAvatar(data!)
   const { onOpen } = useUpdateProfile()
-  // The bgColor is calculated but not used in the provided JSX, so I'll keep it as is.
   const bgColor = useGetDominantColor(loadAvatar!);
 
   return (
-    <div
-    >
+    <div     >
       <div className='  sm:p-6 lg:p-8 bg-gradient-to-b  
-      from-[var(--playlist-color)] to-neutral-900 h-full'
+      from-[var(--playlist-color)] to-neutral-900/80 h-full'
         style={{ '--playlist-color': bgColor } as React.CSSProperties}
       > {/* Adjusted padding for different screen sizes */}
         {/* Header Text - Already Responsive */}

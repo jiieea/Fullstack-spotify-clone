@@ -6,7 +6,6 @@ import { IoIosArrowForward } from "react-icons/io";
 import { IoIosArrowBack } from "react-icons/io";
 import { IoSearch } from "react-icons/io5";
 import { GoHome } from "react-icons/go";
-import { LuAudioWaveform } from "react-icons/lu";
 import Btn from './Button'
 import Image from 'next/image';
 import useAuthModal from '@/hooks/useAuthModal';
@@ -46,9 +45,13 @@ const Header: React.FC<HeaderProps> = ({
     return (
         //  arrow forward and back
         <div className="h-[4rem] flex items-center justify-between px-3 w-full gap-x-3 ">
-        <LuAudioWaveform  
-        className='w-[25px]  p-3  h-[25px] md:w-[50px] md:h-[50px]
-         rounded-full text-black bg-white' />
+            <Image
+                src={'/assets/soundwave.png'}
+                alt='icon'
+                width={25}
+                height={25}
+                className='w-[65px]  p-3  h-[65px] object-cover rounded-full'
+            />
             {/* Left: Arrows */}
             <div className="md:flex gap-x-3 p-3  items-center hidden">
                 <IoIosArrowBack
