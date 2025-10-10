@@ -4,8 +4,8 @@ export default async function Home() {
   const userData = await getUserData();
   
   return (
-   <div className="bg-neutral-900 md:mb-0
-    w-full h-full rounded-lg overflow-y-auto text-white overflow-hidden">
+   <div className="bg-neutral-900 md:mb-0 h-[90vh]
+ rounded-lg overflow-y-auto text-white overflow-hidden">
       <p className="text-white font-semibold p-3"> Hello , welcome  
 {
   userData?.full_name ? userData.full_name : userData?.id

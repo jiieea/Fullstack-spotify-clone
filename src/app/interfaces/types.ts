@@ -37,6 +37,7 @@ export interface HeaderProps {
 
 export interface AccountPageProps {
   songs: Song[],
+  playlists : Playlist[]
 }
 
 
@@ -49,12 +50,15 @@ export interface AccountHeaderProps {
 
 export interface SidebarProps {
     children: React.ReactNode
+    userData : UserDetails  | null
     icon: JSX.Element;
-    songs : Song[]
+    playlists : Playlist[]
+    likedSongs : Song[]
   }
 
 
   export interface SidebarItemsProps {
-    data : Song
+    data : Playlist
     isSidebarOpen: boolean
+    userData : UserDetails |null
   }

@@ -6,9 +6,10 @@ import Header from "@/components/Header";
 import SupabaseProvider from "@/providers/SupabaseProvider";
 import { ModalProviders } from "@/providers/ModalProviders";
 import { UserProvider } from "@/providers/UserProvider";
-import getSong from "./action/getSong";
 import getUserData from "./action/getUserData";
 import { TbPlaylist } from 'react-icons/tb'
+import getLikedSongs from "./action/getLikedSongs";
+import getPlaylistByUserId from "./action/getPlaylistsByUserId";
 
 
 const montserrat = Montserrat({
@@ -27,22 +28,24 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const songs = await getSong();
   const userData = await getUserData();
-
+  const likedSongs = await getLikedSongs();
+  const userPlaylists = await getPlaylistByUserId();
   return (
     <html lang="en">
        <link rel="icon" href="/assets/soundwave.png" />
       <body
-        className={`${montserrat.className} antialiased bg-black`}
+        className={`${montserrat.className} antialiased bg-black `}
       >
-        <SupabaseProvider>
+        <SupabaseProvider >
           <UserProvider>
             <ModalProviders  userData={  userData ?? undefined }/>
           <Header  data = { userData ?? undefined}/>
         <Sidebar
+        userData={ userData }
           icon={<TbPlaylist  size={30}/>}
-          songs ={ songs }
+          playlists ={ userPlaylists }
+          likedSongs = { likedSongs }
           >
           {children}
         </Sidebar>

@@ -1,6 +1,6 @@
 Todo : 
--   Create Liked songs page and Liked song feature
 -   create add song to playlist and crud feature for playlist
+- create play song feature
 
 
 

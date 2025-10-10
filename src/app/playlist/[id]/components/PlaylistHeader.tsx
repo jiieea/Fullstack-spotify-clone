@@ -9,8 +9,10 @@ import { useRouter } from 'next/navigation';
 import React from 'react';
 import { CiGlobe } from 'react-icons/ci';
 import PlaylistWrapper from './PlaylistHeaderWrapper';
+import { PlaylistContent } from './PlaylistContent';
 
-const PlaylistContent: React.FC<PlaylistPageProps> = ({ userData, data }) => {
+
+const PlaylistPage: React.FC<PlaylistPageProps> = ({ userData, data }) => {
   const router = useRouter();
   const playlistImage = useLoadPlaylistImage(data!);
   const avatar = useLoadAvatar(userData!);
@@ -27,88 +29,74 @@ const PlaylistContent: React.FC<PlaylistPageProps> = ({ userData, data }) => {
     );
   }
 
-
-
   return (
-    <PlaylistWrapper bgColor={bgColor}>
-      <Image
-        src={playlistImage || '/images/liked.png'}
-        alt='playlist image'
-        width={250}
-        height={250}
-        quality={100}
-        className='relative object-cover rounded-md mb-4 w-45 md:w-50 h-45 md:h-50'
-      />
-      <div className='flex flex-col justify-start py-4 w-full md:w-2/3'>
-        <div className='flex justify-start flex-col'>
-          <p className='text-[1rem] ps-0 md:ps-2 font-semibold text-white md:block hidden'>Playlist</p>
-          <p className='md:text-7xl text-2xl font-semibold text-start mt-2 mb-2 text-white ml-[-1rem] md:ml-0 md:ps-2 w-full'>
-            {playlistName}
-          </p>
-          {desc && (
-            <p className='ml-[-1rem] text-neutral-400 text-start font-semibold text-[13px] md:text-[16px] md:ps-2 md:ml-0'>
-              {desc}
-            </p>
-          )}
-          <div className='flex gap-x-1 items-center ml-[-1.5em] md:ml-0'>
-            <div className='flex gap-x-2.5 items-center' onClick={() => router.push('/account')}>
-              <div className='w-10 h-10 flex items-center justify-center md:ml-0'>
-                <Image
-                  src={avatar || '/images/liked.png'}
-                  alt='User avatar'
-                  height={20}
-                  width={20}
-                  className='rounded-full object-cover w-2/3 h-2/3'
-                />
-              </div>
-              <p className='text-white font-semibold text-sm mr-3 hover:underline transition'>
-                {userData?.full_name}
-              </p>
-            </div>
-            <p className='text-neutral-500 font-semibold hidden '>titles,</p>
-            <p className='text-neutral-500 font-semibold text-sm md:text-[14px ] hidden'>
-              {/* {totalDuration} */}
-            </p>
-          </div>
+    <div className='flex flex-col space-y-2'>
+      <PlaylistWrapper bgColor={bgColor}>
+        {/* Playlist Image Container */}
+        <div className="relative w-48 h-48 md:w-48 md:h-48 lg:w-60 lg:h-60">
+          <Image
+            src={playlistImage || "/assets/liked.png"}
+            alt="Playlist Cover"
+            layout="fill"
+            objectFit="cover"
+            className="shadow-2xl rounded-2xl"
+          />
         </div>
-        <div className="flex-col md:flex-row flex items-center">
-          <div className='flex gap-x-2 md:items-center ml-[-12em] md:ml-0 flex-col md:flex-row'>
-            <div className="flex gap-x-2 flex-col">
-              <div className='flex items-center gap-y-1 md:hidden'>
-                <div className='w-10 h-10 flex items-center justify-center md:ml-0'>
+
+        {/* Playlist Info Container */}
+        {/* Removed w-full md:w-2/3 to let the flex container manage it better */}
+        <div className='flex flex-col justify-start py-4'>
+
+          <div className='flex justify-start flex-col mt-4'>
+            {/* "Playlist" Text - Always hidden on mobile now for cleaner look, but you can change 'hidden' to 'block' if you want it on mobile too */}
+            <p className='text-sm md:text-base font-semibold text-white hidden md:block'>Playlist</p>
+
+            {/* Playlist Name - Increased text size on mobile and removed negative margin */}
+            <p className='text-4xl sm:text-5xl md:text-7xl font-bold text-start mt-2 mb-2 text-white w-full'>
+              {playlistName}
+            </p>
+
+            {/* Description - Removed negative margin and simplified responsive text size */}
+            {desc && (
+              <p className='text-neutral-400 text-start font-semibold text-sm md:text-base'>
+                {desc}
+              </p>
+            )}
+
+            {/* User Info Line */}
+            <div className='flex gap-x-1 items-center mt-4'>
+              <div
+                className='flex gap-x-2.5 items-center cursor-pointer'
+                onClick={() => router.push('/account')}
+              >
+                {/* Avatar Container */}
+                <div className='w-8 h-8 flex items-center justify-center'>
                   <Image
-                    src={'/assets/liked.png'}
+                    src={avatar || '/images/liked.png'}
                     alt='User avatar'
                     height={20}
                     width={20}
-                    className='rounded-full object-cover w-2/3 h-2/3'
+                    className='rounded-full object-cover w-full h-full'
                   />
                 </div>
-                <p className='text-white md:text-neutral-400 font-semibold text-sm mr-3 hover:underline transition'>
-                  full name
-                </p>
-                <p className='font-semibold text-neutral-400 hidden md:block text-[15px]'>
-                  2 titles
+                {/* User Name */}
+                <p className='text-white font-semibold text-sm hover:underline transition'>
+                  {userData?.full_name}
                 </p>
               </div>
-              <div className='flex gap-x-4 items-center md:hidden ml-[-1rem]'>
-                <CiGlobe size={22} className='text-neutral-500' />
-                <p className='text-neutral-500 font-semibold text-sm md:text-[14px]'>
-                  total duration
-                </p>
-              </div>
-            </div>
-            <div className='gap-1 items-center py-2 px-2 md:ml-0 hidden md:flex'>
-              <CiGlobe size={15} className='text-neutral-500 md:hidden' />
-              <p className='text-neutral-500 md:hidden font-semibold text-sm md:text-[14px]'>
-                total duration
+              {/* Additional info like titles/duration - Kept your original placeholders, hidden by default */}
+              <p className='text-neutral-500 font-semibold hidden'>&bull; titles,</p>
+              <p className='text-neutral-500 font-semibold text-sm hidden'>
+                {/* {totalDuration} */}
+                &bull; total duration
               </p>
             </div>
           </div>
         </div>
-      </div>
-    </PlaylistWrapper>
+      </PlaylistWrapper>
+      <PlaylistContent />
+    </div>
   );
 };
 
-export default PlaylistContent;
+export default PlaylistPage;

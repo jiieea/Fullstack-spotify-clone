@@ -1,94 +1,97 @@
 "use client"
 
+
+import useAuthModal from '@/hooks/useAuthModal';
 import { useUsers } from '@/hooks/useUsers';
-import { useSupabaseClient } from '@supabase/auth-helpers-react';
-import { useRouter } from 'next/navigation';
+import { useSessionContext } from '@supabase/auth-helpers-react';
+import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
-import { Song } from '../../types';
 import { toast } from 'sonner';
 
 interface LikedButtonProps {
     songId: string
 }
 
+/**
+ * LikedButton Component
+ *
+ * This component is a placeholder for a button that indicates whether a song is liked.
+ * It currently does not implement any functionality but can be extended to handle
+ * liking/unliking songs in the future.
+ */
 
-const LikedButton: React.FC<LikedButtonProps> = (
-    {
-        songId
-    }
-) => {
-    const [isLiked, setIsLiked] = useState(false);
+const LikedButton: React.FC<LikedButtonProps> = ({
+    songId
+}) => {
     const router = useRouter();
-    const supabase = useSupabaseClient();
-    const { user } = useUsers()
+    const { supabaseClient } = useSessionContext();
+    const { user } = useUsers();
+    const [isLiked, setIsLiked] = useState(false);
+    const authModal = useAuthModal();
 
     useEffect(() => {
+        // get data from supabase to check if the song is liked
         const fetchData = async () => {
             if (!user?.id) {
                 return;
             }
 
-            try {
-                const {
-                    data: likedSongs,
-                    error: fetchError
-                } = await supabase.from('liked_songs')
-                    .select('*')
-                    .eq('song_id', songId)
-                    .eq('user_id', user.id)
-                    .single()
+            const { data: likedSong, error: fetchError } = await 
+            supabaseClient.from('liked_songs').select('*')
+                .eq('user_id', user.id)
+                .eq('song_id', songId)
+                .single();
 
-
-                if (!likedSongs && fetchError) {
-                    console.error('Error fetching liked song:', fetchError);
-                    return;
-                }
-
-                setIsLiked(true);
-            } catch (e: unknown) {
-                if (e instanceof Error) {
-                    console.log(e.message)
-                }
+            if (!likedSong && fetchError) {
+                console.error('Error fetching liked song:', fetchError);
+                return;
             }
 
+            setIsLiked(true);
         }
 
-        fetchData()
+        fetchData();
+    }, [songId, supabaseClient, user?.id]);
 
-    }, [songId, supabase, user?.id]);
 
+    const Icon = isLiked ? AiFillHeart : AiOutlineHeart;
 
-    // handle like song
     const handleLikeSong = async () => {
+        if (!user) {
+            return authModal.onOpen();
+        }
+
+        // Handle delete song after unlike song
         if (isLiked) {
-            const { error } = await supabase.from('liked_songs').delete()
-                .eq('user_id', user?.id)
+            const { error } = await supabaseClient.from('liked_songs').delete()
+                .eq('user_id', user.id)
                 .eq('song_id', songId)
 
             if (error) {
-                toast.error(error.message)
+                toast.error(error.message);
             } else {
                 setIsLiked(false);
-                toast.success('Unliked!')
+                toast.success('Unliked !');
             }
         } else {
-            const { error } = await supabase.from('liked_songs').insert({
-                user_id: user?.id,
-                song_id: songId
+            // handle like song
+            const { error } = await supabaseClient.from('liked_songs')
+                .insert({
+                    user_id: user.id,
+                    song_id: songId
+                })
 
-
-            })
             if (error) {
                 toast.error(error.message);
             } else {
                 setIsLiked(true);
                 toast.success('Liked !');
             }
-        }
-    }
 
-    const Icon = isLiked ? AiFillHeart : AiOutlineHeart;
+        }
+        router.refresh();
+    }
     return (
         <button
             type='submit'
@@ -96,7 +99,7 @@ const LikedButton: React.FC<LikedButtonProps> = (
             onClick={handleLikeSong}
             className='cursor-pointer opacity-75 transition'>
             <Icon className='hover:scale-110'
-                color={isLiked ? '#22c55e' : "white"} size={25} />
+                color={isLiked ? '#22c55e' : "white"} size={20} />
         </button>
     )
 }

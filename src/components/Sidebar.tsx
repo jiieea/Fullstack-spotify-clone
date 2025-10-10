@@ -16,7 +16,9 @@ export const Sidebar: React.FC<SidebarProps> = (
   {
     icon: Icon,
     children,
-    songs
+    userData,
+    playlists,
+    likedSongs
   }
 ) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -40,7 +42,7 @@ export const Sidebar: React.FC<SidebarProps> = (
 
 
   return (
-    <div className="flex min-h-screen bg-black text-white gap-x-4">
+    <div className="flex h-full bg-black text-white gap-x-4">
       {/* Sidebar container */}
       <div
         className={`bg-neutral-900 transition-all 
@@ -81,6 +83,7 @@ export const Sidebar: React.FC<SidebarProps> = (
         <nav className="flex-1 p-2 ">
           {/* Home Link */}
           {user && <LikedSongs
+            likedSongs={likedSongs}
             href='/liked'
             icon='/assets/liked.png'
             isSidebarOpen={isSidebarOpen}
@@ -89,8 +92,12 @@ export const Sidebar: React.FC<SidebarProps> = (
             user ? (
               <div>
                 {
-                  songs.map((song) => (
-                    <SidebarItems key={song.id} data={song} isSidebarOpen={isSidebarOpen} />
+                  playlists.map((playlist) => (
+                    <SidebarItems
+                      key={playlist.id}
+                      data={playlist}
+                      isSidebarOpen={isSidebarOpen}
+                      userData={userData} />
                   ))
                 }
               </div>

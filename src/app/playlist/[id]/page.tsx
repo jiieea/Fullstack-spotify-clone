@@ -13,7 +13,7 @@ const page = async ({ params }: PageProps) => {
   const userData = await getUserData()
 
   return (
-    <div className='w-full h-full rounded-2xl bg-neutral-900'>
+    <div className='w-full h-[90vh] rounded-2xl overflow-y-auto bg-neutral-900'>
       <PlaylistHeader data={playlistData} userData={userData} />
       
     </div>

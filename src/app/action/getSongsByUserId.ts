@@ -3,7 +3,7 @@ import { Song } from "../../../types";
 import { cookies } from "next/headers";
 
 
-const getSong = async():Promise<Song[]> => {
+const getSongByUserId = async():Promise<Song[]> => {
     const supabase = createServerComponentClient({
         cookies : cookies
     })
@@ -28,4 +28,4 @@ const getSong = async():Promise<Song[]> => {
 }
 
 
-export default getSong;
+export default getSongByUserId;

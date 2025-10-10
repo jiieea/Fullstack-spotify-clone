@@ -1,0 +1,289 @@
+import React, { useState, useEffect } from 'react';
+import { Home, Search, Library, Clock, Heart, Play, Pause, Shuffle, SkipBack, SkipForward, Repeat2, Mic2, ListMusic, Volume2, Maximize, User, ChevronLeft, ChevronRight, Menu, ListPlus } from 'lucide-react';
+
+// --- DUMMY DATA ---
+
+const SIDEBAR_NAV = [
+  { icon: Home, label: 'Accueil', isActive: true },
+  { icon: Search, label: 'Rechercher', isActive: false },
+  { icon: Library, label: 'Votre Bibliothèque', isActive: false },
+];
+
+const USER_PLAYLISTS = [
+    { title: 'Dark Deep Sad Melanch...', creator: 'Playlist • Jike Da Chtibillon', isActive: false },
+    { title: 'chansons japonaise', creator: 'Playlist • Jike Da Chtibillon', isActive: false },
+    { title: 'I was born in wrong era', creator: 'Playlist • Jike Da Chtibillon', isActive: false },
+    { title: 'Tes yeux sont comme de...', creator: 'Playlist • Jike Da Chtibillon', isActive: false },
+    { title: 'Place where existence al...', creator: 'Playlist • Jike Da Chtibillon', isActive: false },
+    { title: 'Queen', creator: 'Playlist • Jike Da Chtibillon', isActive: false },
+    { title: 'Nouveau dossier', creator: '0 playlist', isActive: false },
+    { title: 'My top tracks playlist', creator: 'Playlist • Jike Da Chtibillon', isActive: false },
+    { title: 'Jdjk48', creator: 'Playlist', isActive: false },
+    { title: 'Duka', creator: 'Last Child • Duka', isActive: true },
+];
+
+const PLAYLIST_DATA = {
+  title: 'best of cigarettes after sex.',
+  type: 'Playlist publique',
+  creator: 'ryanonymouss and liztayy',
+  stats: '320,000 saves • 59 titres, 4 h 1 min',
+  image: 'https://placehold.co/150x150/1DB954/ffffff?text=CAS',
+  tracks: [
+    { id: 1, title: 'Apocalypse', artist: 'Cigarettes After Sex', album: 'Cigarettes After Sex', date: '12 avr. 2020', duration: '4:50', saved: true },
+    { id: 2, title: "Nothing's Gonna Hurt You Baby", artist: 'Cigarettes After Sex', album: 'I.', date: '12 avr. 2020', duration: '4:48', saved: false },
+    { id: 3, title: 'Heavenly', artist: 'Cigarettes After Sex', album: 'Cry', date: '13 avr. 2020', duration: '4:49', saved: true },
+    { id: 4, title: 'Affection', artist: 'Cigarettes After Sex', album: 'Affection', date: '17 avr. 2020', duration: '5:11', saved: false },
+    { id: 5, title: 'Sweet', artist: 'Cigarettes After Sex', album: 'Cigarettes After Sex', date: '17 avr. 2020', duration: '4:52', saved: true },
+    { id: 6, title: 'K.', artist: 'Cigarettes After Sex', album: 'Cigarettes After Sex', date: '17 avr. 2020', duration: '5:19', saved: false },
+    { id: 7, title: 'Each Time You Fall in Love', artist: 'Cigarettes After Sex', album: 'Cigarettes After Sex', date: '17 avr. 2020', duration: '4:52', saved: true },
+    { id: 8, title: 'Keep On Loving You', artist: 'Cigarettes After Sex', album: 'Keep On Loving You', date: '17 avr. 2020', duration: '4:43', saved: false },
+  ],
+};
+
+// --- COMPONENTS ---
+
+/**
+ * Sidebar Navigation Item
+ */
+const NavItem = ({ Icon, label, isActive }) => (
+  <div className={`flex items-center space-x-4 p-2 cursor-pointer ${isActive ? 'text-white' : 'text-gray-400 hover:text-white'}`}>
+    <Icon className="w-6 h-6" />
+    <span className={`text-sm font-semibold ${isActive ? 'text-white' : 'text-gray-400'}`}>{label}</span>
+  </div>
+);
+
+/**
+ * Sidebar Playlist Item
+ */
+const PlaylistListItem = ({ title, creator, isActive }) => (
+  <div className={`flex items-center space-x-4 p-1 rounded-md cursor-pointer ${isActive ? 'bg-gray-800' : 'hover:bg-gray-800/50'}`}>
+    <img
+        src={`https://placehold.co/40x40/1f2937/ffffff?text=${title.charAt(0)}`}
+        alt="Playlist Cover"
+        className="w-10 h-10 object-cover rounded"
+    />
+    <div className="flex flex-col truncate">
+      <span className={`text-sm truncate ${isActive ? 'text-green-400 font-bold' : 'text-white hover:text-white'}`}>{title}</span>
+      <span className="text-xs text-gray-400">{creator}</span>
+    </div>
+  </div>
+);
+
+
+/**
+ * Main Track List Row
+ */
+const TrackRow = ({ track, index }) => {
+  const [isHovered, setIsHovered] = useState(false);
+
+  return (
+    <div
+      className={`grid grid-cols-12 gap-2 py-2 px-4 rounded-md cursor-default ${index % 2 === 0 ? '' : ''} hover:bg-white/10 group`}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      {/* # / Play Icon */}
+      <div className="col-span-1 flex items-center justify-start text-sm text-gray-400">
+        {isHovered ? (
+          <Play className="w-4 h-4 text-white" fill="white" />
+        ) : (
+          <span className={track.saved ? 'text-green-400' : 'text-gray-400'}>{index}</span>
+        )}
+      </div>
+
+      {/* Title / Artist */}
+      <div className="col-span-4 flex flex-col justify-center truncate">
+        <span className={`text-white text-base truncate ${track.saved ? 'text-green-400' : ''}`}>{track.title}</span>
+        <span className="text-sm text-gray-400 truncate">{track.artist}</span>
+      </div>
+
+      {/* Album */}
+      <div className="col-span-3 flex items-center text-sm text-gray-400 truncate">{track.album}</div>
+
+      {/* Date Added */}
+      <div className="col-span-3 flex items-center text-sm text-gray-400 truncate">{track.date}</div>
+
+      {/* Duration & Saved Icon */}
+      <div className="col-span-1 flex items-center justify-end space-x-4">
+        {track.saved && <Heart className="w-4 h-4 text-green-400" fill="#4ade80" />}
+        <Clock className="w-4 h-4 text-gray-400" />
+        <span className="text-sm text-gray-400">{track.duration}</span>
+      </div>
+    </div>
+  );
+};
+
+/**
+ * Main Application Component
+ */
+const App = () => {
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  return (
+    <div className="flex h-screen w-screen bg-[#121212] font-['Inter',_sans-serif] text-white overflow-hidden p-2 gap-2">
+
+      {/* --- 1. LEFT SIDEBAR --- */}
+      <div className="flex flex-col space-y-2 w-full max-w-[280px] min-w-[200px] hidden lg:flex">
+        {/* Top Nav */}
+        <div className="bg-[#1e1e1e] p-4 rounded-xl shadow-lg">
+          <h1 className="text-xl font-bold mb-4">Bibliothèque</h1>
+          <div className="space-y-2">
+            {SIDEBAR_NAV.map((item, i) => (
+              <NavItem key={i} Icon={item.icon} label={item.label} isActive={item.isActive} />
+            ))}
+          </div>
+        </div>
+
+        {/* Playlists */}
+        <div className="flex-1 bg-[#1e1e1e] p-4 rounded-xl shadow-lg overflow-y-auto custom-scrollbar">
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-lg font-semibold text-gray-200">Playlists</h2>
+            <ListPlus className="w-5 h-5 text-gray-400 hover:text-white cursor-pointer" />
+          </div>
+          <div className="space-y-1">
+            {USER_PLAYLISTS.map((p, i) => (
+              <PlaylistListItem key={i} title={p.title} creator={p.creator} isActive={p.isActive} />
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* --- 2. MAIN CONTENT AREA --- */}
+      <div className="flex-1 bg-gradient-to-b from-[#183921] to-[#121212] rounded-xl shadow-lg overflow-y-auto custom-scrollbar">
+
+        {/* Sticky Header Nav */}
+        <header className="sticky top-0 z-10 p-4 flex justify-between items-center bg-[#121212] bg-opacity-70 backdrop-blur-sm">
+          <div className="flex space-x-2">
+            <button className="bg-black/50 p-2 rounded-full hover:bg-black/70 transition"><ChevronLeft className="w-5 h-5" /></button>
+            <button className="bg-black/50 p-2 rounded-full hover:bg-black/70 transition"><ChevronRight className="w-5 h-5" /></button>
+          </div>
+          <div className="flex items-center space-x-4">
+            <button className="text-sm font-semibold bg-white text-black px-4 py-1.5 rounded-full hover:scale-105 transition">Découvrir Premium</button>
+            <div className="flex items-center bg-black/50 rounded-full p-1 cursor-pointer hover:scale-105 transition">
+                <User className="w-5 h-5 p-1 bg-gray-600 rounded-full" />
+                <span className="text-sm font-semibold ml-2 mr-3">Profil</span>
+            </div>
+          </div>
+        </header>
+
+        {/* Playlist Header */}
+        <div className="p-6 md:p-8 lg:p-12 flex flex-col md:flex-row items-center md:items-end space-y-4 md:space-y-0 md:space-x-6">
+          <img
+            src={PLAYLIST_DATA.image}
+            alt="Playlist Artwork"
+            className="w-48 h-48 rounded-md shadow-2xl"
+          />
+          <div className="flex flex-col text-center md:text-left">
+            <span className="text-sm font-semibold uppercase">{PLAYLIST_DATA.type}</span>
+            <h2 className="text-4xl md:text-6xl lg:text-8xl font-black mt-2 mb-4">
+              {PLAYLIST_DATA.title}
+            </h2>
+            <p className="text-gray-300 text-sm">
+              Par <span className="text-white font-semibold cursor-pointer hover:underline">{PLAYLIST_DATA.creator}</span> • {PLAYLIST_DATA.stats}
+            </p>
+          </div>
+        </div>
+
+        {/* Controls Bar */}
+        <div className="p-6 lg:p-8 flex items-center space-x-6">
+          {/* Play Button */}
+          <button
+            onClick={() => setIsPlaying(!isPlaying)}
+            className="w-14 h-14 bg-[#1DB954] rounded-full flex items-center justify-center shadow-2xl hover:scale-105 transition"
+          >
+            {isPlaying ? <Pause className="w-6 h-6 fill-black text-black" /> : <Play className="w-6 h-6 fill-black text-black ml-0.5" />}
+          </button>
+
+          <Heart className="w-7 h-7 text-gray-400 hover:text-white cursor-pointer transition" />
+          <Menu className="w-7 h-7 text-gray-400 hover:text-white cursor-pointer transition" />
+        </div>
+
+        {/* Track List */}
+        <div className="px-6 lg:px-8 pb-10">
+          {/* Track List Header */}
+          <div className="grid grid-cols-12 gap-2 text-sm font-light text-gray-400 uppercase border-b border-white/10 pb-2 mb-2 px-4 sticky top-[60px] lg:top-[70px] bg-[#121212] z-[5]">
+            <div className="col-span-1">#</div>
+            <div className="col-span-4">Titre</div>
+            <div className="col-span-3 hidden sm:block">Album</div>
+            <div className="col-span-3 hidden md:block">Date d'ajout</div>
+            <div className="col-span-1 flex justify-end"><Clock className="w-4 h-4" /></div>
+          </div>
+
+          {/* Track Rows */}
+          <div className="space-y-1">
+            {PLAYLIST_DATA.tracks.map((track, index) => (
+              <TrackRow key={track.id} track={track} index={index + 1} />
+            ))}
+          </div>
+
+        </div>
+
+      </div>
+
+      {/* --- 3. BOTTOM PLAYER BAR --- */}
+      <footer className="fixed bottom-0 left-0 right-0 h-20 bg-[#181818] border-t border-black px-4 lg:px-6 flex items-center justify-between z-20">
+
+        {/* Current Song Info (Left) */}
+        <div className="flex items-center space-x-3 w-1/3 min-w-[200px]">
+            <img
+                src="https://placehold.co/50x50/333333/ffffff?text=Duka"
+                alt="Track Cover"
+                className="w-12 h-12 rounded-md"
+            />
+            <div className="flex flex-col truncate">
+                <span className="text-sm font-semibold text-white truncate">Duka</span>
+                <span className="text-xs text-gray-400 truncate">Last Child</span>
+            </div>
+            <Heart className="w-4 h-4 text-gray-400 hover:text-white cursor-pointer" />
+            <Maximize className="w-4 h-4 text-gray-400 hover:text-white cursor-pointer hidden sm:block" />
+        </div>
+
+        {/* Playback Controls (Center) */}
+        <div className="flex flex-col items-center justify-center w-1/3">
+            <div className="flex items-center space-x-6 mb-1">
+                <Shuffle className="w-5 h-5 text-gray-400 hover:text-white cursor-pointer transition" />
+                <SkipBack className="w-5 h-5 text-white hover:scale-110 cursor-pointer transition" />
+                <button
+                    onClick={() => setIsPlaying(!isPlaying)}
+                    className="w-8 h-8 bg-white rounded-full flex items-center justify-center hover:scale-110 transition"
+                >
+                    {isPlaying ? <Pause className="w-4 h-4 fill-black text-black" /> : <Play className="w-4 h-4 fill-black text-black ml-0.5" />}
+                </button>
+                <SkipForward className="w-5 h-5 text-white hover:scale-110 cursor-pointer transition" />
+                <Repeat2 className="w-5 h-5 text-gray-400 hover:text-white cursor-pointer transition" />
+            </div>
+
+            {/* Progress Bar */}
+            <div className="flex items-center space-x-2 w-full max-w-sm">
+                <span className="text-xs text-gray-400">2:21</span>
+                <div className="flex-1 h-1 bg-gray-700 rounded-full cursor-pointer group">
+                    <div className="h-1 bg-white group-hover:bg-[#1DB954] w-[70%] rounded-full relative">
+                        <div className="absolute -right-1 -top-1.5 w-3 h-3 bg-white group-hover:bg-[#1DB954] rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                    </div>
+                </div>
+                <span className="text-xs text-gray-400">4:25</span>
+            </div>
+        </div>
+
+        {/* Volume & Extras (Right) */}
+        <div className="flex items-center justify-end space-x-3 w-1/3 min-w-[150px]">
+            <Mic2 className="w-5 h-5 text-gray-400 hover:text-white cursor-pointer hidden md:block" />
+            <ListMusic className="w-5 h-5 text-gray-400 hover:text-white cursor-pointer hidden md:block" />
+            <div className="flex items-center space-x-2 w-32">
+                <Volume2 className="w-5 h-5 text-gray-400 hover:text-white cursor-pointer" />
+                <div className="flex-1 h-1 bg-gray-700 rounded-full cursor-pointer group">
+                    <div className="h-1 bg-white group-hover:bg-[#1DB954] w-[80%] rounded-full relative">
+                        <div className="absolute -right-1 -top-1.5 w-3 h-3 bg-white group-hover:bg-[#1DB954] rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </footer>
+
+      {/* Global margin to prevent content being hidden by the fixed player bar */}
+      <div className="h-20 w-full"></div>
+    </div>
+  );
+};
+
+export default App;
