@@ -12,13 +12,17 @@ import PlaylistWrapper from './PlaylistHeaderWrapper';
 import { PlaylistContent } from './PlaylistContent';
 
 
-const PlaylistPage: React.FC<PlaylistPageProps> = ({ userData, data }) => {
+const PlaylistPage: React.FC<PlaylistPageProps> = ({ userData, data  , userPlaylists}) => {
   const router = useRouter();
   const playlistImage = useLoadPlaylistImage(data!);
   const avatar = useLoadAvatar(userData!);
   const bgColor = useGetDominantColor(playlistImage || '/images/liked.png');
   const playlistName = data?.playlist_name;
   const desc = data?.description;
+  // const [songs ,setSongs ] = useState<Song[]>(data)
+
+  // handle remove songs from the playlist 
+
 
   // 1. Conditionally render based on the data prop
   if (!data) {

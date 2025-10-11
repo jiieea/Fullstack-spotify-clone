@@ -9,6 +9,7 @@ export interface ModalProvidersProps {
 export interface PlaylistPageProps {
   data : Playlist | null
   userData : UserDetails | null
+  userPlaylists : Playlist[]
 }
 
 export interface ModalProps {
@@ -29,6 +30,7 @@ export
 interface MediaItemProps {
     data: Song,
     index : number
+    userPlaylists : Playlist[]
 }
 
 export interface HeaderProps {

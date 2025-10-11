@@ -12,7 +12,8 @@ const MediaItem: React.FC<MediaItemProps> =
     (
         {
             data,
-            index
+            index,
+            userPlaylists
         }
     ) => {
         const songImg = useLoadImage(data);
@@ -74,7 +75,7 @@ const MediaItem: React.FC<MediaItemProps> =
                         {/* Use data.duration if available, otherwise use mock value */}
                         5:00
                     </span>
-                  <DropDownMenu />
+                  <DropDownMenu  userPlaylist={ userPlaylists}/>
                 </div>
             </div>
         )

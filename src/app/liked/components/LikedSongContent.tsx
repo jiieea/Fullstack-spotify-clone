@@ -1,13 +1,16 @@
 import React from 'react'
-import { Song } from '../../../../types'
+import { Playlist, Song } from '../../../../types'
 import MediaItem from '@/components/MediaItem'
 import { CiClock2 } from "react-icons/ci";
 
 interface LikedSongContentProps {
   likedSongs: Song[]
+  userPlaylists : Playlist[]
 }
 const LikedSongContent: React.FC<LikedSongContentProps> = (
-  { likedSongs }
+  { likedSongs  , 
+    userPlaylists
+  }
 ) => {
   return (
     <div className='mt-5 py-3 px-6'>
@@ -25,7 +28,7 @@ const LikedSongContent: React.FC<LikedSongContentProps> = (
       </div>
       {
         likedSongs.map((song, index) => (
-          <MediaItem index={index} key={index} data={song} />
+          <MediaItem index={index} key={index} data={song} userPlaylists={ userPlaylists} />
         ))
       }
     </div>

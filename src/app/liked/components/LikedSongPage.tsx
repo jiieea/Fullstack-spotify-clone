@@ -3,7 +3,7 @@
 import PlaylistWrapper from '@/app/playlist/[id]/components/PlaylistHeaderWrapper'
 import { useGetDominantColor } from '@/hooks/useGetDominantColor'
 import React from 'react';
-import { Song, UserDetails } from '../../../../types';
+import { Playlist, Song, UserDetails } from '../../../../types';
 import LikedSongContent from './LikedSongContent';
 import LikedSongHeader from './LikedSongHeader';
 
@@ -11,9 +11,11 @@ import LikedSongHeader from './LikedSongHeader';
 interface LikedSongPageProps {
   likedSongs: Song[]
   userData: UserDetails | null
+  userPlaylists : Playlist[]
 }
 const LikedSongPage: React.FC<LikedSongPageProps> = ({
   likedSongs,
+  userPlaylists,
   userData
 }) => {
   const imageUrl = "/assets/liked.png";
@@ -27,7 +29,7 @@ const LikedSongPage: React.FC<LikedSongPageProps> = ({
       >
         <LikedSongHeader userData={userData} likedSongs={ likedSongs } />
       </PlaylistWrapper>
-      <LikedSongContent likedSongs={likedSongs} />
+      <LikedSongContent likedSongs={likedSongs} userPlaylists={ userPlaylists }/>
     </div>
 
   )
