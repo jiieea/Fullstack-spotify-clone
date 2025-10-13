@@ -31,6 +31,7 @@ const SidebarItems: React.FC<SidebarItemsProps> = ({
           w-full 
           p-3 
           rounded-md
+          hover:bg-neutral-800 transition
         "
         onClick={handleClickPlaylist}
       >

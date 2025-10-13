@@ -37,6 +37,7 @@ const LikedSongs = ({
           w-full 
           p-3 
           rounded-md
+          hover:bg-neutral-800 transition
         "
         >
             <div className="relative min-h-[49px] min-w-[49px] rounded-md overflow-hidden group"> {/* Added group class */}

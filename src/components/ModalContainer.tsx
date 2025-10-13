@@ -23,7 +23,7 @@ const ModalContainer: React.FC<ModalContainerProps> = ({
                     className='fixed 
                         drop-shadow-md
                         top-[50%]
-                        border border-neutral-700
+                        border border-neutral-800
                         left-[50%]
                         max-h-[85vh] {/* Adjusted to explicitly set max height for all screen sizes */}
                         w-[90vw] {/* Changed from md:w-[90wh] to a more standard viewport width */}
@@ -38,7 +38,7 @@ const ModalContainer: React.FC<ModalContainerProps> = ({
                         overflow-y-auto {/* Added for scrollability if content exceeds max-height */}
         '>
                     <Dialog.Title
-                        className="text-white text-center  sm:text-3xl md:text-4xl font-bold
+                        className="text-white text-center  sm:text-lg md:text-2xl 2xl:text-4xl font-bold
             mb-4 flex flex-col justify-center items-center gap-y-3"
                     >
                         <div className="p-2 bg-white rounded-full">

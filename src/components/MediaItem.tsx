@@ -7,17 +7,22 @@ import { MediaItemProps } from '../../src/app/interfaces/types'
 import LikedButton from '@/components/LikedButton'
 import useTimeFormat from '@/hooks/useTimeFormat'
 import DropDownMenu from "./DropDownMenu";
+import useLoadSongUrl from '@/hooks/useLoadSongUrl'
+import useGetSongDuration from '@/hooks/useGetSongDuration'
 
 const MediaItem: React.FC<MediaItemProps> =
     (
         {
             data,
             index,
-            userPlaylists
+            userPlaylists,
+            onHandleRemoveSong
         }
     ) => {
         const songImg = useLoadImage(data);
-        const created_at = useTimeFormat(data.created_at)
+        const created_at = useTimeFormat(data.created_at);
+        const songUrl = useLoadSongUrl(data);
+        const songDuration = useGetSongDuration(songUrl);
         return (
             <div
                 key={index}
@@ -73,9 +78,9 @@ const MediaItem: React.FC<MediaItemProps> =
                     {/* Duration */}
                     <span className="text-neutral-400 text-sm">
                         {/* Use data.duration if available, otherwise use mock value */}
-                        5:00
+                        { songDuration }
                     </span>
-                  <DropDownMenu  userPlaylist={ userPlaylists}/>
+                  <DropDownMenu  userPlaylist={ userPlaylists} song={ data } onHandleRemoveSong={() => onHandleRemoveSong(data.id) }/>
                 </div>
             </div>
         )

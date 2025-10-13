@@ -84,7 +84,8 @@ const UploadPlaylistModal = () => {
                 .insert({
                     user_id: user?.id,
                     playlist_name: values.playlist_name,
-                    playlist_image: uploadImg?.path
+                    playlist_image: uploadImg?.path,
+                    description : values.description
                 })
 
             if (fetchError) {

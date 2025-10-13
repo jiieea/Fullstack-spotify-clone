@@ -44,7 +44,7 @@ const Header: React.FC<HeaderProps> = ({
     }
     return (
         //  arrow forward and back
-        <div className="h-[4rem] flex items-center justify-between px-3 w-full gap-x-3 ">
+        <div className="h-[4rem] flex items-center justify-between px-3 w-full gap-x-3   ">
             <Image
                 src={'/assets/soundwave.png'}
                 alt='icon'

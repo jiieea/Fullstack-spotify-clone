@@ -43,7 +43,11 @@ const AccountPage: React.FC<AccountPageProps> = (
                     </p>
                 ) : (
                     songs.map((song, index) => (
-                        <MediaItem data={song} key={song.id} index={index} />
+                        <MediaItem
+                            data={song}
+                            key={song.id}
+                            index={index}
+                            userPlaylists={playlists} />
                     ))
                 )}
 
@@ -56,13 +60,13 @@ const AccountPage: React.FC<AccountPageProps> = (
                 mt-8 
                 space-y-2'>
                 <h2 className='text-white text-2xl md:text-3xl font-bold'>Your Playlists</h2>
-               <div className='grid lg:grid-cols-8 md:grid-cols-4  grid-cols-2 gap-3'>
-                 {
-                    playlists.map((playlist) => (
-                      <MyPlaylist  key={ playlist.id } data={ playlist }/>
-                    ))
-                }
-               </div>
+                <div className='grid lg:grid-cols-6 md:grid-cols-4  grid-cols-2 gap-3'>
+                    {
+                        playlists.map((playlist) => (
+                            <MyPlaylist key={playlist.id} data={playlist} />
+                        ))
+                    }
+                </div>
             </div>
         </div>
     )

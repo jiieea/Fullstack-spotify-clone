@@ -2,12 +2,12 @@
 
 import PlaylistWrapper from '@/app/playlist/[id]/components/PlaylistHeaderWrapper'
 import { useGetDominantColor } from '@/hooks/useGetDominantColor'
-import React from 'react';
+import React, { useState } from 'react';
 import { Playlist, Song, UserDetails } from '../../../../types';
 import LikedSongContent from './LikedSongContent';
 import LikedSongHeader from './LikedSongHeader';
-
-
+import MediaItem from '@/components/MediaItem';
+import { toast } from 'sonner';
 interface LikedSongPageProps {
   likedSongs: Song[]
   userData: UserDetails | null
@@ -21,6 +21,10 @@ const LikedSongPage: React.FC<LikedSongPageProps> = ({
   const imageUrl = "/assets/liked.png";
   const dominantColor = useGetDominantColor(imageUrl);
 
+
+const handle = () => {
+  toast.success('hello')
+}
   return (
     <div >
       <PlaylistWrapper
@@ -29,7 +33,13 @@ const LikedSongPage: React.FC<LikedSongPageProps> = ({
       >
         <LikedSongHeader userData={userData} likedSongs={ likedSongs } />
       </PlaylistWrapper>
-      <LikedSongContent likedSongs={likedSongs} userPlaylists={ userPlaylists }/>
+      <LikedSongContent >
+         {
+        likedSongs.map((song, index) => (
+          <MediaItem index={index} key={index} data={song} userPlaylists={ userPlaylists}   onHandleRemoveSong={handle}/>
+        ))
+      }
+      </LikedSongContent>
     </div>
 
   )

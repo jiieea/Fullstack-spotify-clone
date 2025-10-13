@@ -50,7 +50,7 @@ export default async function RootLayout({
           {children}
         </Sidebar>
         <div>
-          <h1 className="text-white">This is where player container at</h1>
+          {/* <h1 className="text-white">This is where player container at</h1> */}
         </div>
           </UserProvider>
         </SupabaseProvider>
