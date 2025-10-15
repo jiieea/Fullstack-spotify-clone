@@ -42,6 +42,7 @@ export interface HeaderProps {
 export interface AccountPageProps {
   songs: Song[],
   playlists : Playlist[]
+  userData : UserDetails | null
 }
 
 

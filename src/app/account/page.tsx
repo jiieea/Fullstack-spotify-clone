@@ -12,13 +12,15 @@ const page = async () => {
 
   
   return (
-    <div className='w-full 2xl:h-[90vh] overflow-y-auto  bg-neutral-900 rounded-md  md:mb-0 h-[80vh]  '>
+    <div className='w-full 2xl:h-[90vh] overflow-y-auto 
+     bg-neutral-900 rounded-md  md:mb-0 h-screen  '>
       <AccountHeader
         songs={songs}
         data={data}
       />
       <AccountPage
         songs={songs}
+        userData ={ data }
         playlists={playlists}
       />
     </div>

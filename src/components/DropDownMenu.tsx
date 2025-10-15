@@ -81,7 +81,7 @@ const DropDownMenu = ({ userPlaylist, song , onHandleRemoveSong}: DropDownMenuPr
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
                 {/* The 'group' class on the parent is what makes the hover effect work on the trigger div */}
-                <div className="opacity-0 group-hover:opacity-100 transition duration-150 group">
+                <div className="md:opacity-0 md:group-hover:opacity-100  transition duration-150 group">
                     <BsThreeDots className="text-neutral-400" size={20} />
                 </div>
             </DropdownMenuTrigger>

@@ -2,33 +2,32 @@
 
 import Image from 'next/image'
 import React from 'react'
-import { Playlist } from '../../../../types'
+import { Playlist, UserDetails } from '../../../../types'
 import { useLoadPlaylistImage } from '@/hooks/useLoadImage'
 import PlayButton from '@/components/PlayButton'
 import { useRouter } from 'next/navigation'
 
 interface MyPlaylistProps {
-    data: Playlist
+    data: Playlist,
+    userData: UserDetails | null
 }
 export const MyPlaylist: React.FC<MyPlaylistProps> = (
     {
-        data
+        data,
+        userData
     }
 ) => {
     const playlistImage = useLoadPlaylistImage(data);
     const router = useRouter()
 
-    const handleClickPlaylist =  (playlistId : string) => {
+    const handleClickPlaylist = (playlistId: string) => {
         router.push(`/playlist/${playlistId}`)
     }
 
     return (
         <div >
             {/* ------------------------------------------------------------------ */}
-            {/* 1. Spotify-Style Playlist Card (Desktop/Tablet: md:flex) */}
-            {/* ------------------------------------------------------------------ */}
             <div
-                // **Revised Classes** for Spotify look: increased hover brightness, more padding, better shadow
                 className="
                     hidden relative group md:flex flex-col items-start 
                     justify-start rounded-md overflow-hidden 
@@ -37,13 +36,14 @@ export const MyPlaylist: React.FC<MyPlaylistProps> = (
                 "
                 onClick={() => handleClickPlaylist(data.id)}
             >
-                 {/* Image Container */}
+                {/* Image Container */}
                 <div className="relative aspect-square w-full rounded-md overflow-hidden">
                     <Image
                         src={playlistImage || "/images/liked.png"}
                         alt="Playlist Cover"
                         className="object-cover"
                         fill
+                        onClick={() => handleClickPlaylist(data.id)}
                     />
                 </div>
 
@@ -56,7 +56,7 @@ export const MyPlaylist: React.FC<MyPlaylistProps> = (
                     {/* Description/Author: Subdued text, smaller font */}
                     <p className="text-neutral-400 text-sm mt-1 truncate w-full">
                         {/* Placeholder for description/author, if applicable */}
-                        Playlist
+                        By {userData?.full_name}
                     </p>
                 </div>
 
@@ -96,7 +96,7 @@ export const MyPlaylist: React.FC<MyPlaylistProps> = (
                         {data.playlist_name}
                     </p>
                     <p className="text-neutral-400 text-xs truncate">
-                        Playlist
+                        By {userData?.full_name}
                     </p>
                 </div>
                 {/* Play button for mobile list item (optional, you might want to wrap the whole item in a link instead) */}

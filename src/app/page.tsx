@@ -1,5 +1,5 @@
+import { MobileNavbar } from "@/components/MobileNavbar";
 import getUserData from "./action/getUserData";
-
 export default async function Home() {
   const userData = await getUserData();
   
@@ -11,6 +11,7 @@ export default async function Home() {
 userData?.full_name ? userData.full_name : userData?.id
 }
       </p>
+     
     </div>
   );
 }

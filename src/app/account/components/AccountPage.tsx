@@ -1,16 +1,21 @@
+
+'use client'
+
 import React from 'react'
-import MediaItem from '@/components/MediaItem'
 import { AccountPageProps } from '../../interfaces/types'
 import { MyPlaylist } from './MyPlaylist'
+import OwnedSongs from './OwnedSongs'
 
 
 
 const AccountPage: React.FC<AccountPageProps> = (
     {
         songs,
-        playlists
+        playlists,
+        userData
     }
 ) => {
+
     return (
         // The main content area: Uses a deep neutral background to blend with the header.
         <div className='
@@ -43,11 +48,12 @@ const AccountPage: React.FC<AccountPageProps> = (
                     </p>
                 ) : (
                     songs.map((song, index) => (
-                        <MediaItem
-                            data={song}
+                        <OwnedSongs
+                            song={song}
                             key={song.id}
                             index={index}
-                            userPlaylists={playlists} />
+                            userPlaylists={playlists} 
+                            />
                     ))
                 )}
 
@@ -63,7 +69,7 @@ const AccountPage: React.FC<AccountPageProps> = (
                 <div className='grid lg:grid-cols-6 md:grid-cols-4  grid-cols-2 gap-3'>
                     {
                         playlists.map((playlist) => (
-                            <MyPlaylist key={playlist.id} data={playlist} />
+                            <MyPlaylist key={playlist.id} data={playlist} userData={ userData} />
                         ))
                     }
                 </div>

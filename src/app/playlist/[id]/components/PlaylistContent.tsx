@@ -56,7 +56,9 @@ export const PlaylistContent: React.FC<PlaylistContentProps> = (
   return (
     <div className=' mt-[-3rem] p-3'>
       <div className="flex space-x-4  items-center mb-4  px-6">
-        <button className='bg-green-500 rounded-full p-3 hover:scale-110 transition cursor-pointer'>
+        <button 
+        title='play'
+        className='bg-green-500 rounded-full p-3 hover:scale-110 transition cursor-pointer'>
           <FaPlay size={20} className='text-black' />
         </button>
         <BsThreeDots size={20}

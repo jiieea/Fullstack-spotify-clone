@@ -117,7 +117,7 @@ const Header: React.FC<HeaderProps> = ({
                                 >
                                     <Image
                                         src={avatar || "/assets/user.png"}
-                                        alt='user'
+                                        alt='p'
                                         width={30}
                                         height={30}
                                         className='object-cover w-full h-full'
