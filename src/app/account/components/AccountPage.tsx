@@ -19,7 +19,7 @@ const AccountPage: React.FC<AccountPageProps> = (
     return (
         // The main content area: Uses a deep neutral background to blend with the header.
         <div className='
-            min-h-screen 
+            h-full
             w-full
         '>
             <div className='
@@ -52,8 +52,8 @@ const AccountPage: React.FC<AccountPageProps> = (
                             song={song}
                             key={song.id}
                             index={index}
-                            userPlaylists={playlists} 
-                            />
+                            userPlaylists={playlists}
+                        />
                     ))
                 )}
 
@@ -66,10 +66,12 @@ const AccountPage: React.FC<AccountPageProps> = (
                 mt-8 
                 space-y-2'>
                 <h2 className='text-white text-2xl md:text-3xl font-bold'>Your Playlists</h2>
-                <div className='grid lg:grid-cols-6 md:grid-cols-4  grid-cols-2 gap-3'>
+                <div className='md:grid lg:grid-cols-6 md:grid-cols-4  flex 
+                overflow-x-auto 
+                px-1  gap-1'>
                     {
                         playlists.map((playlist) => (
-                            <MyPlaylist key={playlist.id} data={playlist} userData={ userData} />
+                            <MyPlaylist key={playlist.id} data={playlist} userData={userData} />
                         ))
                     }
                 </div>

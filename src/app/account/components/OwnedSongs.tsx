@@ -47,7 +47,7 @@ const OwnedSongs = ({ song, index, userPlaylists }: OwnedSongsProps) => {
             {/* On mobile/small: Takes up 4 columns out of 5/6. On medium+: 5 columns out of 9 */}
             <div className='col-span-4 sm:col-span-4 md:col-span-5 flex items-center justify-start gap-x-4 sm:gap-x-8'>
                 {/* Index Number / Play Button */}
-                <span className="w-4 flex-shrink-0 text-right">{index + 1}</span>
+                <span className="w-4 flex-shrink-0 text-right hidden md:block">{index + 1}</span>
                 
                 {/* Image (Hidden on very small screens for better use of space) */}
                 <div className="

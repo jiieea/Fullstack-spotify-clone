@@ -44,13 +44,14 @@ const Header: React.FC<HeaderProps> = ({
     }
     return (
         //  arrow forward and back
-        <div className="h-[4rem] flex items-center justify-between px-3 w-full gap-x-3   ">
+        <div className="h-[4rem] flex sticky top-0 z-10 bg-black items-center justify-between px-3 w-full gap-x-3   ">
             <Image
                 src={'/assets/soundwave.png'}
                 alt='icon'
                 width={25}
                 height={25}
-                className='w-[65px]  p-3  h-[65px] object-cover rounded-full'
+                onClick={() => router.push('/')}
+                className='w-[65px]  p-3  h-[65px] object-cover rounded-full hover:cursor-pointer'
             />
             {/* Left: Arrows */}
             <div className="md:flex gap-x-3 p-3  items-center hidden">

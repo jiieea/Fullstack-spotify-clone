@@ -54,7 +54,7 @@ export const PlaylistContent: React.FC<PlaylistContentProps> = (
     return <div>There is no song on the list</div>
   }
   return (
-    <div className=' mt-[-3rem] p-3'>
+    <div className=' mt-[-3rem] py-2 px-1 md:py-3 md:px-3'>
       <div className="flex space-x-4  items-center mb-4  px-6">
         <button 
         title='play'

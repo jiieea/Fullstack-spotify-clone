@@ -4,7 +4,8 @@ const nextConfig: NextConfig = {
   /* config options here */
   images : {
     domains : [
-      "epagljxulfwliwpxygcl.supabase.co"
+      "epagljxulfwliwpxygcl.supabase.co",
+      "placehold.co"
     ]
   }
 };

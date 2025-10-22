@@ -1,17 +1,13 @@
-import { MobileNavbar } from "@/components/MobileNavbar";
-import getUserData from "./action/getUserData";
+import HomePage from "@/components/HomePage";
+import getSong from "./action/getSong";
+import getPlaylists from "./action/getPlaylists";
 export default async function Home() {
-  const userData = await getUserData();
-  
+  const songs = await getSong()
+  const playlists = await getPlaylists()
   return (
-   <div className="bg-neutral-900 md:mb-0 2xl:h-[90vh]  h-[85vh]
- rounded-lg overflow-y-auto text-white overflow-hidden">
-      <p className="text-white font-semibold p-3"> Hello , welcome  
-{
-userData?.full_name ? userData.full_name : userData?.id
-}
-      </p>
-     
+    <div className=" w-full 2xl:h-[90vh] rounded-2xl
+    overflow-y-auto bg-neutral-900 h-[85vh]">
+      <HomePage  songs={ songs } playlist={ playlists }  />
     </div>
   );
 }

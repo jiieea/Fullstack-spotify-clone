@@ -59,7 +59,7 @@ export const Sidebar: React.FC<SidebarProps> = (
                 `)}
             >
                 {/* Sidebar Header */}
-                <div className="flex items-start justify-start rounded-t-xl mb-2"> {/* Adjusted container padding */}
+                <div className="flex px-3 items-start justify-start rounded-t-xl mb-2"> {/* Adjusted container padding */}
                     <div className='flex flex-col gap-y-2 items-center'>
                         <button
                             title='open'
@@ -129,6 +129,7 @@ export const Sidebar: React.FC<SidebarProps> = (
                     overflow-y-auto 
                     rounded-lg
                     ml-3
+                    mb-10  md:mb-0 
                 `)}
             >
                 {children}

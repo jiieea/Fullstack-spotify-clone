@@ -71,38 +71,43 @@ export const MyPlaylist: React.FC<MyPlaylistProps> = (
                 </div>
             </div>
 
-            {/* ------------------------------------------------------------------ */}
-            {/* 2. Mobile/Small Screen List Item (md:hidden) */}
-            {/* ------------------------------------------------------------------ */}
-            <div
-                className="
-                    flex items-center gap-x-2 p-2 bg-neutral-800/60 
-                    rounded-md overflow-hidden md:hidden
-                    hover:bg-neutral-800 transition cursor-pointer
-                "
-            >
-                {/* Image Container */}
-                <div className='relative min-w-[48px] min-h-[48px]'>
-                    <Image
-                        src={playlistImage || "/images/liked.png"}
-                        alt='Playlist Image'
-                        fill
-                        className='object-cover rounded-md'
-                    />
+            <div className='className="
+                md:hidden 
+                flex 
+                space-x-4 
+                px-2 // Padding to prevent cards from touching screen edge
+                scrollbar-hide // Requires a custom utility or manual CSS
+            "'>
+                <div
+                    key={data.id}
+                    onClick={() => handleClickPlaylist(data.id)}
+                    className="
+                            min-w-[140px] max-w-[140px] 
+                            flex flex-col gap-y-2 p-3 
+                            bg-neutral-900 rounded-lg
+                            hover:bg-neutral-800 transition cursor-pointer
+                        "
+                >
+                    {/* Image Container */}
+                    <div className='relative w-full aspect-square'>
+                        <Image
+                            src={playlistImage || "/images/liked.png"}
+                            alt='Playlist Image'
+                            fill
+                            className='object-cover rounded-md'
+                        />
+                    </div>
+                    {/* Text Container */}
+                    <div className='flex flex-col gap-y-1 overflow-hidden'>
+                        <p className="text-white font-semibold text-sm truncate">
+                            {data.playlist_name}
+                        </p>
+                        <p className="text-neutral-400 text-xs truncate">
+                            By {userData?.full_name}
+                        </p>
+                    </div>
                 </div>
-                {/* Text Container */}
-                <div className='flex flex-col gap-y-1 overflow-hidden flex-1'>
-                    <p className="text-white font-semibold text-sm truncate">
-                        {data.playlist_name}
-                    </p>
-                    <p className="text-neutral-400 text-xs truncate">
-                        By {userData?.full_name}
-                    </p>
-                </div>
-                {/* Play button for mobile list item (optional, you might want to wrap the whole item in a link instead) */}
-                <div className="mr-2">
-                    {/* You can optionally place a PlayButton here or remove this div */}
-                </div>
+                
             </div>
         </div>
     )
