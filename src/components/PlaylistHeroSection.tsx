@@ -2,7 +2,7 @@ import { MoreHorizontal, Play } from "lucide-react";
 import Image from "next/image";
 
 const HeroSection = () => (
-    <div className="flex bg-gradient-to-b from-[#1E5033] to-[#121212] p-8 space-x-6 min-h-[300px]">
+    <div className="md:flex bg-gradient-to-b from-[#1E5033] to-[#121212] p-8 space-x-6 min-h-[300px] hidden ">
         {/* Left: Playlist Cover */}
         <div className="w-52 h-52 flex-shrink-0 shadow-2xl">
             <Image 

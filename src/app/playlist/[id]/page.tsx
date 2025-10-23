@@ -16,7 +16,7 @@ const page = async ({ params }: PageProps) => {
   const userPlaylists = await getPlaylistByUserId();
   const playlistSongs = await getPlaylistSongs(id)
   return (
-    <div className='w-full h-full 2xl:h-[90vh] rounded-2xl overflow-y-auto bg-neutral-900 md:h-[80vh]'>
+    <div className='w-full  2xl:h-[90vh] rounded-2xl overflow-y-auto bg-neutral-900 h-[80vh]'>
       <PlaylistHeader data={playlistData} userData={userData} 
         userPlaylists = { userPlaylists } songs={ playlistSongs}
       />

@@ -10,48 +10,60 @@ const HomePage:React.FC<HomePageProps> = ({
     songs,
     playlist
 }) => {
-    const [activeTab, setActiveTab] = useState<string>('all');
-    // const [data , setData ] = useState<Song[]>(songs)
+    // Renamed 'Tout' to 'all' for internal consistency, kept display text as 'Tout' in the map
+    const [activeTab, setActiveTab] = useState<string>('all'); 
+
+    
     return (
-        <div>
-          <div className="bg-black  font-sans flex text-gray-400 ">
+        // Changed main wrapper to min-h-screen for full height
+        <div className="min-h-screen"> 
+          <div className="bg-black font-sans flex text-gray-400">
             {/* Main Content Area */}
-            <main className="flex-1 bg-[#121212] ">
-                {/* Content Wrapper */}
-                <div className=" space-y-12">
+            {/* Added relative and overflow-y-auto for the main content to handle its own scrolling */}
+            <main className="flex-1 bg-[#121212] relative overflow-y-auto pb-24">
+                {/* Content Wrapper - Using consistent padding and space-y for vertical rhythm */}
+                <div className="space-y-8 md:space-y-12 pb-4"> 
+                    
                     {/* Hero Section */}
                     <HeroSection />
 
                     {/* Filter Tabs */}
-                    <div className="flex space-x-3 border-b border-gray-800 pb-4 pt-4 md:pt-0 px-4">
-                        {['Tout', 'Musique', 'Playlists'].map((tab) => (
+                    {/* Consistent horizontal padding on the tabs, moved border to be outside the tabs area if possible, 
+                        but kept it here for simplicity and responsiveness */}
+                    <div className="flex space-x-3 border-b border-gray-800 pb-4 pt-4 md:pt-0 px-4 sm:px-6 lg:px-8">
+                        {/* Mapped over the tabs list for cleaner code */}
+                        {[
+                            { id: 'all', label: 'Tout' },
+                            { id: 'music', label: 'Musique' },
+                            { id: 'playlists', label: 'Playlists' }
+                        ].map(({ id, label }) => (
                             <button
-                                key={tab}
-                                onClick={() => setActiveTab(tab)}
+                                key={id}
+                                onClick={() => setActiveTab(id)}
                                 className={`
-                                    py-1 px-4 rounded-full font-semibold transition-colors duration-200 text-sm
-                                    ${activeTab === tab ? 'bg-white text-black' : 'bg-gray-700/50 text-white hover:bg-gray-700'}
+                                    py-1 px-4 rounded-full font-semibold transition-colors duration-200 text-sm whitespace-nowrap
+                                    ${activeTab === id ? 'bg-white text-black' : 'bg-gray-700/50 text-white hover:bg-gray-700'}
                                 `}
                             >
-                                {tab}
+                                {label}
                             </button>
                         ))}
                     </div>
 
-                    {/* Quick Picks Grid */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 px-4">
+                    {/* Quick Picks Grid - Ensured more aggressive column changes for small screens */}
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 px-4 sm:px-6 lg:px-8">
                         {playlist.map(item => (
                             <QuickPickCard key={item.id} data={item}/>
                         ))}
                     </div>
 
-                    {/* Section Title & "Show All" Link */}
-                    <div className="flex justify-between items-center pt-8 px-4">
-                        <h2 className="text-2xl font-bold text-white hover:underline cursor-pointer">
-                             pour Jiie de Châtillon
+                    {/* Section Title & "Show All" Link - Consistent padding and pt-8 for separation */}
+                    <div className="flex justify-between items-center pt-8 px-4 sm:px-6 lg:px-8">
+                        <h2 className="text-xl md:text-2xl font-bold text-white hover:underline cursor-pointer">
+                             For you
                         </h2>
                         <a href="#" className="text-sm font-bold uppercase text-gray-400 hover:underline">
-                            Tout afficher
+                            See all
                         </a>
                     </div>
 
@@ -68,7 +80,8 @@ const HomePage:React.FC<HomePageProps> = ({
                         }
                         `}
                     </style>
-                    <div className="flex space-x-6 overflow-x-scroll horizontal-scroll-container pb-4 px-4">
+                    {/* Consistent padding and increased bottom padding for scroll area */}
+                    <div className="flex space-x-6 overflow-x-scroll horizontal-scroll-container pb-8 px-4 sm:px-6 lg:px-8">
                         {songs.map(item => (
                             <DailyMixCard 
                                 key={item.id} 
@@ -79,8 +92,9 @@ const HomePage:React.FC<HomePageProps> = ({
                 </div>
             </main>
             
-            {/* Player Bar Placeholder (Optional but typical for Spotify) */}
-            {/* <footer className="fixed bottom-0 left-0 right-0 bg-[#181818] h-20 border-t border-black z-20 flex items-center justify-center text-sm text-white">
+            {/* Player Bar Placeholder - Important for fixed positioning */}
+            {/* Added fixed positioning and z-index to ensure it sits on top and doesn't get covered */}
+            {/* <footer className="fixed bottom-0 left-0 right-0 bg-[#181818] h-20 border-t border-black z-30 flex items-center justify-center text-sm text-white">
                 <p>Placeholder for Player Bar</p>
             </footer> */}
         </div>

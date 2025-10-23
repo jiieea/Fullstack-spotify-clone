@@ -7,6 +7,7 @@ import LikedSongContent from '@/app/liked/components/LikedSongContent';
 import { toast } from 'sonner';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import { useRouter } from 'next/navigation';
+import { sortDataByTitle } from '@/hooks/useSortData';
 
 interface PlaylistContentProps {
   songs: Song[]
@@ -22,9 +23,23 @@ export const PlaylistContent: React.FC<PlaylistContentProps> = (
   }
 ) => {
   const [playlistSongs, setPlaylistSongs] = useState<Song[]>(songs);
-  const supabase = useSupabaseClient()
+  const supabase = useSupabaseClient();
+  const [ isLoading , setIsLoading ] = useState(false)
   const playlist_id = data.id;
   const router = useRouter();
+  const [ sort , setSort ] = useState<"by artist" | "by author" | 'add recently' | 'default'>('default');
+
+  const handleSortByTitle = () => {
+    try{
+      setSort('by artist');
+      setIsLoading(true);
+    }catch(e : unknown){
+      if(e instanceof Error) {
+        setSort('default')
+      }
+      setIsLoading(false)
+    }
+  }
 
   // const 
 

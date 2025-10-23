@@ -2,6 +2,7 @@ import Image from "next/image";
 
 import { Playlist } from "../../types";
 import { useLoadPlaylistImage } from "@/hooks/useLoadImage";
+import { useRouter } from 'next/navigation';
 
 interface quickPicksDataProps {
     data: Playlist | null
@@ -10,28 +11,33 @@ interface quickPicksDataProps {
 const QuickPickCard: React.FC<quickPicksDataProps> = ({
     data
 }) => {
-        const image = useLoadPlaylistImage(data!); 
-    // FIX: Add a conditional return if data is null to avoid calling the hook with null
-    if (!data) {
-        return null; 
-    }
-    
-    // Non-null assertion (!) is now safe because of the check above.
+    const image = useLoadPlaylistImage(data!);
+    const router = useRouter();
 
+    const handleClickPlaylist = () => {
+        router.push(`/playlist/${data?.id}`)
+    }
+
+    if (!data) {
+        return null;
+    }
 
     return (
-        <div className="bg-[#282828] hover:bg-[#404040] transition-colors duration-300 rounded-md flex items-center shadow-lg cursor-pointer overflow-hidden">
+        <div
+            onClick={handleClickPlaylist}
+            className="bg-[#282828] hover:bg-[#404040] transition-colors
+            duration-300 rounded-md flex items-center shadow-lg cursor-pointer
+                overflow-hidden">
             <Image
                 src={image || "/assets/liked.png"}
                 width={60}
                 height={60}
                 alt="Album Cover"
-                // FIX: Add the 'quality' prop and set it to 100 for maximum quality.
                 quality={100}
-                className="w-15 h-15 object-cover flex-shrink-0"
+                className="w-[60px] h-[60px] object-cover flex-shrink-0"
             />
-            {/* Safe access using optional chaining */}
-            <span className="text-white font-semibold text-sm px-4 truncate">{data.playlist_name}</span>
+            {/* The 'truncate' class here is key for responsiveness in flex/grid layouts */}
+            <p className="text-white font-semibold text-[12px] md:text-sm px-4 line-clamp-2">{data.playlist_name}</p>
         </div>
     )
 }
