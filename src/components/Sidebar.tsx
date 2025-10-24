@@ -13,6 +13,7 @@ import { SidebarProps } from '../../src/app/interfaces/types'
 import UploadMenu from './UploadMenu';
 import LikedSongs from './LikedSongs';
 import { MobileNavbar } from './MobileNavbar';
+import usePlayerSong from '@/hooks/usePlayer';
 export const Sidebar: React.FC<SidebarProps> = (
     {
         icon: Icon,
@@ -26,6 +27,7 @@ export const Sidebar: React.FC<SidebarProps> = (
     const { onOpen } = useUploadSongModal();
     const { user } = useUsers()
     const authModal = useAuthModal();
+    const player = usePlayerSong()
 
     const handleOpenModal = () => {
         // if user not login  , open auth modal
@@ -43,7 +45,9 @@ export const Sidebar: React.FC<SidebarProps> = (
 
 
     return (
-        <div className="flex h-full w-full bg-black text-white">
+        <div className={twMerge(
+            `flex h-full w-full bg-black text-white` , player.activeId &&  "md:h-[calc(100%-60px)] md:mb-0 "
+        )}>
             {/* Sidebar container */}
             <div
                 className={twMerge(`

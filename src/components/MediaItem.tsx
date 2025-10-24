@@ -22,7 +22,7 @@ const MediaItem: React.FC<MediaItemProps> =
         const songImg = useLoadImage(data);
         const created_at = useTimeFormat(data.created_at);
         const songUrl = useLoadSongUrl(data);
-        const songDuration = useGetSongDuration(songUrl);
+        const songDuration = useGetSongDuration(songUrl!);
         const { author, title } = data;
         return (
             <div

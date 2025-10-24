@@ -4,13 +4,17 @@ import { useLoadImage } from "@/hooks/useLoadImage";
 import { Play } from "lucide-react";
 interface DailyMixDataProps {
     song: Song,
+    onHandlePlay : (id : string) => void;
+
 }
-const DailyMixCard: React.FC<DailyMixDataProps> = ({ song }) => {
-    const imageSong = useLoadImage(song)
+const DailyMixCard: React.FC<DailyMixDataProps> = ({ song , onHandlePlay }) => {
+    const imageSong = useLoadImage(song);
     return (
-        <div className="w-48 flex-shrink-0 cursor-pointer group hover:bg-neutral-600 transition p-2 rounded-2xl">
+        <div className="w-48 flex-shrink-0 cursor-pointer group hover:bg-neutral-700 transition p-3 rounded-2xl">
             {/* Image/Badge Area */}
-            <div className={`relative w-full aspect-square bg-gradient-to-br rounded-lg shadow-lg overflow-hidden`}>
+            <div 
+            onClick={() => onHandlePlay(song.id)}
+            className={`relative w-full aspect-square bg-gradient-to-br rounded-lg shadow-lg overflow-hidden`}>
                 {/* Placeholder Image */}
                 <Image
                     src={ imageSong || "https://placehold.co/192x192/181818/1db954?text=MIX"}

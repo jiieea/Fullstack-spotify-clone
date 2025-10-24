@@ -10,7 +10,7 @@ import getUserData from "./action/getUserData";
 import { TbPlaylist } from 'react-icons/tb'
 import getLikedSongs from "./action/getLikedSongs";
 import getPlaylistByUserId from "./action/getPlaylistsByUserId";
-
+import { Player } from "@/components/Player";
 
 const montserrat = Montserrat({
   variable: '--font-montserrat',
@@ -50,7 +50,7 @@ export default async function RootLayout({
           {children}
         </Sidebar>
         <div>
-          {/* <h1 className="text-white">This is where player container at</h1> */}
+      <Player userPlaylist={userPlaylists}/>
         </div>
           </UserProvider>
         </SupabaseProvider>

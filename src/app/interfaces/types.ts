@@ -42,12 +42,19 @@ export interface DailyMixDataProps {
   color: string;
 }
 
+export interface PlayerContentProps {
+    song: Song,
+    songUrl: string,
+    userPlaylists: Playlist[]
+}
+
 export
   interface MediaItemProps {
   data: Song,
   index: number
   userPlaylists: Playlist[]
   onHandleRemoveSong: (id: string) => void
+  isLoading : boolean
 }
 
 export interface HeaderProps {
@@ -114,4 +121,10 @@ export interface LibraryHeaderProps {
   user: UserDetails | null
   active: 'songs' | 'playlists' | ' all ';
   setActive: (filter: 'songs' | 'playlists' | ' all ') => void;
+}
+
+
+export interface PlaylistButtonProps {
+  songId : string
+  playlists : Playlist[]
 }
