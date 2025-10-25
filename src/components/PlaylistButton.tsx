@@ -16,12 +16,12 @@ const PlaylistButton = ({ songId  , playlists} : PlaylistButtonProps) => {
 
 
 
-    const handleOpenDropdown = () => {
+    const handleToggleDropdown = () => {
         if (!user) {
             return onOpen()
         }
 
-        setIsDropdownOpen(true)
+        setIsDropdownOpen(!isDropdownOpen)
     }
 
     const handleAddToSpecificPlaylist = async (playlistId: string) => {
@@ -69,7 +69,7 @@ const PlaylistButton = ({ songId  , playlists} : PlaylistButtonProps) => {
             <button
                 type='button'
                 title='add to playlist'
-                onClick={handleOpenDropdown}
+                onClick={handleToggleDropdown}
                 className='cursor-pointer opacity-75 transition'>
                 <GoPlusCircle
                     className='hover:scale-110'

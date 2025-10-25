@@ -18,7 +18,7 @@ interface OwnedSongsProps {
 const OwnedSongs = ({ song, index, userPlaylists }: OwnedSongsProps) => {
     const imagePath = useLoadImage(song);
     const songUrl = useLoadSongUrl(song)
-    const songDuration = useGetSongDuration(songUrl);
+    const songDuration = useGetSongDuration(songUrl!);
     const created_at = useTimeFormat(song.created_at)
 
     function handleRemoveSong(id: string) {

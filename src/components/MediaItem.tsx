@@ -14,6 +14,7 @@ const MediaItem: React.FC<MediaItemProps> =
     (
         {
             data,
+            isLoading,
             index,
             userPlaylists,
             onHandleRemoveSong
@@ -24,6 +25,7 @@ const MediaItem: React.FC<MediaItemProps> =
         const songUrl = useLoadSongUrl(data);
         const songDuration = useGetSongDuration(songUrl!);
         const { author, title } = data;
+        console.log(isLoading)
         return (
             <div
                 key={index}

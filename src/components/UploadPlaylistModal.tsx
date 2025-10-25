@@ -5,7 +5,6 @@ import { Input } from './ui/input';
 import { Button } from './ui/button';
 import uniqid from 'uniqid'
 import { UpdateModalContainer } from './UpdateModalContainer';
-import { DialogClose } from '@radix-ui/react-dialog';
 import sound from '../../public/assets/sound-waves.png'
 import {
     SubmitHandler,

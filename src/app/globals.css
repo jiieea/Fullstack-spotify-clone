@@ -2,11 +2,17 @@
 @import "tw-animate-css";
 
 
+
+
 :root {
   height: 100%;
   background-color: #000;
   color-scheme: dark;
   --playlist-color : black
+  --spotify-green: #1DB954;
+  --spotify-grey-dark: #535353;
+  --spotify-grey-light: #6A6A6A;
+  --spotify-white:#ffff
 }
 @custom-variant dark (&:is(.dark *));
 
@@ -127,3 +133,75 @@
     @apply bg-background text-foreground;
   }
 }
+
+:root {
+  --spotify-green: #1DB954;
+  --spotify-grey-dark: #535353;
+  --spotify-grey-light: #6A6A6A;
+}
+
+/* ---------------------------------- */
+/* FIX: Ensure Base Track is Visible  */
+/* ---------------------------------- */
+.spotify-progress-bar {
+  /* Necessary to override system defaults */
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 4px; /* Explicitly set the track height */
+  cursor: pointer;
+  border-radius: 9999px;
+  background: linear-gradient(
+    to right, 
+    var(--spotify-white) var(--progress-percent, 0%), 
+    var(--spotify-grey-dark) var(--progress-percent, 0%) /* This color is the track */
+  );
+  
+  /* Fallback background if gradient fails, ensuring a line is visible */
+  background-color: var(--spotify-grey-dark); 
+  
+  transition: background 0.2s ease-in-out;
+}
+
+.spotify-progress-bar:hover{
+   background: linear-gradient(
+    to right, 
+    var(--spotify-green) var(--progress-percent, 0%), 
+    var(--spotify-grey-dark) var(--progress-percent, 0%) /* This color is the track */
+  );
+}
+
+/* ---------------------------------------------------- */
+/* Styling the Thumb (The white dot that is hidden/shown) */
+/* ---------------------------------------------------- */
+
+/* WebKit (Chrome, Safari) */
+.spotify-progress-bar::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: white;
+  margin-top: -2px; /* Centers the thumb on the 4px track */
+  opacity: 0; /* Starts hidden */
+  transition: opacity 0.2s ease-in-out;
+}
+
+/* Firefox */
+.spotify-progress-bar::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border: none;
+  border-radius: 50%;
+  background: white;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+}
+
+/* Hover/Active effects */
+.spotify-progress-bar:hover::-webkit-slider-thumb,
+.spotify-progress-bar:active::-webkit-slider-thumb {
+  opacity: 1; /* Thumb appears on hover/active */
+}
+/* ... (include the hover track background change from previous response) */

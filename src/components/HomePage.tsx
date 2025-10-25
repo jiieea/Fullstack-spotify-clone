@@ -8,13 +8,14 @@ import DailyMixCard from './Song';
 import { useUsers } from '@/hooks/useUsers';
 import useOnplay from '@/hooks/useOnPlay';
 
+
 const HomePage: React.FC<HomePageProps> = ({
     songs,
     playlist
 }) => {
     // Renamed 'Tout' to 'all' for internal consistency, kept display text as 'Tout' in the map
     const [activeTab, setActiveTab] = useState<string>('all');
-    const { user }  = useUsers();
+    const { user } = useUsers();
     const handlePlay = useOnplay(songs);
 
     // if(!user) {
@@ -95,7 +96,7 @@ const HomePage: React.FC<HomePageProps> = ({
                                         <DailyMixCard
                                             key={item.id}
                                             song={item}
-                                            onHandlePlay={(id : string) => handlePlay(id)}
+                                            onHandlePlay={(id: string) => handlePlay(id)}
                                         />
                                     ))}
                                 </div>

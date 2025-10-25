@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { CSSProperties, useEffect, useMemo, useState } from 'react'
 import LikedButton from './LikedButton'
 import { BsPauseFill, BsPlayFill } from 'react-icons/bs'
 import { AiFillStepBackward, AiFillStepForward } from 'react-icons/ai'
@@ -25,6 +25,7 @@ export const PlayerContent: React.FC<PlayerContentProps> = ({
     const Icon = isPlaying ? BsPauseFill : BsPlayFill;
     const VolumeIcon = volume === 0 ? FaVolumeXmark : FaVolumeLow;
 
+    //  play  next song
     const onPlayNext = () => {
         if (player.ids.length === 0) {
             return;
@@ -33,6 +34,7 @@ export const PlayerContent: React.FC<PlayerContentProps> = ({
         if (pause) {
             pause();
         }
+
         const currentIdx = player.ids.findIndex((id) => id == player.activeId);
         const nextSong = player.ids[currentIdx + 1];
 
@@ -44,6 +46,7 @@ export const PlayerContent: React.FC<PlayerContentProps> = ({
         player.setId(nextSong);
     }
 
+    // play previous song
     const onPlayPrevious = () => {
         if (!player) {
             return;
@@ -69,7 +72,7 @@ export const PlayerContent: React.FC<PlayerContentProps> = ({
             onPlayNext();
         },
         onpause: () => setIsPlaying(false),
-        interrupt: true,
+        // interrupt: true, 
         format: ['mp3']
     }
     )
@@ -97,6 +100,7 @@ export const PlayerContent: React.FC<PlayerContentProps> = ({
         }
     }
 
+    // format time for progress bar
     const formatTime = (seconds: number): string => {
         if (isNaN(seconds) || seconds < 0) return '0:00';
         const minutes = Math.floor(seconds / 60);
@@ -114,19 +118,6 @@ export const PlayerContent: React.FC<PlayerContentProps> = ({
         }
     }
 
-    useEffect(() => {
-        if (sound) {
-            const checkDuration = setTimeout(() => {
-                if (sound.duration() > 0) {
-                    setDuration(sound.duration())
-                }
-            }, 100)
-            return () => clearTimeout(checkDuration)
-        }
-
-    }, [sound])
-
-    // ... inside PlayerContent component
 
     // Effect to set the duration once the sound is ready
     useEffect(() => {
@@ -176,13 +167,14 @@ export const PlayerContent: React.FC<PlayerContentProps> = ({
             sound.seek(newTime); // Tell Howler.js to jump to the new time
         }
     }
-    // Calculate the percentage for custom slider styling if needed
-    const progressPercent = useMemo(() => {
-        if (duration > 0) {
-            return (currentTime / duration) * 100;
-        }
-        return 0;
-    }, [currentTime, duration]);
+
+  const progressPercent = useMemo(() => {
+   if(duration > 0 ) {
+   return (currentTime / duration ) * 100;
+   }
+
+   return 0;
+  } , [duration , currentTime])
     return (
         <div className="
         grid grid-cols-2 md:grid-cols-3 h-full">
@@ -227,13 +219,13 @@ export const PlayerContent: React.FC<PlayerContentProps> = ({
                 >
                     <AiFillStepBackward onClick={onPlayPrevious}
                         className="text-neutral-400 cursor-pointer hover:text-white transition" size={30} />
-                    <div onClick={handlePlayingMusic} className="flex items-center justify-center h-10 w-10 rounded-full bg-white p-1 cursor-pointer">
+                    <div onClick={handlePlayingMusic} className="flex items-center justify-center h-8 w-8 rounded-full bg-white p-1 cursor-pointer">
                         <Icon size={30} className="text-black " />
                     </div>
                     <AiFillStepForward size={30} className="text-neutral-400 cursor-pointer hover:text-white transition"
                         onClick={onPlayNext} />
                 </div>
-                <div className="flex items-center w-full gap-x-2 mt-1 px-4">
+                <div className="flex items-center w-full gap-x-2 mb-2 px-4">
                     <span className="text-xs text-neutral-400 w-8 text-right">
                         {formatTime(currentTime)}
                     </span>
@@ -243,15 +235,9 @@ export const PlayerContent: React.FC<PlayerContentProps> = ({
                         max={duration}
                         value={currentTime}
                         onChange={handleSeek}
-                        disabled={duration === 0} // Disable if song hasn't loaded
-                        className="w-full h-1 bg-neutral-600 rounded-lg appearance-none cursor-pointer"
-                        // Custom styling for a Spotify-like progress bar (requires custom CSS/Tailwind configuration)
-                        // If you use a custom slider component, use that instead.
-                        style={{
-                            '--tw-range-thumb-color': 'white',
-                            '--tw-range-track-color': 'rgb(75 85 99)', // Neutral-600
-                            '--tw-range-progress-color': 'rgb(29 185 84)', // Spotify green
-                        }}
+                        disabled={duration === 0}
+                      className="w-full spotify-progress-bar rounded-lg appearance-none cursor-pointer "
+                      style={{ '--progress-percent': `${progressPercent}%` } as CSSProperties}
                     />
                     <span className="text-xs text-neutral-400 w-8 text-left">
                         {formatTime(duration)}

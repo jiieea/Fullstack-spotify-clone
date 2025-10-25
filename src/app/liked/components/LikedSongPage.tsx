@@ -20,7 +20,7 @@ const LikedSongPage: React.FC<LikedSongPageProps> = ({
 }) => {
   const imageUrl = "/assets/liked.png";
   const dominantColor = useGetDominantColor(imageUrl);
-
+  const [isLoading ,setIsLoading  ] = useState(false);
 
 const handle = () => {
   toast.success('hello')
@@ -36,7 +36,9 @@ const handle = () => {
       <LikedSongContent >
          {
         likedSongs.map((song, index) => (
-          <MediaItem index={index} key={index} data={song} userPlaylists={ userPlaylists}   onHandleRemoveSong={handle}/>
+          <MediaItem
+          isLoading={ isLoading}
+          index={index} key={index} data={song} userPlaylists={ userPlaylists}   onHandleRemoveSong={handle}/>
         ))
       }
       </LikedSongContent>
