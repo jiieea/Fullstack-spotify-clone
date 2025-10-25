@@ -7,11 +7,11 @@ import { toast } from "sonner";
 const useGetSongById = (id?: string) => {
     const [loading, setLoading] = useState(false);
     const [song, setSong] = useState<Song | undefined>(undefined)
-    const supabase = useSessionContext();
+    const { supabaseClient } = useSessionContext();
 
     useEffect(() => {
         if (!id) {
-            return;
+            return; 
         }
 
         setLoading(true);
@@ -19,7 +19,7 @@ const useGetSongById = (id?: string) => {
             const {
                 data,
                 error
-            } = await supabase.supabaseClient.from('songs')
+            } = await supabaseClient.from('songs')
                 .select('*').eq('id', id).single()
             if (error) {
                 setLoading(false)
@@ -32,7 +32,7 @@ const useGetSongById = (id?: string) => {
         }
 
         fetchSong()
-    }, [loading, id, supabase.supabaseClient])
+    }, [ id, supabaseClient])
 
     return useMemo(() => ({
         song,

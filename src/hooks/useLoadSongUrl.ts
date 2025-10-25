@@ -4,7 +4,7 @@ import { useSupabaseClient } from "@supabase/auth-helpers-react";
 const useLoadSongUrl = (song: Song) => {
     const supabase = useSupabaseClient()
     if(!song) {
-        return;
+        return "";
     }
 
     const {

@@ -15,6 +15,8 @@ export const Player: React.FC<PlayerProps> = ({
     const player = usePlayerSong();
     const { song } = useGetSongById(player.activeId);
     const songUrl = useLoadSongUrl(song!);
+    
+
     if (!songUrl || !song || !player.activeId) {
         return null;
     }
