@@ -205,3 +205,45 @@
   opacity: 1; /* Thumb appears on hover/active */
 }
 /* ... (include the hover track background change from previous response) */
+
+
+@media (max-width: 768px) {
+  /* Animation for the title */
+  .animate-marquee {
+    animation: marquee-scroll 10s linear infinite;
+  }
+  /* Animation for the author with slightly different timing */
+  .animate-marquee-author {
+    animation: marquee-scroll 12s linear infinite;
+  }
+
+  @keyframes marquee-scroll {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(calc(-50% - 1rem));
+    }
+  }
+}
+
+/* src/app/globals.css */
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+.marquee-wrapper {
+  width: 100%; /* Or any fixed width, e.g., 200px */
+  overflow: hidden; 
+}
+.animate-marquee {
+  animation: marquee 15s linear infinite; /* Adjust duration as needed */
+  display: inline-block; /* Important for width calculation */
+  white-space: nowrap; /* Prevents wrapping */
+  padding-right: 1rem; /* Adjust padding for gap between repeats */
+}

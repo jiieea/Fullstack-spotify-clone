@@ -23,7 +23,7 @@ export const Player: React.FC<PlayerProps> = ({
     return (
         <div className='
           fixed
-          bottom-[60px]
+          bottom-[50px]
           md:bottom-0 
           w-[95%] 
           md:w-full 
@@ -38,6 +38,7 @@ export const Player: React.FC<PlayerProps> = ({
           z-5
           ps-1
           pr-1
+        
         '>
             <PlayerContent
                 key={songUrl}

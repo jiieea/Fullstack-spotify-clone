@@ -46,7 +46,8 @@ export const Sidebar: React.FC<SidebarProps> = (
 
     return (
         <div className={twMerge(
-            `flex h-full w-full bg-black text-white` , player.activeId &&  "md:h-[calc(100%-60px)] md:mb-0 "
+            `flex h-[85vh] w-full bg-black  text-white`,
+            player.activeId && "h-[79vh] md:mb-0 "
         )}>
             {/* Sidebar container */}
             <div
@@ -129,19 +130,18 @@ export const Sidebar: React.FC<SidebarProps> = (
             {/* Main content area */}
             <main
                 className={twMerge(`
-                    flex-1 
-                    overflow-y-auto 
-                    rounded-lg
-                    ml-3
-                    mb-10  md:mb-0 
-                `)}
+        flex-1 
+        overflow-y-auto 
+        rounded-lg
+        ml-3
+    ` ,)} //
             >
                 {children}
             </main>
             <Toaster position='top-center' expand={true} richColors />
-             <div className="fixed bottom-0 w-full px-0 md:hidden">
-      <MobileNavbar />
-      </div>
+            <div className="fixed bottom-0 w-full px-0 md:hidden">
+                <MobileNavbar />
+            </div>
         </div>
 
     )

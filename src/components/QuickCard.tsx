@@ -34,7 +34,7 @@ const QuickPickCard: React.FC<quickPicksDataProps> = ({
                 height={80}
                 alt="Album Cover"
                 quality={100}
-                className="w-[80px] h-[80px] object-cover flex-shrink-0"
+                className="lg:w-[80px] lg:h-[80px] w-[60px] h-[60px] object-cover flex-shrink-0"
             />
             {/* The 'truncate' class here is key for responsiveness in flex/grid layouts */}
             <p className="text-white font-semibold text-[12px] md:text-sm px-4 line-clamp-2">{data.playlist_name}</p>

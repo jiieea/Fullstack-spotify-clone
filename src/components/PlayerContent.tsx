@@ -17,7 +17,7 @@ export const PlayerContent: React.FC<PlayerContentProps> = ({
     songUrl,
     userPlaylists
 }) => {
-    const player = usePlayerSong();
+    const player = usePlayerSong(); 
     const [volume, setVolume] = useState(0.5);
     const [isPlaying, setIsPlaying] = useState(false);
     const [currentTime, setCurrentTime] = useState(0);
@@ -215,7 +215,7 @@ export const PlayerContent: React.FC<PlayerContentProps> = ({
             <div className='flex flex-col items-center'>
                 <div
                     className="hidden w-full md:flex justify-center items-center 
-                 h-full max-w-[722px] gap-x-6"
+                 h-full max-w-[722px] gap-x-6 mt-1"
                 >
                     <AiFillStepBackward onClick={onPlayPrevious}
                         className="text-neutral-400 cursor-pointer hover:text-white transition" size={30} />
@@ -226,7 +226,7 @@ export const PlayerContent: React.FC<PlayerContentProps> = ({
                         onClick={onPlayNext} />
                 </div>
                 <div className="flex items-center w-full gap-x-2 mb-2 px-4">
-                    <span className="text-xs text-neutral-400 w-8 text-right">
+                    <span className="text-xs text-neutral-400 w-8 text-right hidden md:block">
                         {formatTime(currentTime)}
                     </span>
                     <input
@@ -236,10 +236,10 @@ export const PlayerContent: React.FC<PlayerContentProps> = ({
                         value={currentTime}
                         onChange={handleSeek}
                         disabled={duration === 0}
-                      className="w-full spotify-progress-bar rounded-lg appearance-none cursor-pointer "
+                      className="w-full spotify-progress-bar rounded-lg appearance-none cursor-pointer hidden md:block "
                       style={{ '--progress-percent': `${progressPercent}%` } as CSSProperties}
                     />
-                    <span className="text-xs text-neutral-400 w-8 text-left">
+                    <span className="text-xs text-neutral-400 w-8 text-left hidden md:block">
                         {formatTime(duration)}
                     </span>
                 </div>

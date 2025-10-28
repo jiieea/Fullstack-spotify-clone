@@ -9,7 +9,7 @@ import { useLoadImage } from '@/hooks/useLoadImage'
 import usePlayerSong from '@/hooks/usePlayer'
 import useLoadSongUrl from '@/hooks/useLoadSongUrl'
 import useGetSongDuration from '@/hooks/useGetSongDuration'
-
+import useGetDevice from '@/hooks/useGetDevice'
 interface PlayerMediaProps {
     data: Song
     onClick?: (id: string) => void
@@ -23,7 +23,7 @@ const PlayerMedia: React.FC<PlayerMediaProps> = ({
     const songUrl = useLoadSongUrl(data);
     const songDuration = useGetSongDuration(songUrl!);
     const { author, title } = data
-    // const device = useGetDevice();
+    const { deviceType } = useGetDevice();
     // const { deviceType } = device
     const handleClick = () => {
         if (onClick) {
@@ -39,7 +39,7 @@ const PlayerMedia: React.FC<PlayerMediaProps> = ({
           gap-x-3 
           cursor-pointer 
           w-full 
-          p-3 
+          px-2 py-1.5
           rounded-md
         "
             onClick={handleClick}
@@ -68,24 +68,26 @@ const PlayerMedia: React.FC<PlayerMediaProps> = ({
                 </div>
             </div>
             <div className="flex-1 w-full max-w-[150px] overflow-hidden md:hidden">
-                <div className="whitespace-nowrap 
+                <div className='marquee-wrapper'>
+                    <div className="whitespace-nowrap 
   animate-marquee 
   inline-block 
   justify-center 
   md:animate-none">
-                    <p className="text-white font-semibold text-base text-[12px] md:text-[15px] inline-block">
-                        {data.title} &bull; <span className="text-neutral-400 text-sm text-[12px] md:text-[13px]">{data.author}</span>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{/* This creates a gap between the repeats */}
-                        {data.title} &bull; <span className="text-neutral-400 text-sm text-[12px] md:text-[13px]">{data.author}</span>
-                    </p>
+                        <p className="text-white font-semibold text-base text-[12px] md:text-[15px] inline-block">
+                            {data.title} &bull; <span className="text-neutral-400 text-sm text-[12px] md:text-[13px]">{data.author}</span>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{/* This creates a gap between the repeats */}
+                            {data.title} &bull; <span className="text-neutral-400 text-sm text-[12px] md:text-[13px]">{data.author}</span>
+                        </p>
+                    </div>
                 </div>
                 <div className='flex gap-x-1.5 items-center'>
                     <IoPhonePortraitOutline className='text-green-500 ' size={10} />
-                    {/* <p className='text-green-400 font-light text-[12px]'>{deviceType}</p> */}
+                    <p className='text-green-400 font-light text-[12px]'>{deviceType}</p>
                 </div>
             </div>
-            <div className='md:flex flex-col gap-y-1 hidden w-[200px]'>
-                <p className='text-white '>{title}</p>
+            <div className='md:flex flex-col  hidden w-[200px]'>
+                <p className='text-white text-[14px] '>{title}</p>
                 <p className='text-neutral-500 text-[12px]'>{author}</p>
             </div>
             {songDuration && (

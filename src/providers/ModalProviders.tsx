@@ -10,8 +10,8 @@ import UploadPlaylistModal from '@/components/UploadPlaylistModal';
 
 export const ModalProviders:React.FC<ModalProvidersProps> = (
   {
-    userData
-  }
+    userData,
+    }
 ) => {
   const [isMounted, setIsMounted] = useState(false);
 

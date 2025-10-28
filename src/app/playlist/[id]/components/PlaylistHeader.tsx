@@ -6,19 +6,38 @@ import useLoadAvatar from '@/hooks/useLoadAvatar';
 import { useLoadPlaylistImage } from '@/hooks/useLoadImage';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import React from 'react';
+import React, { useMemo } from 'react';
 // import { CiGlobe } from 'react-icons/ci';
 import PlaylistWrapper from './PlaylistHeaderWrapper';
 import { PlaylistContent } from './PlaylistContent';
-
+import useUpdatePlaylistModal from '@/hooks/useUpdateModal';
+import useGetPlaylistDuration from '@/hooks/useGetTotalDuration';
+import { useSupabaseClient } from '@supabase/auth-helpers-react';
 
 const PlaylistPage: React.FC<PlaylistPageProps> = ({ userData, data, userPlaylists, songs }) => {
   const router = useRouter();
   const playlistImage = useLoadPlaylistImage(data!);
+  // const totalDuration = useGetPlaylistDuration()
   const avatar = useLoadAvatar(userData!);
   const bgColor = useGetDominantColor(playlistImage!);
   const playlistName = data?.playlist_name;
   const desc = data?.description;
+  const { onOpen } = useUpdatePlaylistModal();
+  const supabase = useSupabaseClient()
+
+  const getSongUrls = useMemo(() => {
+    if(!songs) {
+      return [];
+    }
+    
+    return songs.map((song) => {
+      const { data } = supabase.storage.from('songs').getPublicUrl(song.song_path)
+      return data.publicUrl;
+    })
+  },[songs,supabase])
+
+  const totalDuration = useGetPlaylistDuration(getSongUrls);
+
 
   // 1. Conditionally render based on the data prop
   if (!data) {
@@ -30,10 +49,15 @@ const PlaylistPage: React.FC<PlaylistPageProps> = ({ userData, data, userPlaylis
   }
 
   return (
-    <div className='flex flex-col '>
+    <div className='flex flex-col ' 
+        onClick={onOpen}
+    >
       <PlaylistWrapper bgColor={bgColor}>
         {/* Playlist Image Container */}
-        <div className="relative w-35 h-35 md:w-40 md:h-40 2xl:w-60 2xl:h-60">
+        <div 
+        className="relative hover:cursor-pointer
+         w-35 h-35 md:w-40
+          md:h-40 2xl:w-60 2xl:h-60">
           <Image
             src={playlistImage || "/assets/liked.png"}
             alt="Playlist Cover"
@@ -86,10 +110,10 @@ const PlaylistPage: React.FC<PlaylistPageProps> = ({ userData, data, userPlaylis
                 </p>
               </div>
               {/* Additional info like titles/duration - Kept your original placeholders, hidden by default */}
-              <p className='text-neutral-500 font-semibold hidden md:block'>&bull; {songs.length} {`${songs.length > 1 ? "songs" : "song"}`} ,</p>
+              <p className='text-neutral-500 font-semibold hidden md:block'>&bull; {songs.length} {`${songs.length > 1 ? "songs" : "song"}`} &bull;</p>
               <p className='text-neutral-500 font-semibold text-sm hidden md:block'>
-                {/* {totalDuration} */}
-                &bull; total duration
+                {totalDuration}
+              
               </p>
             </div>
           </div>

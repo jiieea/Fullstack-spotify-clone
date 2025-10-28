@@ -2,6 +2,7 @@ import Image from "next/image";
 import { Song } from "../../types";
 import { useLoadImage } from "@/hooks/useLoadImage";
 import { Play } from "lucide-react";
+import usePlayerSong from "@/hooks/usePlayer";
 interface DailyMixDataProps {
     song: Song,
     onHandlePlay : (id : string) => void;
@@ -9,8 +10,9 @@ interface DailyMixDataProps {
 }
 const DailyMixCard: React.FC<DailyMixDataProps> = ({ song , onHandlePlay }) => {
     const imageSong = useLoadImage(song);
+    const player = usePlayerSong();
     return (
-        <div className="w-48 flex-shrink-0 cursor-pointer group hover:bg-neutral-700 transition p-3 rounded-2xl">
+        <div className="lg:w-48 w-40 flex-shrink-0 cursor-pointer group hover:bg-neutral-700 transition p-3 rounded-2xl">
             {/* Image/Badge Area */}
             <div 
             onClick={() => onHandlePlay(song.id)}

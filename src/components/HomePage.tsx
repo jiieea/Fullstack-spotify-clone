@@ -13,7 +13,6 @@ const HomePage: React.FC<HomePageProps> = ({
     songs,
     playlist
 }) => {
-    // Renamed 'Tout' to 'all' for internal consistency, kept display text as 'Tout' in the map
     const [activeTab, setActiveTab] = useState<string>('all');
     const { user } = useUsers();
     const handlePlay = useOnplay(songs);
@@ -91,7 +90,9 @@ const HomePage: React.FC<HomePageProps> = ({
                         {/* Consistent padding and increased bottom padding for scroll area */}
                         {
                             user && (
-                                <div className="flex space-x-6 overflow-x-scroll horizontal-scroll-container pb-8 px-4 sm:px-6 lg:px-8">
+                                <div className="flex space-x-2 overflow-x-scroll 
+                                horizontal-scroll-container pb-8 px-4
+                                 sm:px-6 lg:px-8">
                                     {songs.map(item => (
                                         <DailyMixCard
                                             key={item.id}
@@ -102,14 +103,12 @@ const HomePage: React.FC<HomePageProps> = ({
                                 </div>
                             )
                         }
+                        <div>
+                            <h1 className='text-white font-semibold text-2xl'>More Playlists For User</h1>
+                            
+                        </div>
                     </div>
                 </main>
-
-                {/* Player Bar Placeholder - Important for fixed positioning */}
-                {/* Added fixed positioning and z-index to ensure it sits on top and doesn't get covered */}
-                {/* <footer className="fixed bottom-0 left-0 right-0 bg-[#181818] h-20 border-t border-black z-30 flex items-center justify-center text-sm text-white">
-                <p>Placeholder for Player Bar</p>
-            </footer> */}
             </div>
         </div>
     )
