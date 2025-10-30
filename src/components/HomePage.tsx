@@ -1,25 +1,63 @@
 "use client"
 
-import React, { useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import QuickPickCard from './QuickCard';
 import { HomePageProps } from '../app/interfaces/types'
 import HeroSection from './PlaylistHeroSection';
 import DailyMixCard from './Song';
 import { useUsers } from '@/hooks/useUsers';
 import useOnplay from '@/hooks/useOnPlay';
-
+import Arrow from './Arrow';
 
 const HomePage: React.FC<HomePageProps> = ({
     songs,
-    playlist
+    playlist,
+    userPlaylists
 }) => {
     const [activeTab, setActiveTab] = useState<string>('all');
+    const [canScrollLeft, setCanScrollLeft] = useState(false);
+    const [canScrolRight, setCanScrollRight] = useState(true);
     const { user } = useUsers();
     const handlePlay = useOnplay(songs);
+    const scrollRef = useRef<HTMLDivElement>(null);
+    const scrollAmout = 320;
 
-    // if(!user) {
-    //     return <div className='flex justify-center  items-center font-bold text-white'>Login first  to see your songs and playlists</div>
-    // }
+    // scrolling function
+    const scrolling = (direction: 'left' | 'right') => {
+        if (scrollRef.current) {
+            const amout = direction == 'left' ? -scrollAmout : scrollAmout;
+            scrollRef.current.scrollBy({
+                left: amout,
+                behavior: 'smooth'
+            })
+        }
+    }
+
+
+    const leftScroll = () => scrolling('left');
+    const rigthScroll = () => scrolling('right');
+
+    // check the scrollable
+    const checkallPosition = () => {
+        if (scrollRef.current) {
+            const { scrollLeft: currentScroll, scrollWidth, clientWidth } = scrollRef.current;
+            setCanScrollLeft(currentScroll > 1);
+            setCanScrollRight(scrollWidth > clientWidth && currentScroll < scrollWidth - clientWidth - 1);
+        }
+    }
+
+    // attach event listener
+    useEffect(() => {
+        const element = scrollRef.current;
+        if (element) {
+            element.addEventListener('scroll', checkallPosition); // checkAllPosition run after scroll event 
+            // check initial state
+            checkallPosition(); // the function execure immediately 
+            return () => {
+                element.removeEventListener('scroll', checkallPosition)
+            }
+        }
+    }, [songs.length]);
 
     return (
         // Changed main wrapper to min-h-screen for full height
@@ -40,8 +78,8 @@ const HomePage: React.FC<HomePageProps> = ({
                         <div className="flex space-x-3 border-b border-gray-800 pb-4 pt-4 md:pt-0 px-4 sm:px-6 lg:px-8">
                             {/* Mapped over the tabs list for cleaner code */}
                             {[
-                                { id: 'all', label: 'Tout' },
-                                { id: 'music', label: 'Musique' },
+                                { id: 'all', label: 'All' },
+                                { id: 'music', label: 'Music' },
                                 { id: 'playlists', label: 'Playlists' }
                             ].map(({ id, label }) => (
                                 <button
@@ -58,8 +96,10 @@ const HomePage: React.FC<HomePageProps> = ({
                         </div>
 
                         {/* Quick Picks Grid - Ensured more aggressive column changes for small screens */}
-                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 px-4 sm:px-6 lg:px-8">
-                            {playlist.map(item => (
+                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 
+                        lg:grid-cols-3 xl:grid-cols-4  gap-4 
+                        px-4 sm:px-6 lg:px-8 ">
+                            {userPlaylists.map(item => (
                                 <QuickPickCard key={item.id} data={item} />
                             ))}
                         </div>
@@ -73,39 +113,53 @@ const HomePage: React.FC<HomePageProps> = ({
                                 See all
                             </a>
                         </div>
+                        <div className="relative">
+                            <Arrow
+                                direction="left"
+                                isVisible={canScrollLeft}
+                                onClick={leftScroll}
+                            />
+                            {/* Daily Mixes (Horizontal Scroll) */}
+                            {/* Custom CSS for hidden scrollbar on specific browsers */}
 
-                        {/* Daily Mixes (Horizontal Scroll) */}
-                        {/* Custom CSS for hidden scrollbar on specific browsers */}
-                        <style>
-                            {`
-                        .horizontal-scroll-container::-webkit-scrollbar {
-                            display: none;
-                        }
-                        .horizontal-scroll-container {
-                            -ms-overflow-style: none;  /* IE and Edge */
-                            scrollbar-width: none;  /* Firefox */
-                        }
-                        `}
-                        </style>
-                        {/* Consistent padding and increased bottom padding for scroll area */}
-                        {
-                            user && (
-                                <div className="flex space-x-2 overflow-x-scroll 
+                            {/* Consistent padding and increased bottom padding for scroll area */}
+                            {
+                                user && (
+                                    <div className="flex space-x-2 overflow-x-scroll 
                                 horizontal-scroll-container pb-8 px-4
-                                 sm:px-6 lg:px-8">
-                                    {songs.map(item => (
-                                        <DailyMixCard
-                                            key={item.id}
-                                            song={item}
-                                            onHandlePlay={(id: string) => handlePlay(id)}
-                                        />
-                                    ))}
-                                </div>
-                            )
-                        }
+                                sm:px-6 lg:px-8"
+                                ref={scrollRef}
+                                >
+                                        <style>
+                                            {`
+                                .horizontal-scroll-container::-webkit-scrollbar {
+                                display: none;
+                                }
+                                .horizontal-scroll-container {
+                                -ms-overflow-style: none;  /* IE and Edge */
+                                scrollbar-width: none;  /* Firefox */
+                                }
+                                `}
+                                        </style>
+                                        {songs.map(item => (
+                                            <DailyMixCard
+                                                key={item.id}
+                                                song={item}
+                                                onHandlePlay={(id: string) => handlePlay(id)}
+                                            />
+                                        ))}
+                                    </div>
+                                )
+                            }
+                            <Arrow 
+                            isVisible={ canScrolRight }
+                            onClick={rigthScroll}
+                            direction="right "
+                            />
+
+                        </div>
                         <div>
                             <h1 className='text-white font-semibold text-2xl'>More Playlists For User</h1>
-                            
                         </div>
                     </div>
                 </main>

@@ -6,6 +6,11 @@ export interface ModalProvidersProps {
   userData?: UserDetails
 }
 
+export interface PlaylistOptionProps {
+  playlistData: Playlist
+  disabled : boolean
+}
+
 export interface PlaylistPageProps {
   data: Playlist | null
   songs: Song[]
@@ -43,9 +48,9 @@ export interface DailyMixDataProps {
 }
 
 export interface PlayerContentProps {
-    song: Song,
-    songUrl: string,
-    userPlaylists: Playlist[]
+  song: Song,
+  songUrl: string,
+  userPlaylists: Playlist[]
 }
 
 export
@@ -54,7 +59,8 @@ export
   index: number
   userPlaylists: Playlist[]
   onHandleRemoveSong: (id: string) => void
-  isLoading : boolean
+  isLoading: boolean,
+  onHandlePlay: (id: string) => void
 }
 
 export interface HeaderProps {
@@ -67,7 +73,10 @@ export interface AccountPageProps {
   userData: UserDetails | null
 }
 
-
+export interface UpdateDialogProps {
+    playlistData: Playlist
+    disabled : boolean
+}
 
 export interface AccountHeaderProps {
   data: UserDetails | null
@@ -75,8 +84,9 @@ export interface AccountHeaderProps {
 }
 
 export interface HomePageProps {
-  songs : Song[]
+  songs: Song[]
   playlist: Playlist[]
+  userPlaylists: Playlist[]
 }
 
 
@@ -104,9 +114,9 @@ export interface LibraryChildComponentProps {
 }
 
 export interface UserPlaylistsProps {
-    data: Playlist
-    user: UserDetails
-    href: string
+  data: Playlist
+  user: UserDetails
+  href: string
 }
 
 export interface LibraryContentProps {
@@ -125,6 +135,6 @@ export interface LibraryHeaderProps {
 
 
 export interface PlaylistButtonProps {
-  songId : string
-  playlists : Playlist[]
+  songId: string
+  playlists: Playlist[]
 }

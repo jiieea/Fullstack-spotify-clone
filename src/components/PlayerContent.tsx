@@ -177,7 +177,7 @@ export const PlayerContent: React.FC<PlayerContentProps> = ({
   } , [duration , currentTime])
     return (
         <div className="
-        grid grid-cols-2 md:grid-cols-3 h-full">
+        grid grid-cols-2 md:grid-cols-3 h-full ">
             <div className="flex w-full rounded-md
              justify-start md:bg-black">
                 <div className="flex items-center gap-x-4">
@@ -212,7 +212,7 @@ export const PlayerContent: React.FC<PlayerContentProps> = ({
                     <Icon size={35} className="text-white" />
                 </div>
             </div>
-            <div className='flex flex-col items-center'>
+            <div className='flex flex-col items-center gap-y-2.5'>
                 <div
                     className="hidden w-full md:flex justify-center items-center 
                  h-full max-w-[722px] gap-x-6 mt-1"

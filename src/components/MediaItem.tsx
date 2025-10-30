@@ -9,6 +9,7 @@ import useTimeFormat from '@/hooks/useTimeFormat'
 import DropDownMenu from "./DropDownMenu";
 import useLoadSongUrl from '@/hooks/useLoadSongUrl'
 import useGetSongDuration from '@/hooks/useGetSongDuration'
+import usePlayerSong from '@/hooks/usePlayer'
 
 const MediaItem: React.FC<MediaItemProps> =
     (
@@ -17,7 +18,8 @@ const MediaItem: React.FC<MediaItemProps> =
             isLoading,
             index,
             userPlaylists,
-            onHandleRemoveSong
+            onHandleRemoveSong,
+            onHandlePlay
         }
     ) => {
         const songImg = useLoadImage(data);
@@ -25,9 +27,18 @@ const MediaItem: React.FC<MediaItemProps> =
         const songUrl = useLoadSongUrl(data);
         const songDuration = useGetSongDuration(songUrl!);
         const { author, title } = data;
+        const player = usePlayerSong()
         console.log(isLoading)
+
+        const handleClick = () => {
+            if (onHandlePlay) {
+                return onHandlePlay(data.id)
+            }
+            return player.setId(data.id)
+        }
         return (
             <div
+                onClick={handleClick}
                 key={index}
                 className="grid md:grid-cols-9 sm:grid-cols-6 grid-cols-5 items-center py-2 px-2 
             rounded-lg hover:bg-neutral-800 transition

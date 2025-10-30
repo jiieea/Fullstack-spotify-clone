@@ -1,7 +1,6 @@
 "use client"
 
 import React, { useState } from 'react'
-
 import SidebarItems from './SidebarItems';
 import { GoPlus } from "react-icons/go";
 import { twMerge } from 'tailwind-merge';
@@ -29,6 +28,7 @@ export const Sidebar: React.FC<SidebarProps> = (
     const authModal = useAuthModal();
     const player = usePlayerSong()
 
+    console.log(player.activeId)
     const handleOpenModal = () => {
         // if user not login  , open auth modal
         if (!user) {
@@ -46,8 +46,8 @@ export const Sidebar: React.FC<SidebarProps> = (
 
     return (
         <div className={twMerge(
-            `flex h-[85vh] w-full bg-black  text-white`,
-            player.activeId && "h-[79vh] md:mb-0 "
+            `flex h-[90vh] w-full bg-black  text-white`,
+            player.activeId && "h-[calc(100vh-155px)] md:mb-0 "
         )}>
             {/* Sidebar container */}
             <div
@@ -131,7 +131,7 @@ export const Sidebar: React.FC<SidebarProps> = (
             <main
                 className={twMerge(`
         flex-1 
-        overflow-y-auto 
+         overflow-y-auto 
         rounded-lg
         ml-3
     ` ,)} //

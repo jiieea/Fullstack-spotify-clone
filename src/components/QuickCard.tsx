@@ -27,7 +27,7 @@ const QuickPickCard: React.FC<quickPicksDataProps> = ({
             onClick={handleClickPlaylist}
             className="bg-[#282828] hover:bg-[#404040] transition-colors
             duration-300 rounded-md flex items-center shadow-lg cursor-pointer
-                overflow-hidden">
+                overflow-hidden ">
             <Image
                 src={image || "/assets/liked.png"}
                 width={80}
@@ -37,7 +37,8 @@ const QuickPickCard: React.FC<quickPicksDataProps> = ({
                 className="lg:w-[80px] lg:h-[80px] w-[60px] h-[60px] object-cover flex-shrink-0"
             />
             {/* The 'truncate' class here is key for responsiveness in flex/grid layouts */}
-            <p className="text-white font-semibold text-[12px] md:text-sm px-4 line-clamp-2">{data.playlist_name}</p>
+            <p className="text-white font-semibold text-[12px]
+             md:text-sm px-4 line-clamp-2">{data.playlist_name}</p>
         </div>
     )
 }

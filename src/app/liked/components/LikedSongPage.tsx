@@ -8,6 +8,8 @@ import LikedSongContent from './LikedSongContent';
 import LikedSongHeader from './LikedSongHeader';
 import MediaItem from '@/components/MediaItem';
 import { toast } from 'sonner';
+import usePlayerSong from '@/hooks/usePlayer';
+import useOnplay from '@/hooks/useOnPlay';
 interface LikedSongPageProps {
   likedSongs: Song[]
   userData: UserDetails | null
@@ -21,6 +23,8 @@ const LikedSongPage: React.FC<LikedSongPageProps> = ({
   const imageUrl = "/assets/liked.png";
   const dominantColor = useGetDominantColor(imageUrl);
   const [isLoading ,setIsLoading  ] = useState(false);
+  const onPlay = useOnplay(likedSongs)
+
 
 const handle = () => {
   toast.success('hello')
@@ -37,6 +41,7 @@ const handle = () => {
          {
         likedSongs.map((song, index) => (
           <MediaItem
+          onHandlePlay={(id : string) => onPlay(id)}
           isLoading={ isLoading}
           index={index} key={index} data={song} userPlaylists={ userPlaylists}   onHandleRemoveSong={handle}/>
         ))

@@ -18,7 +18,7 @@ const HeroSection = () => (
         {/* Right: Info and Buttons */}
         <div className="flex flex-col justify-end">
             <p className="text-sm font-bold text-white uppercase mb-2">Playlist</p>
-            <h1 className="text-5xl md:text-7xl font-black text-white mb-6 leading-tight">FYP LAGU VIRAL</h1>
+            <h1 className="text-5xl md:text-7xl font-black text-white mb-6 leading-tight">Your Playlist of The Day</h1>
             <p className="text-gray-300 text-sm mb-6">Pour your FYP! Lagu-lagu terbaik dan terbaru only pour your playlist!</p>
             <div className="flex items-center space-x-4">
                 <button className="bg-green-500 p-4 rounded-full hover:scale-105 transition-transform duration-150 shadow-2xl">

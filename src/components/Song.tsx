@@ -10,7 +10,6 @@ interface DailyMixDataProps {
 }
 const DailyMixCard: React.FC<DailyMixDataProps> = ({ song , onHandlePlay }) => {
     const imageSong = useLoadImage(song);
-    const player = usePlayerSong();
     return (
         <div className="lg:w-48 w-40 flex-shrink-0 cursor-pointer group hover:bg-neutral-700 transition p-3 rounded-2xl">
             {/* Image/Badge Area */}

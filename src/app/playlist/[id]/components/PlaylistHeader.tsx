@@ -13,17 +13,18 @@ import { PlaylistContent } from './PlaylistContent';
 import useUpdatePlaylistModal from '@/hooks/useUpdateModal';
 import useGetPlaylistDuration from '@/hooks/useGetTotalDuration';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
+import useOnplay from '@/hooks/useOnPlay';
 
 const PlaylistPage: React.FC<PlaylistPageProps> = ({ userData, data, userPlaylists, songs }) => {
   const router = useRouter();
   const playlistImage = useLoadPlaylistImage(data!);
-  // const totalDuration = useGetPlaylistDuration()
   const avatar = useLoadAvatar(userData!);
   const bgColor = useGetDominantColor(playlistImage!);
   const playlistName = data?.playlist_name;
   const desc = data?.description;
   const { onOpen } = useUpdatePlaylistModal();
-  const supabase = useSupabaseClient()
+  const supabase = useSupabaseClient();
+  const handlePlaySong = useOnplay(songs);
 
   const getSongUrls = useMemo(() => {
     if(!songs) {
@@ -121,6 +122,7 @@ const PlaylistPage: React.FC<PlaylistPageProps> = ({ userData, data, userPlaylis
       </PlaylistWrapper>
       <PlaylistContent
         data={data}
+        onHandlePlay={ (id : string)  => handlePlaySong(id)}
         songs={songs} userPlaylist={userPlaylists} />
     </div>
   );
