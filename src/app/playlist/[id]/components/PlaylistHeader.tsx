@@ -7,7 +7,7 @@ import { useLoadPlaylistImage } from '@/hooks/useLoadImage';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import React, { useMemo } from 'react';
-// import { CiGlobe } from 'react-icons/ci';
+import { CiGlobe } from 'react-icons/ci';
 import PlaylistWrapper from './PlaylistHeaderWrapper';
 import { PlaylistContent } from './PlaylistContent';
 import useUpdatePlaylistModal from '@/hooks/useUpdateModal';
@@ -15,27 +15,27 @@ import useGetPlaylistDuration from '@/hooks/useGetTotalDuration';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import useOnplay from '@/hooks/useOnPlay';
 
-const PlaylistPage: React.FC<PlaylistPageProps> = ({ userData, data, userPlaylists, songs }) => {
+const PlaylistPage: React.FC<PlaylistPageProps> = ({ userName, userData, data, userPlaylists, songs }) => {
   const router = useRouter();
   const playlistImage = useLoadPlaylistImage(data!);
-  const avatar = useLoadAvatar(userData!);
   const bgColor = useGetDominantColor(playlistImage!);
   const playlistName = data?.playlist_name;
   const desc = data?.description;
   const { onOpen } = useUpdatePlaylistModal();
   const supabase = useSupabaseClient();
   const handlePlaySong = useOnplay(songs);
+  const avatar =  useLoadAvatar(userName)
 
   const getSongUrls = useMemo(() => {
-    if(!songs) {
+    if (!songs) {
       return [];
     }
-    
+
     return songs.map((song) => {
       const { data } = supabase.storage.from('songs').getPublicUrl(song.song_path)
       return data.publicUrl;
     })
-  },[songs,supabase])
+  }, [songs, supabase])
 
   const totalDuration = useGetPlaylistDuration(getSongUrls);
 
@@ -50,13 +50,13 @@ const PlaylistPage: React.FC<PlaylistPageProps> = ({ userData, data, userPlaylis
   }
 
   return (
-    <div className='flex flex-col ' 
-        onClick={onOpen}
+    <div className='flex flex-col '
+      onClick={onOpen}
     >
       <PlaylistWrapper bgColor={bgColor}>
         {/* Playlist Image Container */}
-        <div 
-        className="relative hover:cursor-pointer
+        <div
+          className="relative hover:cursor-pointer
          w-50
           h-50 2xl:w-60 2xl:h-60">
           <Image
@@ -90,9 +90,9 @@ const PlaylistPage: React.FC<PlaylistPageProps> = ({ userData, data, userPlaylis
             )}
 
             {/* User Info Line */}
-            <div className='flex gap-x-1 items-center mt-1'>
+            <div className='flex gap-x-1 md:items-center mt-1 flex-col md:flex-row items-start space-y-1.5'>
               <div
-                className='flex gap-x-2.5 items-center cursor-pointer'
+                className='flex gap-x-2.5 items-center cursor-pointer '
                 onClick={() => router.push('/account')}
               >
                 {/* Avatar Container */}
@@ -107,22 +107,24 @@ const PlaylistPage: React.FC<PlaylistPageProps> = ({ userData, data, userPlaylis
                 </div>
                 {/* User Name */}
                 <p className='text-white font-semibold text-sm hover:underline transition'>
-                  {userData?.full_name}
+                  {userName.full_name}
                 </p>
               </div>
               {/* Additional info like titles/duration - Kept your original placeholders, hidden by default */}
-              <p className='text-neutral-500 font-semibold hidden md:block'>&bull; {songs.length} {`${songs.length > 1 ? "songs" : "song"}`} &bull;</p>
-              <p className='text-neutral-500 font-semibold text-sm hidden md:block'>
-                {totalDuration}
-              
-              </p>
+              <p className='text-neutral-500 font-semibold hidden  md:block'>&bull; {songs.length} {`${songs.length > 1 ? "songs" : "song"}`} &bull;</p>
+              <div className='flex items-center gap-x-2.5'>
+                <CiGlobe className='md:hidden' size={17} />
+                <p className='text-neutral-500 font-semibold text-sm  md:block'>
+                  {totalDuration}
+                </p>
+              </div>
             </div>
           </div>
         </div>
       </PlaylistWrapper>
       <PlaylistContent
         data={data}
-        onHandlePlay={ (id : string)  => handlePlaySong(id)}
+        onHandlePlay={(id: string) => handlePlaySong(id)}
         songs={songs} userPlaylist={userPlaylists} />
     </div>
   );

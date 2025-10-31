@@ -6,6 +6,13 @@ export interface ModalProvidersProps {
   userData?: UserDetails
 }
 
+export interface SortButtonSheetProps {
+    onHandleSortByArtist : () => void,
+    onHandleSortByTitle : () =>void,
+    sort : string,
+    onHandleSortByDate : () => void
+}
+
 export interface PlaylistOptionProps {
   playlistData: Playlist
   disabled : boolean
@@ -16,6 +23,7 @@ export interface PlaylistPageProps {
   songs: Song[]
   userData: UserDetails | null
   userPlaylists: Playlist[]
+  userName : UserDetails
 }
 
 export interface ModalProps {
@@ -137,4 +145,10 @@ export interface LibraryHeaderProps {
 export interface PlaylistButtonProps {
   songId: string
   playlists: Playlist[]
+}
+export interface PlaylistContentProps {
+  songs: Song[];
+  data: Playlist;
+  userPlaylist: Playlist[];
+  onHandlePlay: (id: string) => void;
 }

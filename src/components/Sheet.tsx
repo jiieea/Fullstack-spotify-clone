@@ -47,10 +47,11 @@ function SheetLibrary() {
       <SheetContent
         side="bottom"
         className="
-          border-none 
+          border-black
           p-0 
           rounded-t-xl 
           h-auto
+          bg-black
         "
       >
         {/* The grab-handle/divider for aesthetics */}

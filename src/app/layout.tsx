@@ -11,7 +11,6 @@ import { TbPlaylist } from 'react-icons/tb'
 import getLikedSongs from "./action/getLikedSongs";
 import getPlaylistByUserId from "./action/getPlaylistsByUserId";
 import { Player } from "@/components/Player";
-import getPlaylistById from "./action/getPlaylistById";
 
 const montserrat = Montserrat({
   variable: '--font-montserrat',

@@ -9,7 +9,7 @@ import { useUsers } from '@/hooks/useUsers';
 import useOnplay from '@/hooks/useOnPlay';
 import Arrow from './Arrow';
 import Playlists from './Playlists';
-
+import { SortContent } from './SortContent';
 const HomePage: React.FC<HomePageProps> = ({
     songs,
     playlist,
@@ -68,32 +68,15 @@ const HomePage: React.FC<HomePageProps> = ({
                 <main className="flex-1 bg-neutral-900 relative overflow-y-auto pb-24">
                     {/* Content Wrapper - Using consistent padding and space-y for vertical rhythm */}
                     <div className="space-y-4 md:space-y-6 pb-4">
-
                         {/* Hero Section */}
                         <HeroSection />
-
                         {/* Filter Tabs */}
                         {/* Consistent horizontal padding on the tabs, moved border to be outside the tabs area if possible, 
                         but kept it here for simplicity and responsiveness */}
-                        <div className="flex space-x-3 border-b border-gray-800 pb-4 pt-4 md:pt-0 px-4 sm:px-6 lg:px-8">
-                            {/* Mapped over the tabs list for cleaner code */}
-                            {[
-                                { id: 'all', label: 'All' },
-                                { id: 'music', label: 'Music' },
-                                { id: 'playlists', label: 'Playlists' }
-                            ].map(({ id, label }) => (
-                                <button
-                                    key={id}
-                                    onClick={() => setActiveTab(id)}
-                                    className={`
-                                    py-1 px-4 rounded-full font-semibold transition-colors duration-200 text-sm whitespace-nowrap
-                                    ${activeTab === id ? 'bg-white text-black' : 'bg-gray-700/50 text-white hover:bg-gray-700'}
-                                `}
-                                >
-                                    {label}
-                                </button>
-                            ))}
-                        </div>
+                       <SortContent 
+                       active={activeTab}
+                       setActive ={ setActiveTab}
+                       />
 
                         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 
                         lg:grid-cols-3 xl:grid-cols-4  gap-4 

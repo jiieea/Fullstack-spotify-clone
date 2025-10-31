@@ -3,6 +3,7 @@ import Image from 'next/image';
 import React from 'react'
 import { Playlist } from '../../types';
 import { useLoadPlaylistImage } from '@/hooks/useLoadImage';
+import { useRouter } from 'next/navigation';
 
 interface PlaylistProps {
     playlistData : Playlist | null
@@ -12,12 +13,16 @@ const Playlists:React.FC<PlaylistProps> = (
         playlistData 
     }
 ) => {
+    const router = useRouter()
     const playlistImage = useLoadPlaylistImage(playlistData!);
-
+    const onClick = () => {
+        router.push(`/playlist/${playlistData?.id}`)
+    }
   return (
      <div className="lg:w-48 w-40 flex-shrink-0 cursor-pointer group hover:bg-neutral-700 transition p-3 rounded-2xl">
             {/* Image/Badge Area */}
             <div 
+            onClick={onClick}
             className={`relative w-full aspect-square bg-gradient-to-br rounded-lg shadow-lg overflow-hidden`}>
                 {/* Placeholder Image */}
                 <Image
