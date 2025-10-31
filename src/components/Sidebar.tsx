@@ -77,7 +77,7 @@ export const Sidebar: React.FC<SidebarProps> = (
                             onClick={handleOpenModal}
                             className={twMerge(
                                 `rounded-full 
-                            bg-neutral-800 
+                            bg-neutral-900 
                             w-[35px] h-[35px] 
                             flex items-center justify-center` , isSidebarOpen && "hidden transition"
                             )}>
@@ -133,7 +133,8 @@ export const Sidebar: React.FC<SidebarProps> = (
         flex-1 
          overflow-y-auto 
         rounded-lg
-        ml-3
+        md:ml-3
+        ml-0
     ` ,)} //
             >
                 {children}

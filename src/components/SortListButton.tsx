@@ -32,7 +32,7 @@ const SortDropdown = ({ sort, onHandleSortByArtist, onHandleSortByRecentlyAdd, o
 
     return (
         // The main container needs 'relative' for the dropdown to be positioned correctly
-        <div className='relative inline-block text-left z-50'>
+        <div className='relative inline-block text-left z-50 '>
 
             {/* 1. The Button/Trigger */}
             <div

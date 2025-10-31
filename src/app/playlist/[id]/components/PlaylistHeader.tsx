@@ -57,8 +57,8 @@ const PlaylistPage: React.FC<PlaylistPageProps> = ({ userData, data, userPlaylis
         {/* Playlist Image Container */}
         <div 
         className="relative hover:cursor-pointer
-         w-35 h-35 md:w-40
-          md:h-40 2xl:w-60 2xl:h-60">
+         w-50
+          h-50 2xl:w-60 2xl:h-60">
           <Image
             src={playlistImage || "/assets/liked.png"}
             alt="Playlist Cover"
@@ -70,7 +70,7 @@ const PlaylistPage: React.FC<PlaylistPageProps> = ({ userData, data, userPlaylis
 
         {/* Playlist Info Container */}
         {/* Removed w-full md:w-2/3 to let the flex container manage it better */}
-        <div className='flex flex-col justify-start py-4 ml-[-6rem] sm:ml-0'>
+        <div className='flex flex-col justify-start py-4 ml-[-8rem] sm:ml-0'>
           <div className='flex justify-start flex-col 2xl:mt-4 mt-1'>
             {/* "Playlist" Text - Always hidden on mobile now for cleaner look, but you can change 'hidden' to 'block' if you want it on mobile too */}
             <p className='text-sm  2xl:text-base font-semibold

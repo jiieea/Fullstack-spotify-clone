@@ -1,22 +1,27 @@
-import Image from "next/image";
-import { Song } from "../../types";
-import { useLoadImage } from "@/hooks/useLoadImage";
-import { Play } from "lucide-react";
-interface DailyMixDataProps {
-    song: Song,
-    onHandlePlay : (id : string) => void;
+import { Play } from 'lucide-react';
+import Image from 'next/image';
+import React from 'react'
+import { Playlist } from '../../types';
+import { useLoadPlaylistImage } from '@/hooks/useLoadImage';
+
+interface PlaylistProps {
+    playlistData : Playlist | null
 }
-const DailyMixCard: React.FC<DailyMixDataProps> = ({ song , onHandlePlay }) => {
-    const imageSong = useLoadImage(song);
-    return (
-        <div className="lg:w-48 w-40 flex-shrink-0 cursor-pointer group hover:bg-neutral-700 transition p-3 rounded-2xl">
+const Playlists:React.FC<PlaylistProps> = (
+    {
+        playlistData 
+    }
+) => {
+    const playlistImage = useLoadPlaylistImage(playlistData!);
+
+  return (
+     <div className="lg:w-48 w-40 flex-shrink-0 cursor-pointer group hover:bg-neutral-700 transition p-3 rounded-2xl">
             {/* Image/Badge Area */}
             <div 
-            onClick={() => onHandlePlay(song.id)}
             className={`relative w-full aspect-square bg-gradient-to-br rounded-lg shadow-lg overflow-hidden`}>
                 {/* Placeholder Image */}
                 <Image
-                    src={ imageSong || "https://placehold.co/192x192/181818/1db954?text=MIX"}
+                    src={playlistImage || "/assets/liked.png"}
                     alt="Mix Cover"
                     fill
                     className="w-full h-full object-cover opacity-70"
@@ -30,9 +35,10 @@ const DailyMixCard: React.FC<DailyMixDataProps> = ({ song , onHandlePlay }) => {
             </div>
             {/* Text Area */}
             <div className="mt-3 text-white">
-                <p className="text-sm text-white line-clamp-2 mt-1 ">{song.title}</p>
+                <p className="text-sm text-white truncate mt-1">{ playlistData?.playlist_name}</p>
             </div>
         </div>
-    )
+  )
 }
-export default DailyMixCard
+
+export default Playlists

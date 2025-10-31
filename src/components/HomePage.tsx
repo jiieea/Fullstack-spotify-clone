@@ -8,6 +8,7 @@ import DailyMixCard from './Song';
 import { useUsers } from '@/hooks/useUsers';
 import useOnplay from '@/hooks/useOnPlay';
 import Arrow from './Arrow';
+import Playlists from './Playlists';
 
 const HomePage: React.FC<HomePageProps> = ({
     songs,
@@ -16,7 +17,7 @@ const HomePage: React.FC<HomePageProps> = ({
 }) => {
     const [activeTab, setActiveTab] = useState<string>('all');
     const [canScrollLeft, setCanScrollLeft] = useState(false);
-    const [canScrolRight, setCanScrollRight] = useState(true);
+    const [canScrolRight, setCanScrollRight] = useState(false);
     const { user } = useUsers();
     const handlePlay = useOnplay(songs);
     const scrollRef = useRef<HTMLDivElement>(null);
@@ -51,7 +52,6 @@ const HomePage: React.FC<HomePageProps> = ({
         const element = scrollRef.current;
         if (element) {
             element.addEventListener('scroll', checkallPosition); // checkAllPosition run after scroll event 
-            // check initial state
             checkallPosition(); // the function execure immediately 
             return () => {
                 element.removeEventListener('scroll', checkallPosition)
@@ -65,9 +65,9 @@ const HomePage: React.FC<HomePageProps> = ({
             <div className="bg-black font-sans flex text-gray-400">
                 {/* Main Content Area */}
                 {/* Added relative and overflow-y-auto for the main content to handle its own scrolling */}
-                <main className="flex-1 bg-[#121212] relative overflow-y-auto pb-24">
+                <main className="flex-1 bg-neutral-900 relative overflow-y-auto pb-24">
                     {/* Content Wrapper - Using consistent padding and space-y for vertical rhythm */}
-                    <div className="space-y-8 md:space-y-12 pb-4">
+                    <div className="space-y-4 md:space-y-6 pb-4">
 
                         {/* Hero Section */}
                         <HeroSection />
@@ -95,7 +95,6 @@ const HomePage: React.FC<HomePageProps> = ({
                             ))}
                         </div>
 
-                        {/* Quick Picks Grid - Ensured more aggressive column changes for small screens */}
                         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 
                         lg:grid-cols-3 xl:grid-cols-4  gap-4 
                         px-4 sm:px-6 lg:px-8 ">
@@ -119,17 +118,13 @@ const HomePage: React.FC<HomePageProps> = ({
                                 isVisible={canScrollLeft}
                                 onClick={leftScroll}
                             />
-                            {/* Daily Mixes (Horizontal Scroll) */}
-                            {/* Custom CSS for hidden scrollbar on specific browsers */}
-
-                            {/* Consistent padding and increased bottom padding for scroll area */}
                             {
                                 user && (
                                     <div className="flex space-x-2 overflow-x-scroll 
                                 horizontal-scroll-container pb-8 px-4
                                 sm:px-6 lg:px-8"
-                                ref={scrollRef}
-                                >
+                                        ref={scrollRef}
+                                    >
                                         <style>
                                             {`
                                 .horizontal-scroll-container::-webkit-scrollbar {
@@ -151,15 +146,32 @@ const HomePage: React.FC<HomePageProps> = ({
                                     </div>
                                 )
                             }
-                            <Arrow 
-                            isVisible={ canScrolRight }
-                            onClick={rigthScroll}
-                            direction="right "
+                            <Arrow
+                                isVisible={canScrolRight}
+                                onClick={rigthScroll}
+                                direction="right "
                             />
-
                         </div>
-                        <div>
-                            <h1 className='text-white font-semibold text-2xl'>More Playlists For User</h1>
+                        <div className="flex justify-between items-center pt-8 px-4 sm:px-6 lg:px-8">
+                            <h2 className="text-xl md:text-2xl font-bold text-white hover:underline cursor-pointer">
+                                Playlist Recomendation
+                            </h2>
+                            <a href="#" className="text-sm font-bold uppercase text-gray-400 hover:underline">
+                                See all
+                            </a>
+                        </div>
+                        <div className='flex pb-8 overflow-x-scroll  horizontal-scroll-container
+                        space-x-2 px-4  '
+                        >
+                            {
+                                playlist.map((playlist) => (
+                                    <Playlists
+                                        key={playlist.id}
+                                        playlistData={playlist}
+                                    />
+                                ))
+                            }
+
                         </div>
                     </div>
                 </main>
