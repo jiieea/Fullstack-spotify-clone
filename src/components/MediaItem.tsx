@@ -27,8 +27,7 @@ const MediaItem: React.FC<MediaItemProps> =
         const songUrl = useLoadSongUrl(data);
         const songDuration = useGetSongDuration(songUrl!);
         const { author, title } = data;
-        const player = usePlayerSong()
-        console.log(isLoading)
+        const player = usePlayerSong();
 
         const handleClick = () => {
             if (onHandlePlay) {

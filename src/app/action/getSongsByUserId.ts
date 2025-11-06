@@ -3,21 +3,14 @@ import { Song } from "../../../types";
 import { cookies } from "next/headers";
 
 
-const getSongByUserId = async():Promise<Song[]> => {
+const getSongByUserId = async(userId : string):Promise<Song[]> => {
     const supabase = createServerComponentClient({
         cookies : cookies
     })
 
-    const { data : sessionData , error : sessionError  } = await supabase.auth.getUser();
-    
-    if(sessionError) {
-        console.log(sessionError.message);
-        return[];
-    }
-
     const { data  , error } = await supabase.from('songs')
     .select('*')
-    .eq('user_id' , sessionData.user.id);
+    .eq('user_id' , userId);
 
 
     if(error) {

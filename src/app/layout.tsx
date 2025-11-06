@@ -11,6 +11,8 @@ import { TbPlaylist } from 'react-icons/tb'
 import getLikedSongs from "./action/getLikedSongs";
 import getPlaylistByUserId from "./action/getPlaylistsByUserId";
 import { Player } from "@/components/Player";
+import { cookies } from "next/headers";
+import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 
 const montserrat = Montserrat({
   variable: '--font-montserrat',
@@ -28,9 +30,25 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const userData = await getUserData();
+  const cookiesStore = cookies;
+  const supabase = createServerComponentClient({
+    cookies : cookiesStore
+  })
+  const { data : userData , error : dataError } = await supabase.auth.getUser();
+  const userId = userData.user?.id;
   const likedSongs = await getLikedSongs();
-  const userPlaylists = await getPlaylistByUserId();
+
+  if(!userData.user || dataError) {
+    <div>Login oi</div>
+  }
+  const [
+    data ,
+    playlistUser
+  ] = await Promise.all([
+    getUserData(userId!),
+    getPlaylistByUserId(userId!)
+  ]
+  )
   return (
     <html lang="en">
        <link rel="icon" href="/assets/soundwave.png" />
@@ -39,18 +57,18 @@ export default async function RootLayout({
       >
         <SupabaseProvider >
           <UserProvider>
-            <ModalProviders  userData={  userData ?? undefined }/>
-          <Header  data = { userData ?? undefined}/>
+            <ModalProviders  userData={  data!  }/>
+          <Header  data = { data ?? undefined}/>
         <Sidebar
-        userData={ userData }
+        userData={ data }
           icon={<TbPlaylist  size={30}/>}
-          playlists ={ userPlaylists }
+          playlists ={ playlistUser }
           likedSongs = { likedSongs }
           >
           {children}
         </Sidebar>
         <div>
-      <Player userPlaylist={userPlaylists}/>
+      <Player userPlaylist={playlistUser}/>
         </div>
           </UserProvider>
         </SupabaseProvider>

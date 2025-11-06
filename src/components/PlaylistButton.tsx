@@ -70,7 +70,7 @@ const PlaylistButton = ({ songId  , playlists} : PlaylistButtonProps) => {
                 type='button'
                 title='add to playlist'
                 onClick={handleToggleDropdown}
-                className='cursor-pointer opacity-75 transition'>
+                className='cursor-pointer opacity-75 transition hidden lg:block'>
                 <GoPlusCircle
                     className='hover:scale-110'
                     color="white"

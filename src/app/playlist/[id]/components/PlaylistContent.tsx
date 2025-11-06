@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { Playlist, Song } from '../../../../../types';
+import { Song } from '../../../../../types';
 import MediaItem from '@/components/MediaItem';
 import { FaPlay, FaPlus } from "react-icons/fa";
 import LikedSongContent from '@/app/liked/components/LikedSongContent';
@@ -14,37 +14,55 @@ import { twMerge } from 'tailwind-merge';
 import { Badge } from '@/components/ui/badge';
 import { RxPencil1 } from 'react-icons/rx';
 import SortButtonSheet from '@/components/SortSheet';
-import {PlaylistContentProps} from '../../../interfaces/types'
+import { PlaylistContentProps } from '../../../interfaces/types'
+import AddSong from './AddSong';
+import { useUsers } from '@/hooks/useUsers';
+import Button from '@/components/Button';
 // --- Type Refinement ---
 type SortType = "by artist" | "by title" | 'add recently' | 'default';
-
-
 
 // --- Component Refactor ---
 
 export const PlaylistContent: React.FC<PlaylistContentProps> = ({
   onHandlePlay,
+  dataOwner,
   songs,
   userPlaylist,
-  data
+  data,
+  allSongs
 }) => {
   const supabase = useSupabaseClient();
   const router = useRouter();
-
+  const { user } = useUsers();
+  const ownerId = dataOwner.id;
   // 1. Centralized State for Displayed Songs
   const [playlistSongs, setPlaylistSongs] = useState<Song[]>(songs);
   const [isLoading, setIsLoading] = useState(false);
+  const [isAddSongSheetOpen, setIsAddSongSheetOpen] = useState(false);
   const [playRandom, setPlayRandom] = useState(false);
   const [sort, setSort] = useState<SortType>('default');
   const [isDisabled, setIsDisabled] = useState(false); // Renamed for consistency
 
+  useEffect(() => {
+    if(user?.id !== ownerId) {
+      setIsDisabled(true);
+    }
+  },[user, ownerId])
+
   const playlist_id = data.id;
 
+  const openSheet = () => {
+    setIsAddSongSheetOpen(true);
+  }
+
   useEffect(() => {
-    setPlaylistSongs(songs);
+
+    if(songs.length !== playlistSongs.length) {
+      setPlaylistSongs(songs)
+    }
     // Optionally, reset sort to 'default' when new songs are loaded
-    setSort('default'); 
-  }, [songs]);
+    setSort('default');
+  }, [songs, playlistSongs.length]);
 
   // 3. Simple Toggle for Random Play
   const toggleRandom = useCallback(() => {
@@ -54,9 +72,8 @@ export const PlaylistContent: React.FC<PlaylistContentProps> = ({
 
   // 4. Centralized Sorting Logic (with useCallback for stability)
   const handleSort = useCallback((newSortType: SortType) => {
-    // Only sort if the type is different from the current one
     if (newSortType === sort || newSortType === 'default') {
-      setPlaylistSongs(songs); // Reset to original order from props
+      setPlaylistSongs(songs);
       setSort('default');
       return;
     }
@@ -78,7 +95,7 @@ export const PlaylistContent: React.FC<PlaylistContentProps> = ({
           break;
         default:
           // Should not happen if logic is correct, but useful fallback
-          sortedData = songs; 
+          sortedData = songs;
           break;
       }
       setPlaylistSongs(sortedData);
@@ -86,7 +103,7 @@ export const PlaylistContent: React.FC<PlaylistContentProps> = ({
       console.error("Sorting failed:", e);
       toast.error("Failed to sort playlist.");
       // Revert to the original list or the last known good state
-      setPlaylistSongs(songs); 
+      setPlaylistSongs(songs);
       setSort('default');
     } finally {
       setIsLoading(false);
@@ -100,30 +117,28 @@ export const PlaylistContent: React.FC<PlaylistContentProps> = ({
 
 
   // 5. Improved Remove Song Handler
-  const handleRemoveSong = useCallback(async (songId: string) => {
-    setIsDisabled(true); // Disable buttons during API call
+  const handleRemoveSong = async (songId: string) => {
+    setIsDisabled(true); 
     try {
       const { error } = await supabase.from('playlist_songs')
         .delete()
         .eq('song_id', songId)
         .eq('playlist_id', playlist_id);
 
-      if (error) {
-        toast.error(error.message);
-      } else {
-        toast.success("Song removed from playlist!");
-        // Optimistically update the local state *before* router.refresh()
-        // Or better, let router.refresh() trigger the useEffect above to grab new songs
-        // setPlaylistSongs(currentSongs => currentSongs.filter(song => song.id !== songId));
+      if(error) {
+        toast.error('failed to remove the songs' + error.message)
       }
-      router.refresh(); // Fetches new song list from the server
+
+      toast.success('removed from the playlist')
+      setPlaylistSongs((song) => song.filter((currentSong) => currentSong.id !== songId))
+      router.refresh()
     } catch (e) {
       console.error('Error removing song:', e);
       toast.error("An unexpected error occurred while removing the song.");
     } finally {
       setIsDisabled(false);
     }
-  }, [supabase, playlist_id, router]);
+  }
 
   // 6. Memoize the empty state check
   const hasSongs = useMemo(() => songs.length > 0, [songs.length]);
@@ -139,9 +154,9 @@ export const PlaylistContent: React.FC<PlaylistContentProps> = ({
 
   // --- Render ---
   return (
-    <div className='mt-[-3rem] py-2 md:py-3 md:px-3'>
+    <div className='mt-[-3rem] py-2 md:py-3 md:px-3 '>
       <div className='flex flex-col'>
-        
+
         {/* Playback Controls and Options */}
         <div className="flex space-x-4 items-center mb-4 px-6">
           <button
@@ -156,8 +171,8 @@ export const PlaylistContent: React.FC<PlaylistContentProps> = ({
             <FaPlay size={20} className='text-black' />
           </button>
 
-          <LiaRandomSolid 
-            size={25} 
+          <LiaRandomSolid
+            size={25}
             className={twMerge(
               `hover:scale-110 transition cursor-pointer`,
               playRandom ? "text-green-500" : "text-neutral-400 hover:text-neutral-300",
@@ -165,48 +180,59 @@ export const PlaylistContent: React.FC<PlaylistContentProps> = ({
             )}
             onClick={toggleRandom}
           />
-          
+
           <PlaylistOption
             disabled={isDisabled}
-            playlistData={data} 
+            playlistData={data}
           />
-          
+
           {/* Desktop Sort Dropdown */}
           <div className='hidden md:block'>
             <SortDropdown
               onHandleSortByArtist={handleSortByArtist}
               onHandleSortByRecentlyAdd={handleSortByRecentlyAdd}
               onHandleSortByTitle={handleSortByTitle}
-              sort={sort} 
+              sort={sort}
             />
           </div>
         </div>
-        
+
         {/* Mobile Actions */}
         <div className='flex items-center gap-x-4 md:hidden px-6 mb-4'>
-          <Badge 
-            variant="secondary"
+          <Button
+            onClick={openSheet}
+            disabled={ isDisabled }
             className='bg-neutral-800 text-white px-5 py-2 flex items-center gap-x-2 cursor-pointer'
           >
-            <FaPlus /> <span>Add</span> 
-          </Badge>
-          
+            < FaPlus className='text-white' /><span>Add</span>
+          </Button>
+          {
+            isAddSongSheetOpen && (
+              <AddSong
+                songs={songs}
+                setIsAddSheetOpen={setIsAddSongSheetOpen}
+                playlistData={data}
+                allSongs={ allSongs }
+              />
+            )
+          }
+
           <SortButtonSheet
             sort={sort}
             onHandleSortByArtist={handleSortByArtist}
             onHandleSortByDate={handleSortByRecentlyAdd}
             onHandleSortByTitle={handleSortByTitle}
           />
-          
-          <Badge 
-            variant="secondary" 
+
+          <Button
+          disabled={ isDisabled }
             className='bg-neutral-800 text-white px-5 py-2 flex items-center gap-x-2 cursor-pointer'
           >
             <RxPencil1 /><span>Update</span>
-          </Badge>
+          </Button>
         </div>
       </div>
-      
+
       {/* Song List */}
       <LikedSongContent>
         {
@@ -214,11 +240,11 @@ export const PlaylistContent: React.FC<PlaylistContentProps> = ({
             <MediaItem
               isLoading={isLoading} // Show loading state on individual items during sort
               onHandlePlay={onHandlePlay}
-              onHandleRemoveSong={() => handleRemoveSong(song.id)}
-              key={song.id} 
-              data={song} 
-              index={index} 
-              userPlaylists={userPlaylist} 
+              onHandleRemoveSong={handleRemoveSong}
+              key={song.id}
+              data={song}
+              index={index}
+              userPlaylists={userPlaylist}
             />
           ))
         }

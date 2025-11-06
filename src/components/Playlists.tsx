@@ -40,7 +40,7 @@ const Playlists:React.FC<PlaylistProps> = (
             </div>
             {/* Text Area */}
             <div className="mt-3 text-white">
-                <p className="text-sm text-white truncate mt-1">{ playlistData?.playlist_name}</p>
+                <p className="text-sm text-white line-clamp-2 font-semibold mt-1">{ playlistData?.playlist_name}</p>
             </div>
         </div>
   )

@@ -25,9 +25,13 @@ const SortButtonSheet: React.FC<SortButtonSheetProps> = (
     return (
         <Sheet>
             <SheetTrigger asChild>
-                <Button 
-            className='bg-neutral-800 text-white
-                 px-5 py-2 flex items-center gap-x-2'><TbArrowsSort size={15} /><span>Sort</span></Button>
+                <Button
+                    className='bg-neutral-800 text-white
+                 px-2 py-2 flex items-center gap-x-2 w-[100px]'>
+                    <div className='flex items-center  gap-x-2 px-3'>
+                        <TbArrowsSort size={15} /><span className='text-center'>Sort</span>
+                    </div>
+                </Button>
             </SheetTrigger>
             <SheetContent side="bottom" className="  
              border-neutral-700

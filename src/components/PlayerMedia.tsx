@@ -91,7 +91,7 @@ const PlayerMedia: React.FC<PlayerMediaProps> = ({
                 <p className='text-neutral-500 text-[12px]'>{author}</p>
             </div>
             {songDuration && (
-                <p className="text-neutral-400 text-sm ml-auto hidden md:block">{songDuration}</p>
+                <p className="text-neutral-400 text-sm ml-auto hidden">{songDuration}</p>
             )}
         </div>
     )

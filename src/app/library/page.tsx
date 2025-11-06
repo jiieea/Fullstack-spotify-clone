@@ -4,18 +4,33 @@ import React from 'react'
 import LibraryChildComponent from './components/LibraryChildComponent';
 import getUserData from '../action/getUserData';
 import getLikedSongs from '../action/getLikedSongs';
+import { cookies } from 'next/headers';
+import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 
 const page = async () => {
-  const playlists = await getPlaylistByUserId();
-  const userData = await getUserData();
-  const songs = await getSongByUserId()
-  const likedSongs = await getLikedSongs()
+  const cookiesStore = cookies;
+  const supabase = createServerComponentClient({
+    cookies : cookiesStore
+  })
+  const { data } = await supabase.auth.getUser();
+  const likedSongs = await getLikedSongs();
+  const userId = data.user?.id
+
+  const [
+    dataUser,
+    userPlaylists,
+    userSongs
+  ]= await Promise.all([
+    getUserData(userId!),
+    getPlaylistByUserId(userId!),
+    getSongByUserId(userId!)
+  ])
   return (
     <div className='w-full min-h-[85vh] bg-neutral-900 rounded-md md:hidden'>
       <LibraryChildComponent
-        userData={userData}
-        userPlaylists={playlists}
-        userSongs={songs}
+        userData={dataUser}
+        userPlaylists={userPlaylists}
+        userSongs={userSongs}
         liked={likedSongs.length}
       />
     </div>

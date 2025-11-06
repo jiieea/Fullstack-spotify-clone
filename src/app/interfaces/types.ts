@@ -24,6 +24,7 @@ export interface PlaylistPageProps {
   userData: UserDetails | null
   userPlaylists: Playlist[]
   userName : UserDetails
+  allSongs : Song[]
 }
 
 export interface ModalProps {
@@ -66,7 +67,7 @@ export
   data: Song,
   index: number
   userPlaylists: Playlist[]
-  onHandleRemoveSong: (id: string) => void
+  onHandleRemoveSong: (songId: string) => void
   isLoading: boolean,
   onHandlePlay: (id: string) => void
 }
@@ -148,6 +149,8 @@ export interface PlaylistButtonProps {
 }
 export interface PlaylistContentProps {
   songs: Song[];
+  allSongs : Song[]
+  dataOwner : UserDetails,
   data: Playlist;
   userPlaylist: Playlist[];
   onHandlePlay: (id: string) => void;

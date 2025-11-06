@@ -64,18 +64,26 @@ const UploadPlaylistModal = () => {
             setIsLoading(true);
             const playlistFile = values.playlist_image?.[0];
             const uniqueID = uniqid();
+            if(!playlistFile) {
+                toast.warning('please select the image for ur playlist!')
+                return;
+            }
+
+            const imageFile = `playlistImage-${values.playlist_name}-${uniqueID}`
 
             const {
                 data: uploadImg,
                 error: uploadError
             } = await supabaseClient.storage.from('playlists')
-                .upload(`playlistImage-${values.playlist_name}-${uniqueID}`, playlistFile, {
+                .upload(imageFile, playlistFile, {
                     upsert: false,
-                    cacheControl: '3500'
+                    cacheControl: '3500',
+                    contentType : playlistFile.type
                 })
 
             if (uploadError) {
-                toast.error('upload error' + uploadError.message)
+                toast.error('upload error' + uploadError.message);
+                console.log(uploadError.message)
             }
 
             // fetch playlist table

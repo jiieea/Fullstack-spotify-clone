@@ -3,22 +3,10 @@ import { UserDetails } from '../../../types'
 import { cookies } from "next/headers"
 
 
-const getUserData = async (): Promise<UserDetails | null> => {
+const getUserData = async (userId : string): Promise<UserDetails | null> => {
     const supabase = createServerComponentClient({
         cookies: cookies
     })
-
-    const { data, error } = await supabase.auth.getUser();
-
-    if (error) {
-        console.log('error getting data sesson', error.message)
-        return null;
-    }
-
-    if (!data.user.id) {
-        console.log("no user id found in session data");
-        return null;
-    }
 
     // fetch data from users table
     try {
@@ -27,7 +15,7 @@ const getUserData = async (): Promise<UserDetails | null> => {
             error: fetchError } =
             await supabase.from('users')
                 .select('*')
-                .eq('id', data.user.id)
+                .eq('id', userId)
 
         if (fetchError) {
             console.log(fetchError.message)
@@ -37,7 +25,7 @@ const getUserData = async (): Promise<UserDetails | null> => {
         if (userDetails && userDetails.length > 0) {
             return userDetails[0] as UserDetails 
         } else {
-            console.log('no user data in this session with user id ', data.user.id)
+            console.log('no user data in this session with user id ', userId)
             return null
         }
     } catch (e: unknown) {

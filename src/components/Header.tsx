@@ -1,21 +1,21 @@
 "use client"
 
 import { useRouter } from 'next/navigation';
-import React from 'react'
-import { IoIosArrowForward } from "react-icons/io";
-import { IoIosArrowBack } from "react-icons/io";
+import React, { useEffect, useRef, useState } from 'react'
 import { IoSearch } from "react-icons/io5";
 import { GoHome } from "react-icons/go";
-import Btn from './Button'
 import Image from 'next/image';
 import useAuthModal from '@/hooks/useAuthModal';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import { useUsers } from '@/hooks/useUsers';
 import { toast } from 'sonner';
-import { twMerge } from 'tailwind-merge';
 import { HeaderProps } from '../app/interfaces/types'
 import useLoadAvatar from '@/hooks/useLoadAvatar';
-
+import qs from 'query-string'
+import useDebounceValue from '@/hooks/useDebounceValue';
+import ArrowPage from './ArrowPage';
+import AuthButtons from './AuthButtons';
+import { HomeAndSearch } from './HomeAndSearch';
 
 const Header: React.FC<HeaderProps> = ({
     data
@@ -24,7 +24,31 @@ const Header: React.FC<HeaderProps> = ({
     const { user } = useUsers()
     const { onOpen } = useAuthModal();
     const supabase = useSupabaseClient();
-    const avatar = useLoadAvatar(data!)
+    const avatar = useLoadAvatar(data!);
+    const [value, setValue] = useState<string>("");
+    const debounceValue = useDebounceValue<string>(value, 500)
+    const isInitialAmount = useRef(true);
+
+
+    useEffect(() => {
+        if (isInitialAmount.current) {
+            isInitialAmount.current = false; // set the useRef to false
+            return;
+        }
+        const query = {
+            title: debounceValue
+        }
+        const url = qs.stringifyUrl({
+            url: '/',
+            query: query,
+
+        }, {
+            skipEmptyString: true, skipNull: true
+        })
+
+        router.push(url);
+    }, [router , debounceValue])
+
 
     // handle logout user
     const handleLogout = async () => {
@@ -53,82 +77,19 @@ const Header: React.FC<HeaderProps> = ({
                 onClick={() => router.push('/')}
                 className='w-[65px]  p-3  h-[65px] object-cover rounded-full hover:cursor-pointer'
             />
-            {/* Left: Arrows */}
-            <div className="md:flex gap-x-3 p-3  items-center hidden">
-                <IoIosArrowBack
-                    size={30}
-                    onClick={() => router.back()}
-                    className={twMerge(
-                        `text-neutral-400 
-                        hover:text-neutral-300
-                        transition cursor-pointer`,
-                    )}
-                />
-                <IoIosArrowForward
-                    onClick={() => router.forward()}
-                    size={30}
-                    className={twMerge(
-                        `text-neutral-400 hover:text-neutral-300 transition cursor-pointer`
-                    )}
-                />
-            </div>
-
-            {/* Center: Home + Search */}
-            <div className="flex items-center gap-x-4 flex-grow justify-center">
-                <div
-                    onClick={() => router.push('/')}
-                    className="bg-neutral-900 hover:bg-neutral-800 transition hover:scale-110 p-2 rounded-full hidden md:block"
-                >
-                    <GoHome
-                        size={30}
-                        className="cursor-pointer text-neutral-600
-                         hover:text-neutral-400 transition"
-                    />
-                </div>
-                <div className="relative w-full max-w-md hidden md:block">
-                    <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-green-500">
-                        <IoSearch size={25} className="text-neutral-500" />
-                    </span>
-                    <input
-                        type="text"
-                        id="song-search"
-                        placeholder="Search for songs, artists..."
-                        className="w-full bg-[#121212] text-white placeholder-gray-400 rounded-full py-3 pl-12 pr-5 focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-200"
-                    />
-                </div>
-            </div>
-
+            <ArrowPage />
+            {/* Home and Search */}
+            <HomeAndSearch
+                value={ value }
+                setValue={ setValue }
+            />
             {/* Right: Auth Buttons */}
-            <div className="flex gap-x-6  w-[200px] ">
-                {
-                    !user ? (
-                        <>
-                            <Btn className="bg-transparent text-neutral-500 p-1 ">Sign Up</Btn>
-                            <Btn className='' onClick={onOpen}>Sign In</Btn>
-                        </>
-                    ) : (
-                        <div className='items-center flex gap-x-4 ml-5 '>
-                            <Btn className='' onClick={handleLogout}>SignOut</Btn>
-                            {/* // avatar image */}
-                            <Btn className='bg-neutral-800 p-1 rounded-full'
-                                onClick={() => router.push('/account')}>
-                                <div
-                                    className='w-8 h-8 rounded-full
-                             flex-shrink-0 overflow-y-auto'
-                                >
-                                    <Image
-                                        src={avatar || "/assets/user.png"}
-                                        alt='p'
-                                        width={30}
-                                        height={30}
-                                        className='object-cover w-full h-full'
-                                    />
-                                </div>
-                            </Btn>
-                        </div>
-                    )
-                }
-            </div>
+            <AuthButtons
+                onHandleLogout={handleLogout}
+                avatar={avatar}
+                onOpen={onOpen}
+                user={user}
+            />
         </div>
     )
 }

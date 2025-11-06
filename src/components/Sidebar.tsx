@@ -28,7 +28,6 @@ export const Sidebar: React.FC<SidebarProps> = (
     const authModal = useAuthModal();
     const player = usePlayerSong()
 
-    console.log(player.activeId)
     const handleOpenModal = () => {
         // if user not login  , open auth modal
         if (!user) {
@@ -47,7 +46,7 @@ export const Sidebar: React.FC<SidebarProps> = (
     return (
         <div className={twMerge(
             `flex h-[90vh] w-full bg-black  text-white`,
-            player.activeId && "h-[calc(100vh-140px)] md:mb-0 "
+            player.activeId && "md:h-[calc(100vh-140px)] mb-10 md:mb-0 "
         )}>
             {/* Sidebar container */}
             <div

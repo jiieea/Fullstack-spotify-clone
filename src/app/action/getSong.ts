@@ -20,7 +20,7 @@ const getSong = async (): Promise<Song[]> => {
         return data as Song[] || []
     } catch (e: unknown) {
         if (e instanceof Error) {
-            console.log(e.message)
+            console.log(e.message);
         }
     }
 

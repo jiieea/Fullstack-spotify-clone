@@ -5,26 +5,25 @@ import { useGetDominantColor } from '@/hooks/useGetDominantColor';
 import useLoadAvatar from '@/hooks/useLoadAvatar';
 import { useLoadPlaylistImage } from '@/hooks/useLoadImage';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
+// import { useRouter } from 'next/navigation';
 import React, { useMemo } from 'react';
 import { CiGlobe } from 'react-icons/ci';
 import PlaylistWrapper from './PlaylistHeaderWrapper';
 import { PlaylistContent } from './PlaylistContent';
-import useUpdatePlaylistModal from '@/hooks/useUpdateModal';
 import useGetPlaylistDuration from '@/hooks/useGetTotalDuration';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import useOnplay from '@/hooks/useOnPlay';
 
-const PlaylistPage: React.FC<PlaylistPageProps> = ({ userName, userData, data, userPlaylists, songs }) => {
-  const router = useRouter();
+const PlaylistPage: React.FC<PlaylistPageProps> = ({ allSongs , userName, data, userPlaylists, songs }) => {
+  // const router = useRouter();
   const playlistImage = useLoadPlaylistImage(data!);
   const bgColor = useGetDominantColor(playlistImage!);
   const playlistName = data?.playlist_name;
   const desc = data?.description;
-  const { onOpen } = useUpdatePlaylistModal();
   const supabase = useSupabaseClient();
   const handlePlaySong = useOnplay(songs);
-  const avatar =  useLoadAvatar(userName)
+  const avatar = useLoadAvatar(userName)
+
 
   const getSongUrls = useMemo(() => {
     if (!songs) {
@@ -51,79 +50,79 @@ const PlaylistPage: React.FC<PlaylistPageProps> = ({ userName, userData, data, u
 
   return (
     <div className='flex flex-col '
-      onClick={onOpen}
     >
       <PlaylistWrapper bgColor={bgColor}>
         {/* Playlist Image Container */}
-        <div
-          className="relative hover:cursor-pointer
-         w-50
-          h-50 2xl:w-60 2xl:h-60">
-          <Image
-            src={playlistImage || "/assets/liked.png"}
-            alt="Playlist Cover"
-            layout="fill"
-            objectFit="cover"
-            className="shadow-2xl rounded-2xl"
-          />
-        </div>
-
-        {/* Playlist Info Container */}
-        {/* Removed w-full md:w-2/3 to let the flex container manage it better */}
-        <div className='flex flex-col justify-start py-4 ml-[-8rem] sm:ml-0'>
-          <div className='flex justify-start flex-col 2xl:mt-4 mt-1'>
-            {/* "Playlist" Text - Always hidden on mobile now for cleaner look, but you can change 'hidden' to 'block' if you want it on mobile too */}
-            <p className='text-sm  2xl:text-base font-semibold
-             text-white hidden md:block'>Playlist</p>
-
-            {/* Playlist Name - Increased text size on mobile and removed negative margin */}
-            <p className='text-2xl sm:text-5xl 
-            2xl:text-7xl font-bold text-start mt-2 mb-2 text-white w-full'>
-              {playlistName}
-            </p>
-
-            {/* Description - Removed negative margin and simplified responsive text size */}
-            {desc && (
-              <p className='text-neutral-400 text-start font-semibold text-sm 2xl:text-base'>
-                {desc}
-              </p>
-            )}
-
-            {/* User Info Line */}
-            <div className='flex gap-x-1 md:items-center mt-1 flex-col md:flex-row items-start space-y-1.5'>
-              <div
-                className='flex gap-x-2.5 items-center cursor-pointer '
-                onClick={() => router.push('/account')}
+        <Image
+          src={playlistImage || '/images/liked.png'}
+          alt='playlist image'
+          width={250}
+          height={250}
+          quality={100}
+          className='relative  object-cover rounded-md mb-4 w-45 md:w-50 h-45 md:h-50'
+        />
+        <div className='flex flex-col justify-start  space-y-2.5 w-full md:w-2/3'>
+          <div className='flex justify-start flex-col'>
+            <p className='text-[1rem] ps-0 md:ps-2 font-semibold text-white md:block hidden'>Playlist</p>
+            <p
+              className='lg:text-7xl text-2xl md:text-5xl font-semibold text-start text-white md:ml-[-1rem]   md:pl-2   w-full'>
+              {playlistName} </p>
+            {
+              desc && (
+                <p className='ml-[-1rem] hidden md:block text-neutral-400 
+                text-start font-semibold text-[13px] md:text-[16px] md:ps-2 md:ml-0'>
+                  {desc}
+                </p>
+              )
+            }
+            <div className='md:flex gap-x-1 items-center ml-[-1.5em] md:ml-0 hidden'>
+              <div className='w-10 h-10 flex items-center justify-center  md:ml-0'>
+                <Image
+                  src={avatar || '/images/liked.png'}
+                  alt='User avatar'
+                  height={20}
+                  width={20}
+                  className='rounded-full object-cover w-2/3 h-2/3 hidden md:block' />
+              </div>
+              <p className='text-white font-semibold text-sm mr-3 hover:underline transition hidden md:block'
               >
-                {/* Avatar Container */}
-                <div className='2xl:w-8 2xl:h-8 w-5 h-5 flex items-center justify-center'>
-                  <Image
-                    src={avatar || '/images/liked.png'}
-                    alt='User avatar'
-                    height={20}
-                    width={20}
-                    className='rounded-full object-cover w-full h-full'
-                  />
-                </div>
-                {/* User Name */}
-                <p className='text-white font-semibold text-sm hover:underline transition'>
-                  {userName.full_name}
-                </p>
+                {userName.full_name}
+              </p>
+              <p className='text-neutral-300 font-semibold hidden text-[14px]  md:flex'> {songs.length} titles &bull;</p>
+              <p className='text-neutral-300 font-semibold text-[14px] hidden md:flex'>
+                {
+                  totalDuration
+                }
+              </p>
+            </div>
+            {/* div only on mobile */}
+             <div className='flex flex-col gap-y-0.5'>
+            <div className='flex items-center md:hidden'>
+               <div className='w-10 h-10 flex items-center justify-center  md:ml-0 '>
+                <Image
+                  src={avatar || '/images/liked.png'}
+                  alt='User avatar'
+                  height={20}
+                  quality={100}
+                  width={20}
+                  className='rounded-full object-cover w-2/3 h-2/3 mr-3 ' />
               </div>
-              {/* Additional info like titles/duration - Kept your original placeholders, hidden by default */}
-              <p className='text-neutral-500 font-semibold hidden  md:block'>&bull; {songs.length} {`${songs.length > 1 ? "songs" : "song"}`} &bull;</p>
-              <div className='flex items-center gap-x-2.5'>
-                <CiGlobe className='md:hidden' size={17} />
-                <p className='text-neutral-500 font-semibold text-sm  md:block'>
-                  {totalDuration}
-                </p>
-              </div>
+              <p className='text-white font-semibold text-[13px]'>{ userName.full_name}</p>
+             </div>
+             <div className='flex items-center md:hidden gap-x-1.5'>
+              <CiGlobe  size={15} className='text-neutral-400'/>
+              <p className='text-neutral-400 font-semibold text-[12px]'>
+                { totalDuration } 
+              </p>
+             </div>
             </div>
           </div>
         </div>
       </PlaylistWrapper>
       <PlaylistContent
         data={data}
+        dataOwner = { userName }
+        allSongs={ allSongs }
         onHandlePlay={(id: string) => handlePlaySong(id)}
         songs={songs} userPlaylist={userPlaylists} />
     </div>

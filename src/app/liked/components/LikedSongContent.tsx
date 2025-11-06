@@ -10,7 +10,7 @@ const LikedSongContent: React.FC<LikedSongContentProps> = (
   }
 ) => {
   return (
-    <div className='mt-5 py-3 px-6'>
+    <div className='mt-5 py-3 px-6 mb-15 md:mb-0'>
       <div className="hidden md:grid grid-cols-9 items-center text-neutral-400 uppercase text-xs font-semibold py-2 border-b border-neutral-700 sticky top-0 bg-neutral-900/90 backdrop-blur-sm z-10">
         <div className="col-span-5 pl-4 flex gap-x-8"><span >
           #

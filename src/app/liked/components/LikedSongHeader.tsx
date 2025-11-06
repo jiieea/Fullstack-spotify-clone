@@ -20,8 +20,8 @@ const LikedSongHeader = ({ userData, likedSongs }: LikedSongHeaderProps) => {
         router.push('/account')
     }
     return (
-
-        <div className="flex items-center space-x-4 text-white ">
+      <div className='flex-col space-y-3'>
+          <div className="flex items-center space-x-4 text-white ">
             {/* Playlist image */}
             <div className=" relative 2xl:w-60 2xl:h-60 md:w-48 md:h-48  2x">
                 <Image
@@ -34,8 +34,8 @@ const LikedSongHeader = ({ userData, likedSongs }: LikedSongHeaderProps) => {
             </div>
 
             {/* Playlist info */}
-            <div className="flex flex-col">
-                <h2 className="text-sm font-bold uppercase">Playlist</h2>
+               <div className='flex-col flex'>
+                 <h2 className="text-sm font-bold uppercase">Playlist</h2>
                 <h1 className="text-5xl font-extrabold mt-2">Liked Songs</h1>
                 <div className="flex items-center mt-2">
                     <div className='w-10 h-10 flex items-center justify-center  md:ml-0'>
@@ -51,6 +51,7 @@ const LikedSongHeader = ({ userData, likedSongs }: LikedSongHeaderProps) => {
                     <p className="text-gray-300">{songsLength} {songsLength > 1 ?
                         "songs" : "song"}</p>
                 </div>
+               </div>
             </div>
         </div>
     )

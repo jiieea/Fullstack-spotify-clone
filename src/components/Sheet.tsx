@@ -42,13 +42,14 @@ function SheetLibrary() {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <AiOutlinePlus className="text-white " size={25} />
+        
       </SheetTrigger>
       <SheetContent
         side="bottom"
         className="
           border-black
           p-0 
+          mb-[60px]
           rounded-t-xl 
           h-auto
           bg-black
@@ -60,7 +61,7 @@ function SheetLibrary() {
         </div>
 
         {/* The content container */}
-        <div className=" flex flex-col gap-y-5 mt-2 p-3 pb-6"> {/* Added pb-6 for internal content padding */}
+        <div className=" flex flex-col gap-y-5 mt-2 p-3 pb-4"> {/* Added pb-6 for internal content padding */}
 
           {/* add songs */}
           <div
@@ -88,7 +89,7 @@ function SheetLibrary() {
             </div>
             <div className="flex flex-col  text-neutral-500">
               <h1 className="font-semibold text-white"> Playlist</h1>
-              <p className="text-[15px]">You can create a playlist</p>
+              <p className="text-[15px] text-neutral-500">You can create a playlist</p>
             </div>
           </div>
         </div>
