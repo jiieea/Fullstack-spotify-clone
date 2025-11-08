@@ -9,7 +9,6 @@ import useAuthModal from "@/hooks/useAuthModal";
 import useCreatePlaylistModal from "@/hooks/useCreatePlaylistModal";
 import useUploadSongModal from "@/hooks/useUploadSongModal";
 import { useUsers } from "@/hooks/useUsers";
-import { AiOutlinePlus } from 'react-icons/ai'
 import { SlCloudUpload } from "react-icons/sl";
 import { TbMusicPlus } from "react-icons/tb";
 

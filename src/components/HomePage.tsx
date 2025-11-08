@@ -13,7 +13,7 @@ import { SortContent } from './SortContent';
 const HomePage: React.FC<HomePageProps> = ({
     songs,
     playlist,
-    userPlaylists
+    userPlaylists,
 }) => {
     const [activeTab, setActiveTab] = useState<string>('all');
     const [canScrollLeft, setCanScrollLeft] = useState(false);
@@ -71,8 +71,6 @@ const HomePage: React.FC<HomePageProps> = ({
                         {/* Hero Section */}
                         <HeroSection />
                         {/* Filter Tabs */}
-                        {/* Consistent horizontal padding on the tabs, moved border to be outside the tabs area if possible, 
-                        but kept it here for simplicity and responsiveness */}
                        <SortContent 
                        active={activeTab}
                        setActive ={ setActiveTab}
@@ -135,7 +133,7 @@ const HomePage: React.FC<HomePageProps> = ({
                                 direction="right "
                             />
                         </div>
-                        <div className="flex justify-between items-center pt-8 px-4 sm:px-6 lg:px-8">
+                        <div className="flex justify-between items-center pt-2 px-4 sm:px-6 lg:px-8">
                             <h2 className="text-xl md:text-2xl font-bold text-white hover:underline cursor-pointer">
                                 Playlist Recomendation
                             </h2>

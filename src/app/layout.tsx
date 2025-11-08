@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 import "./globals.css";
 import { Sidebar } from "@/components/Sidebar";
-import Header from "@/components/Header";
 import SupabaseProvider from "@/providers/SupabaseProvider";
 import { ModalProviders } from "@/providers/ModalProviders";
 import { UserProvider } from "@/providers/UserProvider";
@@ -13,6 +12,10 @@ import getPlaylistByUserId from "./action/getPlaylistsByUserId";
 import { Player } from "@/components/Player";
 import { cookies } from "next/headers";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
+import SearchProvider from "@/providers/SearchProviders";
+import getSongsByTitle from "./action/getSongsByTitle";
+import getSong from "./action/getSong";
+
 
 const montserrat = Montserrat({
   variable: '--font-montserrat',
@@ -23,13 +26,14 @@ export const metadata: Metadata = {
   description: "NextJs Spotify clone app",
 };
 
+interface RooteLayouProps {
+  children: React.ReactNode;
+}
 
 export const revalidate = 0;
 export default async function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+} : RooteLayouProps) {
   const cookiesStore = cookies;
   const supabase = createServerComponentClient({
     cookies : cookiesStore
@@ -37,7 +41,7 @@ export default async function RootLayout({
   const { data : userData , error : dataError } = await supabase.auth.getUser();
   const userId = userData.user?.id;
   const likedSongs = await getLikedSongs();
-
+  const songs = await getSong()
   if(!userData.user || dataError) {
     <div>Login oi</div>
   }
@@ -57,19 +61,21 @@ export default async function RootLayout({
       >
         <SupabaseProvider >
           <UserProvider>
-            <ModalProviders  userData={  data!  }/>
-          <Header  data = { data ?? undefined}/>
+            <SearchProvider>
+              <ModalProviders  userData={  data!  }/>
         <Sidebar
         userData={ data }
           icon={<TbPlaylist  size={30}/>}
           playlists ={ playlistUser }
           likedSongs = { likedSongs }
+          songs = { songs }
           >
           {children}
         </Sidebar>
         <div>
       <Player userPlaylist={playlistUser}/>
         </div>
+            </SearchProvider>
           </UserProvider>
         </SupabaseProvider>
       </body>

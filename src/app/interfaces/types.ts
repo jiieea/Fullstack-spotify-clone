@@ -74,6 +74,7 @@ export
 
 export interface HeaderProps {
   data?: UserDetails
+  searchSongs : Song[]
 }
 
 export interface AccountPageProps {
@@ -105,6 +106,7 @@ export interface SidebarProps {
   icon: JSX.Element;
   playlists: Playlist[]
   likedSongs: Song[]
+  songs : Song[]
 }
 
 

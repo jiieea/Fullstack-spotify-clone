@@ -11,7 +11,6 @@ import SortDropdown from '@/components/SortListButton';
 import { PlaylistOption } from './PlaylistOption';
 import { LiaRandomSolid } from "react-icons/lia";
 import { twMerge } from 'tailwind-merge';
-import { Badge } from '@/components/ui/badge';
 import { RxPencil1 } from 'react-icons/rx';
 import SortButtonSheet from '@/components/SortSheet';
 import { PlaylistContentProps } from '../../../interfaces/types'

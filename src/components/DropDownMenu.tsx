@@ -5,7 +5,6 @@ import {
     DropdownMenuItem,
     DropdownMenuShortcut,
     DropdownMenuTrigger,
-    // Assuming these Sub components are available from your import path
     DropdownMenuSub,
     DropdownMenuSubContent,
     DropdownMenuSubTrigger,
@@ -13,9 +12,6 @@ import {
 import React from 'react'
 import { BsThreeDots } from "react-icons/bs"
 import { SlTrash } from "react-icons/sl";
-import { FaPlus } from "react-icons/fa6";
-// Icon for a submenu/arrow indicator
-import { IoIosArrowForward } from "react-icons/io";
 import { Playlist, Song } from "../../types";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useRouter } from "next/navigation";
