@@ -2,21 +2,26 @@
 
 import PlaylistWrapper from '@/app/playlist/[id]/components/PlaylistHeaderWrapper'
 import { useGetDominantColor } from '@/hooks/useGetDominantColor'
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Playlist, Song, UserDetails } from '../../../../types';
 import LikedSongContent from './LikedSongContent';
 import LikedSongHeader from './LikedSongHeader';
 import MediaItem from '@/components/MediaItem';
 import { toast } from 'sonner';
 import useOnplay from '@/hooks/useOnPlay';
-import { FaList } from "react-icons/fa6";
-import { FaPlayCircle } from "react-icons/fa";
-
+import { FaPlay } from "react-icons/fa";
+import { sortDataByArtist, sortDataByTitle, sortedDataByCreatedDate } from '@/hooks/useSortData';
+import SortDropdown from '@/components/SortListButton';
 interface LikedSongPageProps {
   likedSongs: Song[]
   userData: UserDetails | null
   userPlaylists: Playlist[]
 }
+
+type SortType = "by author" | "by title" | "recently add"
+  | "default";
+
+
 const LikedSongPage: React.FC<LikedSongPageProps> = ({
   likedSongs,
   userPlaylists,
@@ -25,8 +30,52 @@ const LikedSongPage: React.FC<LikedSongPageProps> = ({
   const imageUrl = "/assets/liked.png";
   const dominantColor = useGetDominantColor(imageUrl);
   const [isLoading, setIsLoading] = useState(false);
-  const onPlay = useOnplay(likedSongs)
+  const onPlay = useOnplay(likedSongs);
+  const [songs, setSongs] = useState<Song[]>(likedSongs);
+  const [sort, setSort] = useState<SortType>('default');
 
+  // centralize all sorting functions 
+  const sortSongs = useCallback((sortType: SortType) => {
+    // check if sorty type is default 
+    if (sortType === sort || sortType === "default") {
+      setSort("default")
+      setSongs(likedSongs);
+      return;
+    }
+
+    setIsLoading(true);
+    setSort(sortType);
+    let sortData: Song[];
+
+    try {
+      if (sortType == "by author") {
+        sortData = sortDataByArtist(songs);
+      } else if (sortType == 'by title') {
+        sortData = sortDataByTitle(songs);
+      } else if (sortType == "recently add") {
+        sortData = sortedDataByCreatedDate(songs);
+      } else {
+        sortData = likedSongs
+      }
+
+      setSongs(sortData);
+    } catch (e: unknown) {
+      if (e instanceof Error) {
+        console.error("Sorting failed:", e);
+        toast.error("Failed to sort playlist.");
+        setSongs(likedSongs);
+        setSort('default');
+      }
+    } finally {
+      setIsLoading(false);
+    }
+
+  }, [sort, likedSongs, songs])
+
+  // helper function for spesific sort button
+  const handleSortByAuthor = useCallback(() => sortSongs('by author'), [sortSongs])
+  const handleSortByTitle = useCallback(() => sortSongs('by title'), [sortSongs])
+  const handleSortByRecentlyAdd = useCallback(() => sortSongs('recently add'), [sortSongs])
 
   const handle = () => {
     toast.success('hello')
@@ -42,12 +91,24 @@ const LikedSongPage: React.FC<LikedSongPageProps> = ({
       <div className='flex flex-col space-y-2 '>
         <div className='flex items-center justify-between'>
           {/* play button and random play */}
-          <div className='flex items-center gap-x-2 px-5'>
-            <FaPlayCircle size={25} className='text-black bg-green-500 hover:scale-110 transition' />
+          <div className='flex items-center gap-x-2 px-8'>
+            <button
+              title='Play All'
+              onClick={() => onPlay(likedSongs[0].id)} // Play the first song in the current list
+              className=
+              'bg-green-500 rounded-full p-3 hover:scale-110 transition cursor-pointer'
+
+            >
+              <FaPlay size={20} className='text-black' />
+            </button>
           </div>
-          <div className='flex items-center gap-x-2 pr-6'>
-            <p className='text-neutral-400 text-[13px] font-semibold'>Sort The Songs</p>
-            <FaList size={20} className='text-neutral-400' />
+          <div className='hidden md:block mr-4'>
+            <SortDropdown
+              sort={ sort}
+              onHandleSortByArtist={ handleSortByAuthor }
+              onHandleSortByRecentlyAdd={ handleSortByRecentlyAdd }
+              onHandleSortByTitle={ handleSortByTitle }
+            />
           </div>
         </div>
         <LikedSongContent >

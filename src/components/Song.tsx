@@ -30,7 +30,7 @@ const DailyMixCard: React.FC<DailyMixDataProps> = ({ song , onHandlePlay }) => {
             </div>
             {/* Text Area */}
             <div className="mt-3 text-white">
-                <p className="text-sm text-white line-clamp-2 mt-1 ">{song.title}</p>
+                <p className="text-sm text-white line-clamp-2 font-semibold mt-1 ">{song.title}</p>
             </div>
         </div>
     )

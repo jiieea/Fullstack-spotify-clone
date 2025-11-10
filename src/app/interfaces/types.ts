@@ -106,7 +106,6 @@ export interface SidebarProps {
   icon: JSX.Element;
   playlists: Playlist[]
   likedSongs: Song[]
-  songs : Song[]
 }
 
 

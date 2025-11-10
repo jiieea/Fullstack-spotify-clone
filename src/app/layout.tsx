@@ -15,6 +15,7 @@ import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import SearchProvider from "@/providers/SearchProviders";
 import getSongsByTitle from "./action/getSongsByTitle";
 import getSong from "./action/getSong";
+import Header from "@/components/Header";
 
 
 const montserrat = Montserrat({
@@ -26,14 +27,13 @@ export const metadata: Metadata = {
   description: "NextJs Spotify clone app",
 };
 
-interface RooteLayouProps {
+interface RooteLayoutProps {
   children: React.ReactNode;
 }
-
 export const revalidate = 0;
 export default async function RootLayout({
   children,
-} : RooteLayouProps) {
+} : RooteLayoutProps) {
   const cookiesStore = cookies;
   const supabase = createServerComponentClient({
     cookies : cookiesStore
@@ -63,6 +63,9 @@ export default async function RootLayout({
           <UserProvider>
             <SearchProvider>
               <ModalProviders  userData={  data!  }/>
+              <Header  data={ data! }
+                    searchSongs={songs}
+                    />
         <Sidebar
         userData={ data }
           icon={<TbPlaylist  size={30}/>}

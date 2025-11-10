@@ -24,11 +24,11 @@ export const ModalProviders:React.FC<ModalProvidersProps> = (
   }
 
   return (
-    <>
+    <>  
       <AuthModal />
       <UploadSongModal />
       <UpdateModal  userData={ userData}/>
-<UploadPlaylistModal />
+      <UploadPlaylistModal />
     </>
   )
 }

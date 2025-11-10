@@ -65,7 +65,7 @@ const PlaylistButton = ({ songId  , playlists} : PlaylistButtonProps) => {
     }
 
     return (
-        <div className="relative mt-1">
+        <div className="relative ">
             <button
                 type='button'
                 title='add to playlist'
@@ -74,7 +74,7 @@ const PlaylistButton = ({ songId  , playlists} : PlaylistButtonProps) => {
                 <GoPlusCircle
                     className='hover:scale-110'
                     color="white"
-                    size={25}
+                    size={20}
                 />
             </button>
 

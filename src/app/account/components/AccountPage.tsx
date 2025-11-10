@@ -47,7 +47,7 @@ const AccountPage: React.FC<AccountPageProps> = (
                         You haven&apos;t uploaded any songs yet.
                     </p>
                 ) : (
-                    songs.map((song, index) => (
+                    songs.slice(0,4).map((song, index) => (
                         <OwnedSongs
                             song={song}
                             key={song.id}

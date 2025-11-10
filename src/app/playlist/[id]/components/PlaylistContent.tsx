@@ -155,7 +155,6 @@ export const PlaylistContent: React.FC<PlaylistContentProps> = ({
   return (
     <div className='mt-[-3rem] py-2 md:py-3 md:px-3 '>
       <div className='flex flex-col'>
-
         {/* Playback Controls and Options */}
         <div className="flex space-x-4 items-center mb-4 px-6">
           <button

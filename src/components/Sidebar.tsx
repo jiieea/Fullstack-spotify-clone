@@ -13,7 +13,6 @@ import UploadMenu from './UploadMenu';
 import LikedSongs from './LikedSongs';
 import { MobileNavbar } from './MobileNavbar';
 import usePlayerSong from '@/hooks/usePlayer';
-import Header from './Header';
 export const Sidebar: React.FC<SidebarProps> = (
     {
         icon: Icon,
@@ -21,7 +20,6 @@ export const Sidebar: React.FC<SidebarProps> = (
         userData,
         playlists,
         likedSongs,
-        songs
     }
 ) => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -139,9 +137,6 @@ export const Sidebar: React.FC<SidebarProps> = (
         ml-0
     ` ,)} //
                 >
-                    <Header  data={ userData ?? undefined }
-                    searchSongs={songs}
-                    />
                     {children}
                 </main>
                 <Toaster position='top-center' expand={true} richColors />
