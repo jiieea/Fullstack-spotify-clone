@@ -3,19 +3,21 @@
 import React, { useRef, useState, useEffect } from 'react'
 import QuickPickCard from './QuickCard';
 import { HomePageProps } from '../app/interfaces/types'
-import HeroSection from './PlaylistHeroSection';
+import DailyPlaylist from './PlaylistHeroSection';
 import DailyMixCard from './Song';
 import { useUsers } from '@/hooks/useUsers';
 import useOnplay from '@/hooks/useOnPlay';
 import Arrow from './Arrow';
 import Playlists from './Playlists';
 import { SortContent } from './SortContent';
+import { useRouter } from 'next/navigation';
 const HomePage: React.FC<HomePageProps> = ({
     songs,
     playlist,
     userPlaylists,
 }) => {
     const [activeTab, setActiveTab] = useState<string>('all');
+    const router = useRouter()
     const [canScrollLeft, setCanScrollLeft] = useState(false);
     const [canScrolRight, setCanScrollRight] = useState(false);
     const { user } = useUsers();
@@ -33,7 +35,7 @@ const HomePage: React.FC<HomePageProps> = ({
             })
         }
     }
-
+  
 
     const leftScroll = () => scrolling('left');
     const rigthScroll = () => scrolling('right');
@@ -69,7 +71,7 @@ const HomePage: React.FC<HomePageProps> = ({
                     {/* Content Wrapper - Using consistent padding and space-y for vertical rhythm */}
                     <div className="space-y-4 md:space-y-6 pb-4">
                         {/* Hero Section */}
-                        <HeroSection />
+                        <DailyPlaylist  playlists = { playlist }/>
                         {/* Filter Tabs */}
                        <SortContent 
                        active={activeTab}
@@ -89,9 +91,9 @@ const HomePage: React.FC<HomePageProps> = ({
                             <h2 className="text-xl md:text-2xl font-bold text-white hover:underline cursor-pointer">
                                 For you
                             </h2>
-                            <a href="#" className="text-sm font-bold uppercase text-gray-400 hover:underline">
+                            <p  className="text-sm font-bold uppercase text-gray-400 hover:underline" onClick={() => router.push("/songs")}>
                                 See all
-                            </a>
+                            </p>
                         </div>
                         <div className="relative">
                             <Arrow

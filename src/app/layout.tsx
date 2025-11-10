@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Montserrat } from "next/font/google";
+import { Montserrat , Metrophobic } from "next/font/google";
 import "./globals.css";
 import { Sidebar } from "@/components/Sidebar";
 import SupabaseProvider from "@/providers/SupabaseProvider";
@@ -13,11 +13,15 @@ import { Player } from "@/components/Player";
 import { cookies } from "next/headers";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import SearchProvider from "@/providers/SearchProviders";
-import getSongsByTitle from "./action/getSongsByTitle";
 import getSong from "./action/getSong";
 import Header from "@/components/Header";
 
 
+const metrophobic = Metrophobic({
+  variable : '--font-metrophobic',
+  subsets : ['latin'],
+  weight: '400'
+})
 const montserrat = Montserrat({
   variable: '--font-montserrat',
   subsets: ['latin']
@@ -57,7 +61,7 @@ export default async function RootLayout({
     <html lang="en">
        <link rel="icon" href="/assets/soundwave.png" />
       <body
-        className={`${montserrat.className} antialiased bg-black `}
+        className={`${metrophobic.className} antialiased bg-black `}
       >
         <SupabaseProvider >
           <UserProvider>
@@ -69,9 +73,8 @@ export default async function RootLayout({
         <Sidebar
         userData={ data }
           icon={<TbPlaylist  size={30}/>}
-          playlists ={ playlistUser }
-          likedSongs = { likedSongs }
-          songs = { songs }
+          playlists={playlistUser}
+          likedSongs={likedSongs}
           >
           {children}
         </Sidebar>

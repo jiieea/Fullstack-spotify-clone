@@ -89,7 +89,7 @@ export const Sidebar: React.FC<SidebarProps> = (
                             <div className={`text-xl font-bold transition-opacity duration-300 ${isSidebarOpen ? 'opacity-100' : 'opacity-0'}`}>
                                 Library
                             </div>
-                            <UploadMenu isSidebarOpen={isSidebarOpen} />
+                            <UploadMenu isSidebarOpen={isSidebarOpen} onHandleOpenModal={ handleOpenModal} />
                         </div>
                     </div>
 
@@ -131,6 +131,7 @@ export const Sidebar: React.FC<SidebarProps> = (
                 <main
                     className={twMerge(`
         flex-1 
+        bg-neutral-900
          overflow-y-auto 
         rounded-lg
         md:ml-3

@@ -13,7 +13,7 @@ export default async function Home(
   const supabase = createServerComponentClient({
     cookies: cookiesStore
   })
-  const { data } = await supabase.auth.getUser();
+const { data } = await supabase.auth.getUser();
   const songs = await getSong()
   const playlists = await getPlaylists();
   const userId = data.user?.id;

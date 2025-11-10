@@ -31,7 +31,7 @@ const page = async ({ params }: PageProps) => {
     getPlaylistByUserId(userId!)
   ])
   return (
-    <div className='w-full  md:h-[90vh] rounded-2xl overflow-y-auto  bg-neutral-900 h-[85vh] '>
+    <div className='w-full  md:h-full rounded-2xl  bg-neutral-900 h-[85vh] '>
       <PlaylistHeader data={playlistData} userData={userData} 
         userPlaylists = { userPlaylists } songs={ playlistSongs}
         userName={ playlistOwner!}

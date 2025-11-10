@@ -1,6 +1,13 @@
 "use client"
 
-import { useContext, createContext, useState, Dispatch, SetStateAction, ReactNode } from "react"
+import {
+    useContext,
+    createContext,
+    useState,
+    Dispatch,
+    SetStateAction,
+    ReactNode
+} from "react"
 
 interface SearchContextType {
     searchValue: string,
@@ -8,18 +15,14 @@ interface SearchContextType {
 }
 
 const SearchContext = createContext<SearchContextType | undefined>(undefined)
-
-
 const SearchProvider: React.FC<{ children: ReactNode }> = ({
     children
 }) => {
     const [searchValue, setSearchValue] = useState('');
-
     const contextValue = {
         searchValue,
         setSearchValue
     }
-
     return (
         <SearchContext.Provider value={contextValue}>
             {
@@ -30,9 +33,9 @@ const SearchProvider: React.FC<{ children: ReactNode }> = ({
 }
 
 // hook search
-export const useSearch = () =>  {
+export const useSearch = () => {
     const context = useContext(SearchContext);
-    if(context == undefined) {
+    if (context == undefined) {
         throw new Error('useSearch must be use inside searchprovider')
     }
     return context;

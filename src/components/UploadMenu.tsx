@@ -18,11 +18,13 @@ import useAuthModal from '@/hooks/useAuthModal'
 
 interface UploadMenuProps {
     isSidebarOpen : boolean
+    onHandleOpenModal : () => void;
 }
 
 const UploadMenu:React.FC<UploadMenuProps> = (
     {
         isSidebarOpen
+        , onHandleOpenModal
     }
 ) => {
     const { onOpen } = useUploadSongModal();
@@ -57,7 +59,7 @@ const UploadMenu:React.FC<UploadMenuProps> = (
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-66 bg-neutral-900 " align="start" >
-                <DropdownMenuItem onClick={onOpen}
+                <DropdownMenuItem onClick={ onHandleOpenModal }
                 className='flex gap-x-3 items-center'>
                     <RxFilePlus  className='text-white ' size={25}/>
                     Upload Song</DropdownMenuItem>

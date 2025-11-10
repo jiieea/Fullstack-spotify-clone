@@ -17,13 +17,11 @@ const AccountPage: React.FC<AccountPageProps> = (
 ) => {
 
     return (
-        // The main content area: Uses a deep neutral background to blend with the header.
         <div className='
             h-full
             w-full
         '>
             <div className='
-                // Standard Spotify content padding
                 px-6 
                 sm:px-8 
                 lg:px-10 
@@ -40,8 +38,6 @@ const AccountPage: React.FC<AccountPageProps> = (
                 '>
                     Your Uploaded Songs
                 </h2>
-
-
                 {songs.length === 0 ? (
                     <p className='text-neutral-400 text-base py-4'>
                         You haven&apos;t uploaded any songs yet.

@@ -22,7 +22,7 @@ const page = async () => {
   ])
 
   return (
-    <div className='w-full  md:h-[90vh] rounded-2xl overflow-y-auto  bg-neutral-900 h-[85vh]  '>
+    <div className='w-full  md:h-[90vh] rounded-2xl bg-neutral-900 h-[85vh]  '>
       <LikedSongPage
         userData={userData}
         likedSongs={likedSong}
