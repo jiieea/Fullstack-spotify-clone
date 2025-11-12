@@ -15,7 +15,6 @@ import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import useOnplay from '@/hooks/useOnPlay';
 
 const PlaylistPage: React.FC<PlaylistPageProps> = ({ allSongs , userName, data, userPlaylists, songs }) => {
-  // const router = useRouter();
   const playlistImage = useLoadPlaylistImage(data!);
   const bgColor = useGetDominantColor(playlistImage!);
   const playlistName = data?.playlist_name;
