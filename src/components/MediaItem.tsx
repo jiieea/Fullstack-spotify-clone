@@ -15,7 +15,6 @@ const MediaItem: React.FC<MediaItemProps> =
     (
         {
             data,
-            isLoading,
             index,
             userPlaylists,
             onHandleRemoveSong,

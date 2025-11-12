@@ -2,36 +2,34 @@ import Image from 'next/image';
 import React from 'react'
 import { Playlist } from '../../types';
 import useDailyPlaylist from '@/hooks/useDailyPlaylist';
-import { useLoadDailyPlaylist, useLoadPlaylistImage } from '@/hooks/useLoadImage';
+import { useLoadDailyPlaylist } from '@/hooks/useLoadImage';
 import { MoreHorizontal, Play } from 'lucide-react';
-import { useSupabaseClient } from '@supabase/auth-helpers-react';
 interface HeroSectionProps {
     playlists : Playlist[]
 }
 
 const HeroSection = ({ playlists } : HeroSectionProps ) => {
     const playlistData = useDailyPlaylist(playlists);  
-    const playlistImage  = useLoadDailyPlaylist(playlistData?.playlist_image)
-    console.log(playlistData)
-
+    const playlistImage = useLoadDailyPlaylist(playlistData?.playlist_image ?? null)
     return (
     <div className="md:flex bg-gradient-to-b from-[#1E5033] to-neutral-900 p-8 space-x-6 min-h-[300px] hidden ">
     {/* Left: Playlist Cover */}
     <div className="w-52 h-52 flex-shrink-0 shadow-2xl">
         <Image 
-    src= { "https://epagljxulfwliwpxygcl.supabase.co/storage/v1/object/public/playlists/playlistImage-undefined-mgmfof30"}
+    src={playlistImage || "https://placehold.co/208x208/1db954/000000?text=FYP"}
 alt="Playlist Cover" 
             width={208}
             height={208}
             className="w-full h-full object-cover rounded shadow-xl"
-            onError={(e: React.SyntheticEvent<HTMLImageElement, Event>) => { e.currentTarget.onerror = null; e.currentTarget.src="https://placehold.co/208x208/1db954/000000?text=FYP" }}
+            onError={(e: React.SyntheticEvent<HTMLImageElement, Event>) => 
+                { e.currentTarget.onerror = null; e.currentTarget.src="https://placehold.co/208x208/1db954/000000?text=FYP" }}
         />
     </div>
 
     {/* Right: Info and Buttons */}
     <div className="flex flex-col justify-end">
         <p className="text-sm font-bold text-white uppercase mb-2">Playlist</p>
-        <h1 className="text-2xl lg:text-7xl  md:text-5xl font-black  text-white mb-6 leading-tight">Your Playlist of The Day{ playlistData?.description} </h1>
+        <h1 className="text-2xl lg:text-7xl  md:text-5xl font-black  text-white mb-6 leading-tight">Your Playlist of The Day</h1>
         <p className="text-gray-300 text-sm mb-6">Pour your FYP! Lagu-lagu terbaik dan terbaru only pour your playlist!</p>
         <div className="flex items-center space-x-4">
             <button className="bg-green-500 p-4 rounded-full hover:scale-105 transition-transform duration-150 shadow-2xl">

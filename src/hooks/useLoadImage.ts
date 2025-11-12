@@ -20,37 +20,32 @@ const useLoadImage = (song: Song) => {
 // Assuming useLoadPlaylistImage looks something like this:
 
 
-const useLoadDailyPlaylist = (playlistImage : string | null): string | null => {
+const useLoadDailyPlaylist = (playlistImage : string | null | undefined): string | null => {
     const supabaseClient = useSupabaseClient();
     const [imageUrl, setImageUrl] = useState<string | null>(null);
 
     useEffect(() => {
-        // 1. Check for null playlistData (Initial Render)
+        // Check if playlistImage is null, undefined, or empty string
         if (!playlistImage) {
             setImageUrl(null);
             return;
         }
 
-        // 2. Check for undefined playlist_image (The Error Condition)
-        // Ensure playlist.playlist_image is a string before proceeding.
-        if (!playlistImage) {
-            setImageUrl(null);
-            return;
-        }
-
-        // 3. Safely call Supabase
-        // Since imagePath is confirmed to be a string, this is now safe.
+        // Safely call Supabase to get public URL
+        // Note: getPublicUrl is synchronous and always returns data
         const { data } = supabaseClient
             .storage
-            .from('playlist')
-            .getPublicUrl(playlistImage); // <--- imagePath is now guaranteed 'string'
+            .from('playlists') // Fixed: Changed from 'playlist' to 'playlists' (plural)
+            .getPublicUrl(playlistImage);
 
-        // 4. Update state with the public URL
-        if (data && data.publicUrl) {
+        // Update state with the public URL
+        if (data?.publicUrl) {
             setImageUrl(data.publicUrl);
+        } else {
+            setImageUrl(null);
         }
 
-    }, [playlistImage, supabaseClient]); // Re-run when the playlist object changes
+    }, [playlistImage, supabaseClient]); // Re-run when playlistImage changes
 
     return imageUrl;
 };

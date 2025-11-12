@@ -11,7 +11,6 @@ import { GoPlus } from 'react-icons/go'
 import { twMerge } from 'tailwind-merge'
 import { PiMusicNotesPlusDuotone } from "react-icons/pi";
 import { RxFilePlus } from 'react-icons/rx'
-import useUploadSongModal from '@/hooks/useUploadSongModal'
 import useCreatePlaylistModal from '@/hooks/useCreatePlaylistModal'
 import { useUsers } from '@/hooks/useUsers'
 import useAuthModal from '@/hooks/useAuthModal'
@@ -27,7 +26,6 @@ const UploadMenu:React.FC<UploadMenuProps> = (
         , onHandleOpenModal
     }
 ) => {
-    const { onOpen } = useUploadSongModal();
     const playlist = useCreatePlaylistModal();
     const { user } = useUsers()
     const authModal = useAuthModal()

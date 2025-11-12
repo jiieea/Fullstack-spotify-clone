@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Montserrat , Metrophobic } from "next/font/google";
+import { Montserrat , Metrophobic ,Gothic_A1 } from "next/font/google";
 import "./globals.css";
 import { Sidebar } from "@/components/Sidebar";
 import SupabaseProvider from "@/providers/SupabaseProvider";
@@ -17,8 +17,8 @@ import getSong from "./action/getSong";
 import Header from "@/components/Header";
 
 
-const metrophobic = Metrophobic({
-  variable : '--font-metrophobic',
+const gothic = Gothic_A1({
+  variable : '--font-ghotic-a1',
   subsets : ['latin'],
   weight: '400'
 })
@@ -61,7 +61,7 @@ export default async function RootLayout({
     <html lang="en">
        <link rel="icon" href="/assets/soundwave.png" />
       <body
-        className={`${metrophobic.className} antialiased bg-black `}
+        className={`${gothic.className} antialiased bg-black ${montserrat.className} `}
       >
         <SupabaseProvider >
           <UserProvider>

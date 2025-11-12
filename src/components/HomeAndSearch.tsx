@@ -1,5 +1,5 @@
 import { useRouter } from 'next/navigation'
-import React, { useCallback, useRef, useState , useEffect, useContext} from 'react'
+import React, { useCallback, useRef, useState , useEffect} from 'react'
 import { GoHome } from 'react-icons/go'
 import { IoSearch } from 'react-icons/io5'
 import SearchResult from './SearchResult'
@@ -39,7 +39,7 @@ export const HomeAndSearch = (
             skipEmptyString : true , skipNull : true
         })
 
-        router.push(url)
+        // router.push(url)
     },[router , debounceValue])
 
     const handleClickOutside = useCallback((event : MouseEvent) => {
