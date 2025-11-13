@@ -23,7 +23,7 @@ const LikedSongHeader = ({ userData, likedSongs }: LikedSongHeaderProps) => {
       <div className='flex-col space-y-3'>
           <div className="flex items-center space-x-4 text-white ">
             {/* Playlist image */}
-            <div className=" relative 2xl:w-60 2xl:h-60 md:w-48 md:h-48  2x">
+            <div className=" relative 2xl:w-60 2xl:h-60 md:w-48 md:h-48  ">
                 <Image
                     src={"/assets/liked.png"}// Use a static image for "Liked Songs"
                     alt="Liked Songs"

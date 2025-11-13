@@ -8,7 +8,9 @@ interface SortDropdownProps {
     onHandleSortByRecentlyAdd: () => void;
 }
 
-const SortDropdown = ({ sort, onHandleSortByArtist, onHandleSortByRecentlyAdd, onHandleSortByTitle }: SortDropdownProps) => {
+const SortDropdown = ({ sort, onHandleSortByArtist,
+    onHandleSortByRecentlyAdd,
+    onHandleSortByTitle }: SortDropdownProps) => {
     // State to control the visibility of the dropdown
     const [isOpen, setIsOpen] = useState(false);
 

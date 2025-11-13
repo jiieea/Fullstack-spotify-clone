@@ -140,7 +140,7 @@ export const Sidebar: React.FC<SidebarProps> = (
                 >
                     {children}
                 </main>
-                <Toaster position='top-center' expand={true} richColors />
+                <Toaster position='bottom-center' expand={true} richColors />
                 <div className="fixed bottom-0 w-full px-0 md:hidden">
                     <MobileNavbar />
                 </div>

@@ -10,8 +10,17 @@ import MediaItem from '@/components/MediaItem';
 import { toast } from 'sonner';
 import useOnplay from '@/hooks/useOnPlay';
 import { FaPlay } from "react-icons/fa";
-import { sortDataByArtist, sortDataByTitle, sortedDataByCreatedDate } from '@/hooks/useSortData';
+import {
+  sortDataByArtist,
+  sortDataByTitle,
+  sortedDataByCreatedDate
+} from '@/hooks/useSortData';
 import SortDropdown from '@/components/SortListButton';
+import { LiaRandomSolid } from 'react-icons/lia';
+import { twMerge } from 'tailwind-merge';
+import { useSearch } from '@/providers/SearchProviders';
+
+
 interface LikedSongPageProps {
   likedSongs: Song[]
   userData: UserDetails | null
@@ -28,11 +37,24 @@ const LikedSongPage: React.FC<LikedSongPageProps> = ({
   userData
 }) => {
   const imageUrl = "/assets/liked.png";
+  const { isShuffle   , setIsShuffle} = useSearch()
   const dominantColor = useGetDominantColor(imageUrl);
   const [isLoading, setIsLoading] = useState(false);
   const onPlay = useOnplay(likedSongs);
   const [songs, setSongs] = useState<Song[]>(likedSongs);
   const [sort, setSort] = useState<SortType>('default');
+
+    const playShuffle = () => {
+      try {
+      setIsShuffle(!isShuffle);
+      const msg = isShuffle === true ? "desactive " : "active"
+      toast.success(`Shuffel Mode ${msg}`);
+      }catch(e : unknown) {
+        if(e instanceof Error ) {
+          toast.error('failed to active shuffle' + e.message)
+        }
+      }
+    }
 
   // centralize all sorting functions 
   const sortSongs = useCallback((sortType: SortType) => {
@@ -101,13 +123,21 @@ const LikedSongPage: React.FC<LikedSongPageProps> = ({
             >
               <FaPlay size={20} className='text-black' />
             </button>
+            <LiaRandomSolid
+              size={30}
+              className={twMerge(
+                `hover:scale-110 transition cursor-pointer`,
+                isShuffle ? "text-green-500" : "text-neutral-400 hover:text-neutral-300",
+              )}
+              onClick={playShuffle}
+            />
           </div>
           <div className='hidden md:block mr-4'>
             <SortDropdown
-              sort={ sort}
-              onHandleSortByArtist={ handleSortByAuthor }
-              onHandleSortByRecentlyAdd={ handleSortByRecentlyAdd }
-              onHandleSortByTitle={ handleSortByTitle }
+              sort={sort}
+              onHandleSortByArtist={handleSortByAuthor}
+              onHandleSortByRecentlyAdd={handleSortByRecentlyAdd}
+              onHandleSortByTitle={handleSortByTitle}
             />
           </div>
         </div>

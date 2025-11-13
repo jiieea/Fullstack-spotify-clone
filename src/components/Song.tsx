@@ -2,17 +2,25 @@ import Image from "next/image";
 import { Song } from "../../types";
 import { useLoadImage } from "@/hooks/useLoadImage";
 import { Play } from "lucide-react";
+import { useUsers } from "@/hooks/useUsers";
+import useAuthModal from "@/hooks/useAuthModal";
 interface DailyMixDataProps {
     song: Song,
     onHandlePlay : (id : string) => void;
 }
 const DailyMixCard: React.FC<DailyMixDataProps> = ({ song , onHandlePlay }) => {
     const imageSong = useLoadImage(song);
+    const { user } = useUsers()
+    const { onOpen } = useAuthModal()
+    const handlePlaySong = (id : string) => {
+        if(!user) return onOpen;
+        return onHandlePlay(id);
+    }
     return (
         <div className="lg:w-48 w-40 flex-shrink-0 cursor-pointer group hover:bg-neutral-700 transition p-3 rounded-2xl">
             {/* Image/Badge Area */}
             <div 
-            onClick={() => onHandlePlay(song.id)}
+            onClick={() => handlePlaySong(song.id)}
             className={`relative w-full aspect-square bg-gradient-to-br rounded-lg shadow-lg overflow-hidden`}>
                 {/* Placeholder Image */}
                 <Image

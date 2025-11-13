@@ -41,6 +41,14 @@ export const PlaylistContent: React.FC<PlaylistContentProps> = ({
   const [sort, setSort] = useState<SortType>('default');
   const [isDisabled, setIsDisabled] = useState(false); // Renamed for consistency
 
+
+
+  useEffect(() => {
+    if(dataOwner.id !== user?.id){
+      setIsDisabled(true)
+    }
+  } , [dataOwner , user?.id ])
+
   const playShuffle = () => {
     try {
     setIsShuffle(!isShuffle);
@@ -108,7 +116,6 @@ export const PlaylistContent: React.FC<PlaylistContentProps> = ({
     } catch (e) {
       console.error("Sorting failed:", e);
       toast.error("Failed to sort playlist.");
-      // Revert to the original list or the last known good state
       setPlaylistSongs(songs);
       setSort('default');
     } finally {
@@ -154,7 +161,7 @@ export const PlaylistContent: React.FC<PlaylistContentProps> = ({
       <div className='mt-[-3rem] py-10 px-6 text-center text-neutral-400'>
         <p>There are no songs in this playlist yet.</p>
         <p className='mt-2'>Use the &quot;button&quot; to get started!</p>
-      </div>
+    </div>
     );
   }
 
@@ -163,8 +170,9 @@ export const PlaylistContent: React.FC<PlaylistContentProps> = ({
     <div className='mt-[-3rem] py-2 md:py-3 md:px-3 '>
       <div className='flex flex-col'>
         {/* Playback Controls and Options */}
-        <div className="flex space-x-4 items-center mb-4 px-6">
-          <button
+        <div className="flex space-x-4 items-center justify-between mb-4 px-6">
+         <div className='flex items-center gap-x-4'>
+           <button
             title='Play All'
             onClick={() => onHandlePlay(playlistSongs[0].id)} // Play the first song in the current list
             className={twMerge(
@@ -175,19 +183,18 @@ export const PlaylistContent: React.FC<PlaylistContentProps> = ({
           </button>
 
           <LiaRandomSolid
-            size={25}
+            size={30}
             className={twMerge(
               `hover:scale-110 transition cursor-pointer`,
               isShuffle ? "text-green-500" : "text-neutral-400 hover:text-neutral-300",
             )}
             onClick={playShuffle}
           />
-
-          <PlaylistOption
+               <PlaylistOption
             disabled={isDisabled}
             playlistData={data}
           />
-
+         </div>
           {/* Desktop Sort Dropdown */}
           <div className='hidden md:block'>
             <SortDropdown

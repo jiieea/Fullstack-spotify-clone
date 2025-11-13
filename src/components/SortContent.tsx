@@ -11,7 +11,7 @@ export const SortContent: React.FC<SortContentProps> = (
     }
 ) => {
   return (
-     <div className="flex space-x-3 border-b border-gray-800 pb-4 pt-4 md:pt-0 px-4 sm:px-6 lg:px-8">
+     <div className="flex space-x-3 mt-5 border-b border-gray-800 pb-4 pt-4 md:pt-0 px-4 sm:px-6 lg:px-8">
                             {/* Mapped over the tabs list for cleaner code */}
                             {[
                                 { id: 'all', label: 'All' },

@@ -5,7 +5,6 @@ import QuickPickCard from './QuickCard';
 import { HomePageProps } from '../app/interfaces/types'
 import DailyPlaylist from './PlaylistHeroSection';
 import DailyMixCard from './Song';
-import { useUsers } from '@/hooks/useUsers';
 import useOnplay from '@/hooks/useOnPlay';
 import Arrow from './Arrow';
 import Playlists from './Playlists';
@@ -20,7 +19,6 @@ const HomePage: React.FC<HomePageProps> = ({
     const router = useRouter()
     const [canScrollLeft, setCanScrollLeft] = useState(false);
     const [canScrolRight, setCanScrollRight] = useState(false);
-    const { user } = useUsers();
     const handlePlay = useOnplay(songs);
     const scrollRef = useRef<HTMLDivElement>(null);
     const scrollAmout = 320;
@@ -64,12 +62,12 @@ const HomePage: React.FC<HomePageProps> = ({
     return (
         // Changed main wrapper to min-h-screen for full height
         <div className="min-h-screen">
-            <div className="bg-black font-sans flex text-gray-400">
+            <div className=" font-sans flex text-gray-400">
                 {/* Main Content Area */}
                 {/* Added relative and overflow-y-auto for the main content to handle its own scrolling */}
                 <main className="flex-1 bg-neutral-900 relative overflow-y-auto pb-24">
                     {/* Content Wrapper - Using consistent padding and space-y for vertical rhythm */}
-                    <div className="space-y-4 md:space-y-6 pb-4">
+                    <div className="space-y-4 md:space-y-6 pb-4 ">
                         {/* Hero Section */}
                         <DailyPlaylist
                             songs={songs}
@@ -103,9 +101,7 @@ const HomePage: React.FC<HomePageProps> = ({
                                 isVisible={canScrollLeft}
                                 onClick={leftScroll}
                             />
-                            {
-                                user && (
-                                    <div className="flex space-x-2 overflow-x-scroll 
+                            <div className="flex space-x-2 overflow-x-scroll 
                                 horizontal-scroll-container pb-8 px-4
                                 sm:px-6 lg:px-8"
                                         ref={scrollRef}
@@ -129,8 +125,6 @@ const HomePage: React.FC<HomePageProps> = ({
                                             />
                                         ))}
                                     </div>
-                                )
-                            }
                             <Arrow
                                 isVisible={canScrolRight}
                                 onClick={rigthScroll}

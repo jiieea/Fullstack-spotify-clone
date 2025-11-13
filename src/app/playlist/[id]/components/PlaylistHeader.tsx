@@ -58,10 +58,10 @@ const PlaylistPage: React.FC<PlaylistPageProps> = ({ allSongs , userName, data, 
           width={250}
           height={250}
           quality={100}
-          className='relative  object-cover rounded-md mb-4 w-45 md:w-50 h-45 md:h-50'
+          className=' relative 2xl:w-60 2xl:h-60 md:w-48 md:h-48  object-cover rounded-2xl'
         />
         <div className='flex flex-col justify-start  space-y-2.5 w-full md:w-2/3'>
-          <div className='flex justify-start flex-col'>
+          <div className='flex justify-start flex-col mt-6'>
             <p className='text-[1rem] ps-0 md:ps-2 font-semibold text-white md:block hidden'>Playlist</p>
             <p
               className='lg:text-7xl text-2xl md:text-5xl font-semibold text-start text-white md:ml-[-1rem]   md:pl-2   w-full'>
