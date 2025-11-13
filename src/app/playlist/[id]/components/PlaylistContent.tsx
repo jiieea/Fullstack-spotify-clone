@@ -17,11 +17,11 @@ import { PlaylistContentProps } from '../../../interfaces/types'
 import AddSong from './AddSong';
 import { useUsers } from '@/hooks/useUsers';
 import Button from '@/components/Button';
+import { useSearch } from '@/providers/SearchProviders';
 // --- Type Refinement ---
 type SortType = "by artist" | "by title" | 'add recently' | 'default';
 
 // --- Component Refactor ---
-
 export const PlaylistContent: React.FC<PlaylistContentProps> = ({
   onHandlePlay,
   dataOwner,
@@ -31,16 +31,27 @@ export const PlaylistContent: React.FC<PlaylistContentProps> = ({
   allSongs
 }) => {
   const supabase = useSupabaseClient();
+  const { setIsShuffle , isShuffle } = useSearch();
   const router = useRouter();
   const { user } = useUsers();
   const ownerId = dataOwner.id;
-  // 1. Centralized State for Displayed Songs
   const [playlistSongs, setPlaylistSongs] = useState<Song[]>(songs);
   const [isLoading, setIsLoading] = useState(false);
   const [isAddSongSheetOpen, setIsAddSongSheetOpen] = useState(false);
-  const [playRandom, setPlayRandom] = useState(false);
   const [sort, setSort] = useState<SortType>('default');
   const [isDisabled, setIsDisabled] = useState(false); // Renamed for consistency
+
+  const playShuffle = () => {
+    try {
+    setIsShuffle(!isShuffle);
+    const msg = isShuffle === true ? "desactive " : "active"
+    toast.success(`Shuffel Mode ${msg}`);
+    }catch(e : unknown) {
+      if(e instanceof Error ) {
+        toast.error('failed to active shuffle' + e.message)
+      }
+    }
+  }
 
   useEffect(() => {
     if(user?.id !== ownerId) {
@@ -63,10 +74,6 @@ export const PlaylistContent: React.FC<PlaylistContentProps> = ({
     setSort('default');
   }, [songs, playlistSongs.length]);
 
-  // 3. Simple Toggle for Random Play
-  const toggleRandom = useCallback(() => {
-    setPlayRandom(prev => !prev);
-  }, []);
 
 
   // 4. Centralized Sorting Logic (with useCallback for stability)
@@ -162,9 +169,7 @@ export const PlaylistContent: React.FC<PlaylistContentProps> = ({
             onClick={() => onHandlePlay(playlistSongs[0].id)} // Play the first song in the current list
             className={twMerge(
               'bg-green-500 rounded-full p-3 hover:scale-110 transition cursor-pointer',
-              isDisabled && 'opacity-50 cursor-not-allowed'
             )}
-            disabled={isDisabled}
           >
             <FaPlay size={20} className='text-black' />
           </button>
@@ -173,10 +178,9 @@ export const PlaylistContent: React.FC<PlaylistContentProps> = ({
             size={25}
             className={twMerge(
               `hover:scale-110 transition cursor-pointer`,
-              playRandom ? "text-green-500" : "text-neutral-400 hover:text-neutral-300",
-              isDisabled && 'opacity-50 cursor-not-allowed'
+              isShuffle ? "text-green-500" : "text-neutral-400 hover:text-neutral-300",
             )}
-            onClick={toggleRandom}
+            onClick={playShuffle}
           />
 
           <PlaylistOption

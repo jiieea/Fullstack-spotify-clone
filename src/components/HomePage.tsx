@@ -35,7 +35,7 @@ const HomePage: React.FC<HomePageProps> = ({
             })
         }
     }
-  
+
 
     const leftScroll = () => scrolling('left');
     const rigthScroll = () => scrolling('right');
@@ -71,12 +71,14 @@ const HomePage: React.FC<HomePageProps> = ({
                     {/* Content Wrapper - Using consistent padding and space-y for vertical rhythm */}
                     <div className="space-y-4 md:space-y-6 pb-4">
                         {/* Hero Section */}
-                        <DailyPlaylist  playlists = { playlist }/>
+                        <DailyPlaylist
+                            songs={songs}
+                            playlists={playlist} />
                         {/* Filter Tabs */}
-                       <SortContent 
-                       active={activeTab}
-                       setActive ={ setActiveTab}
-                       />
+                        <SortContent
+                            active={activeTab}
+                            setActive={setActiveTab}
+                        />
 
                         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 
                         lg:grid-cols-3 xl:grid-cols-4  gap-4 
@@ -91,7 +93,7 @@ const HomePage: React.FC<HomePageProps> = ({
                             <h2 className="text-xl md:text-2xl font-bold text-white hover:underline cursor-pointer">
                                 For you
                             </h2>
-                            <p  className="text-sm font-bold uppercase text-gray-400 hover:underline" onClick={() => router.push("/songs")}>
+                            <p className="text-sm font-bold uppercase text-gray-400 hover:underline" onClick={() => router.push("/songs")}>
                                 See all
                             </p>
                         </div>

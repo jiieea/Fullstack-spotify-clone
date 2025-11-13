@@ -27,7 +27,7 @@ const PlaylistWrapper: React.FC<PlaylistWrapperProps> =
         className={twMerge(
           `py-15 px-6 flex items-center gap-x-9 h-full
                  flex-col md:flex-row md:items-start bg-gradient-to-b
-                 from-[var(--playlist-color)] to-neutral-900/80
+                 from-[var(--playlist-color)] to-neutral-900/80 transition-colors duration-500
                  md:text-start justify-center text-center md:justify-start` , className
         )}
       >

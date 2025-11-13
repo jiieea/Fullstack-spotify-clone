@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Montserrat , Metrophobic ,Gothic_A1 } from "next/font/google";
+import { Montserrat  ,Gothic_A1 } from "next/font/google";
 import "./globals.css";
 import { Sidebar } from "@/components/Sidebar";
 import SupabaseProvider from "@/providers/SupabaseProvider";

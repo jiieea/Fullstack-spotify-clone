@@ -11,19 +11,34 @@ import PlaylistButton from './PlaylistButton'
 import usePlayerSong from '@/hooks/usePlayer'
 import SliderVolume from './SliderVol'
 import PlayerMedia from './PlayerMedia'
+import { useSearch } from '@/providers/SearchProviders'
 
 export const PlayerContent: React.FC<PlayerContentProps> = ({
     song,
     songUrl,
     userPlaylists
 }) => {
-    const player = usePlayerSong(); 
+    const player = usePlayerSong();
     const [volume, setVolume] = useState(0.5);
     const [isPlaying, setIsPlaying] = useState(false);
     const [currentTime, setCurrentTime] = useState(0);
     const [duration, setDuration] = useState(0)
     const Icon = isPlaying ? BsPauseFill : BsPlayFill;
     const VolumeIcon = volume === 0 ? FaVolumeXmark : FaVolumeLow;
+    const  { isShuffle  } = useSearch()
+    // helper function to return random song id 
+    const getRandomSongId = (songIds: string[], currentIdx: number): number => {
+        // if the song only one , loop the song 
+        if (songIds.length <= 1) return 0;
+
+        let randomIndex;
+        // get random 
+        do {
+            randomIndex = Math.floor(Math.random() * songIds.length);
+        } while (randomIndex === currentIdx); // to ensure the song is not the same
+
+        return randomIndex;
+    }
 
     //  play  next song
     const onPlayNext = () => {
@@ -36,14 +51,18 @@ export const PlayerContent: React.FC<PlayerContentProps> = ({
         }
 
         const currentIdx = player.ids.findIndex((id) => id == player.activeId);
-        const nextSong = player.ids[currentIdx + 1];
-
-        // play the first song if next song isnot exist 
-        if (!nextSong) {
-            return player.setId(player.ids[0]);
+        let nextSongId : string;
+        if (isShuffle) {
+            const randomIndx = getRandomSongId(player.ids, currentIdx);
+            nextSongId = player.ids[randomIndx];
+        } else {
+            let nextSong = player.ids[currentIdx + 1];
+            if (!nextSong) {
+                nextSong = player.ids[0];
+            }
+        nextSongId = nextSong;
         }
-
-        player.setId(nextSong);
+        player.setId(nextSongId)
     }
 
     // play previous song
@@ -68,7 +87,7 @@ export const PlayerContent: React.FC<PlayerContentProps> = ({
         volume: volume,
         onplay: () => setIsPlaying(true),
         onend: () => {
-            setIsPlaying(false)
+            setIsPlaying(false);
             onPlayNext();
         },
         onpause: () => setIsPlaying(false),
@@ -128,7 +147,6 @@ export const PlayerContent: React.FC<PlayerContentProps> = ({
                     setDuration(sound.duration());
                 }
             }, 100);
-
             return () => clearTimeout(checkDuration);
         }
     }, [sound]);
@@ -136,7 +154,6 @@ export const PlayerContent: React.FC<PlayerContentProps> = ({
     // Effect to update currentTime while the song is playing
     useEffect(() => {
         let intervalId: NodeJS.Timeout | undefined;
-
         if (isPlaying && sound) {
             // Start interval to update time every 500ms
             intervalId = setInterval(() => {
@@ -168,13 +185,13 @@ export const PlayerContent: React.FC<PlayerContentProps> = ({
         }
     }
 
-  const progressPercent = useMemo(() => {
-   if(duration > 0 ) {
-   return (currentTime / duration ) * 100;
-   }
+    const progressPercent = useMemo(() => {
+        if (duration > 0) {
+            return (currentTime / duration) * 100;
+        }
 
-   return 0;
-  } , [duration , currentTime])
+        return 0;
+    }, [duration, currentTime]);
     return (
         <div className="
         grid grid-cols-2 md:grid-cols-3 h-full ">
@@ -236,8 +253,8 @@ export const PlayerContent: React.FC<PlayerContentProps> = ({
                         value={currentTime}
                         onChange={handleSeek}
                         disabled={duration === 0}
-                      className="w-full spotify-progress-bar rounded-lg appearance-none cursor-pointer hidden md:block "
-                      style={{ '--progress-percent': `${progressPercent}%` } as CSSProperties}
+                        className="w-full spotify-progress-bar rounded-lg appearance-none cursor-pointer hidden md:block "
+                        style={{ '--progress-percent': `${progressPercent}%` } as CSSProperties}
                     />
                     <span className="text-xs text-neutral-400 w-8 text-left hidden md:block">
                         {formatTime(duration)}
