@@ -11,14 +11,14 @@ interface HeroSectionProps {
     songs : Song[]
 }
 
-const DailyPlaylist = ({ playlists  , songs} : HeroSectionProps) => {
+const DailyPlaylist = ({ playlists  } : HeroSectionProps) => {
     const { user } = useUsers()
 return(
     <div className={ twMerge(
         `block` , !user && "hidden"
     )}>
         <HeroSection 
-        playlists ={ playlists } songs={ songs }/>
+        playlists ={ playlists } />
     </div>
 
 

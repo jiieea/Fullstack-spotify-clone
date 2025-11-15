@@ -13,7 +13,7 @@ export default async function Home(
   const supabase = createServerComponentClient({
     cookies: cookiesStore
   })
-const { data } = await supabase.auth.getUser();
+  const { data } = await supabase.auth.getUser();
   const songs = await getSong()
   const playlists = await getPlaylists();
   const userId = data.user?.id;
@@ -24,9 +24,12 @@ const { data } = await supabase.auth.getUser();
     getUserData(userId!)
   ])
   return (
-    <div className="w-full  2xl:h-[90vh] rounded-none md:ounded-2xl  bg-neutral-900 h-[85vh]">
-      <HomePage 
-      songs={songs} playlist={playlists} userPlaylists={userPlaylists} />
+    <div className="w-full  2xl:h-[90vh] rounded-none md:ounded-2xl  bg-neutral-900 h-[80vh]">
+      <HomePage
+        songs={songs}
+        playlist={playlists}
+        userPlaylists={userPlaylists} />
     </div>
+
   );
 }

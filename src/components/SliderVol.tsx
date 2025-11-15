@@ -16,10 +16,10 @@ const SliderVolume: React.FC<SliderProps> = ({
 
     return (
         <RadixSlider.Root className="relative flex items-center h-10 select-none touch-none w-full"
-            defaultValue={[1]}
             value={[value]}
             onValueChange={handleValueChange}
             step={0.1}
+            min={0}
             max={1}
             aria-label="volume"
         >

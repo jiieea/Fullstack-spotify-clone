@@ -12,12 +12,16 @@ import usePlayerSong from '@/hooks/usePlayer'
 import SliderVolume from './SliderVol'
 import PlayerMedia from './PlayerMedia'
 import { useSearch } from '@/providers/SearchProviders'
-
+import { PiShuffleBold } from 'react-icons/pi'
+import { twMerge } from 'tailwind-merge'
+import usePlayShuffle from '@/hooks/usePlayShuffle'
 export const PlayerContent: React.FC<PlayerContentProps> = ({
     song,
     songUrl,
     userPlaylists
 }) => {
+    const { isShuffle } = useSearch();
+    const handlePlayShuffle = usePlayShuffle()
     const player = usePlayerSong();
     const [volume, setVolume] = useState(0.5);
     const [isPlaying, setIsPlaying] = useState(false);
@@ -25,7 +29,6 @@ export const PlayerContent: React.FC<PlayerContentProps> = ({
     const [duration, setDuration] = useState(0)
     const Icon = isPlaying ? BsPauseFill : BsPlayFill;
     const VolumeIcon = volume === 0 ? FaVolumeXmark : FaVolumeLow;
-    const  { isShuffle  } = useSearch()
     // helper function to return random song id 
     const getRandomSongId = (songIds: string[], currentIdx: number): number => {
         // if the song only one , loop the song 
@@ -51,7 +54,7 @@ export const PlayerContent: React.FC<PlayerContentProps> = ({
         }
 
         const currentIdx = player.ids.findIndex((id) => id == player.activeId);
-        let nextSongId : string;
+        let nextSongId: string;
         if (isShuffle) {
             const randomIndx = getRandomSongId(player.ids, currentIdx);
             nextSongId = player.ids[randomIndx];
@@ -60,7 +63,7 @@ export const PlayerContent: React.FC<PlayerContentProps> = ({
             if (!nextSong) {
                 nextSong = player.ids[0];
             }
-        nextSongId = nextSong;
+            nextSongId = nextSong;
         }
         player.setId(nextSongId)
     }
@@ -192,6 +195,9 @@ export const PlayerContent: React.FC<PlayerContentProps> = ({
 
         return 0;
     }, [duration, currentTime]);
+
+
+
     return (
         <div className="
         grid grid-cols-2 md:grid-cols-3 h-full ">
@@ -200,7 +206,8 @@ export const PlayerContent: React.FC<PlayerContentProps> = ({
                 <div className="flex items-center gap-x-4">
                     < PlayerMedia data={song} />
                     <LikedButton songId={song.id} />
-                    <PlaylistButton songId={song.id} playlists={userPlaylists} />
+                    <PlaylistButton songId={song.id}
+                        playlists={userPlaylists} />
                 </div>
             </div>
             <div className="
@@ -234,6 +241,12 @@ export const PlayerContent: React.FC<PlayerContentProps> = ({
                     className="hidden w-full md:flex justify-center items-center 
                  h-full max-w-[722px] gap-x-6 mt-1"
                 >
+                    {/* shuffle songs icon */}  
+                    <PiShuffleBold
+                        onClick={() => handlePlayShuffle}
+                        size={30} className={twMerge(
+                            `text-neutral-700 cursor-pointer`, isShuffle && "text-green-500 transition"
+                        )} />
                     <AiFillStepBackward onClick={onPlayPrevious}
                         className="text-neutral-400 cursor-pointer hover:text-white transition" size={30} />
                     <div onClick={handlePlayingMusic} className="flex items-center justify-center h-8 w-8 rounded-full bg-white p-1 cursor-pointer">

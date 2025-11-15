@@ -6,10 +6,9 @@ import useOnplay from '@/hooks/useOnPlay'
 interface SearchResultPrpops {
     value : string,
     searchSong : Song[]
-    handlePlaySong : () => void
 }
 
-const SearchResult: React.FC<SearchResultPrpops> = ({ value, searchSong, handlePlaySong }) => {
+const SearchResult: React.FC<SearchResultPrpops> = ({ value, searchSong }) => {
     const filteredSongs = useMemo(() => {
         if (!value) {
             // Show top 5 items if search is empty (e.g., recent or popular)
