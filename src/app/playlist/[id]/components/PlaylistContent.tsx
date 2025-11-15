@@ -9,13 +9,13 @@ import { useRouter } from 'next/navigation';
 import { sortDataByArtist, sortDataByTitle, sortedDataByCreatedDate } from '@/hooks/useSortData';
 import SortDropdown from '@/components/SortListButton';
 import { PlaylistOption } from './PlaylistOption';
-import { LiaRandomSolid } from "react-icons/lia";
 import { twMerge } from 'tailwind-merge';
 import { RxPencil1 } from 'react-icons/rx';
 import SortButtonSheet from '@/components/SortSheet';
 import { PlaylistContentProps } from '../../../interfaces/types'
 import AddSong from './AddSong';
 import { useUsers } from '@/hooks/useUsers';
+import { PiShuffleBold } from "react-icons/pi";
 import Button from '@/components/Button';
 import { useSearch } from '@/providers/SearchProviders';
 // --- Type Refinement ---
@@ -52,7 +52,7 @@ export const PlaylistContent: React.FC<PlaylistContentProps> = ({
   const playShuffle = () => {
     try {
     setIsShuffle(!isShuffle);
-    const msg = isShuffle === true ? "desactive " : "active"
+    const msg = isShuffle === true ? "InActive " : "active"
     toast.success(`Shuffel Mode ${msg}`);
     }catch(e : unknown) {
       if(e instanceof Error ) {
@@ -182,7 +182,7 @@ export const PlaylistContent: React.FC<PlaylistContentProps> = ({
             <FaPlay size={20} className='text-black' />
           </button>
 
-          <LiaRandomSolid
+          <PiShuffleBold
             size={30}
             className={twMerge(
               `hover:scale-110 transition cursor-pointer`,

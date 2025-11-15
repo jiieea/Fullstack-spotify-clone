@@ -15,20 +15,35 @@ export type Database = {
   }
   public: {
     Tables: {
-      customers: {
+      playlist_songs: {
         Row: {
-          id: string
-          stripe_customer_id: string | null
+          song_id: string
+          playlist_id: string
         }
         Insert: {
-          id: string
-          stripe_customer_id?: string | null
+          song_id: string
+          playlist_id: string
         }
         Update: {
-          id?: string
-          stripe_customer_id?: string | null
+          song_id: string
+          playlist_id: string 
         }
-        Relationships: []
+        Relationships: [
+           {
+            foreignKeyName: "playlist_songs_song_id_fkey"
+            columns: ["song_id"]
+            isOneToOne: false
+            referencedRelation: "songs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "playlist_songs_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       liked_songs: {
         Row: {

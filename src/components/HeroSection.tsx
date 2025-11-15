@@ -1,5 +1,7 @@
+"use client"
+
 import Image from 'next/image';
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Playlist, Song } from '../../types';
 import useDailyPlaylist from '@/hooks/useDailyPlaylist';
 import { useLoadDailyPlaylist } from '@/hooks/useLoadImage';
@@ -7,17 +9,34 @@ import { MoreHorizontal, Play } from 'lucide-react';
 import { useGetDominantColor } from '@/hooks/useGetDominantColor';
 import useOnplay from '@/hooks/useOnPlay';
 import { useRouter } from 'next/navigation';
+import getPlaylistSongs from '../../utils/getPlaylistSongs';
 interface HeroSectionProps {
     playlists: Playlist[]
-    songs : Song[]
 }
 
-const HeroSection = ({ playlists , songs  }: HeroSectionProps) => {
+const HeroSection = ({ playlists }: HeroSectionProps) => {
     const playlistData = useDailyPlaylist(playlists);
     const router = useRouter();
-    const handlePlay = useOnplay(songs)
     const playlistImage = useLoadDailyPlaylist(playlistData?.playlist_image ?? null)
     const bgColor = useGetDominantColor(playlistImage!);
+    const [dailySongs, setDailySongs] = useState<Song[]>([]);
+    const handlePlay = useOnplay(dailySongs)
+    console.log(dailySongs)
+
+    // 3. Use useEffect to fetch data when playlistId is available
+    useEffect(() => {
+        const fetchDailySongs = async () => {
+            if (playlistData?.id) {
+                // Fetch using the client-side function
+                const songs = await getPlaylistSongs(playlistData.id);
+                setDailySongs(songs);
+            } else {
+                setDailySongs([]);
+            }
+        };
+
+        fetchDailySongs();
+    }, [playlistData?.id]);
 
     const handleOpenPlaylist = () => {
         router.push(`/playlist/${playlistData?.id}`)
@@ -29,11 +48,11 @@ const HeroSection = ({ playlists , songs  }: HeroSectionProps) => {
          to-neutral-900 transition-colors duration-500 p-8 space-x-6 min-h-[300px] hidden "
             style={{ '--playlist-color': bgColor } as React.CSSProperties}>
             {/* Left: Playlist Cover */}
-            <div 
-            onClick={handleOpenPlaylist}
-            className="w-52 h-52 flex-shrink-0 shadow-2xl">
+            <div
+                onClick={handleOpenPlaylist}
+                className="w-52 h-52 flex-shrink-0 shadow-2xl">
                 <Image
-                    src={playlistImage || "https://placehold.co/208x208/1db954/000000?text=FYP"}
+                    src={playlistImage || "/assets/liked.png"}
                     alt="Playlist Cover"
                     width={208}
                     height={208}
@@ -49,9 +68,9 @@ const HeroSection = ({ playlists , songs  }: HeroSectionProps) => {
                 <p className="text-gray-300 text-sm mb-6">Discover the playlist based on your mood!</p>
                 <div className="flex items-center space-x-4">
                     <button className="bg-green-500 p-4 rounded-full hover:scale-105 transition-transform duration-150 shadow-2xl"
-                        onClick={() => handlePlay(songs[0].id)}
+                        onClick={() => handlePlay(dailySongs[0].id)}
                     >
-                        <Play fill="black" className="w-6 h-6 text-black" />        
+                        <Play fill="black" className="w-6 h-6 text-black" />
                         <span className="sr-only">Lecture</span>
                     </button>
                     <button className="text-white border border-white hover:bg-white/10 px-4 py-2 rounded-full font-bold transition">

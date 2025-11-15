@@ -40,7 +40,6 @@ const UpdateButtonModal: React.FC<UpdateDialogProps> = (
                     <UpdatePlaylistForm
                         playlistData={playlistData}
                     />
-
                 </DialogContent>
             </Dialog>
         </div>

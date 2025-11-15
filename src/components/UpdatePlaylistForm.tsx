@@ -14,26 +14,18 @@ import { useEffect, useState } from 'react';
 import { useLoadPlaylistImage } from '@/hooks/useLoadImage';
 import { toast } from 'sonner';
 import Image from 'next/image';
-
+import { DialogClose } from './ui/dialog';
 
 interface UpdatePlaylistFormProps {
   playlistData: Playlist
 }
 
-
-
 const UpdatePlaylistForm = ({ playlistData }: UpdatePlaylistFormProps) => {
-  const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const playlistImage = useLoadPlaylistImage(playlistData);
   const [previewImg, setPreviewImg] = useState<string | null>(null)
   const supabase = useSupabaseClient();
-
-  const toggleModal = () => {
-    setIsOpen(!isOpen)
-  }
-
   const {
     watch,
     reset,
@@ -49,8 +41,6 @@ const UpdatePlaylistForm = ({ playlistData }: UpdatePlaylistFormProps) => {
 
   const prevImg = watch('playlist_image');
 
-  // useEffect to show the preview image
-  // useEffect to show the preview image
   useEffect(() => {
     if (prevImg && prevImg.length > 0) {
       const file = prevImg[0];
@@ -94,7 +84,7 @@ const UpdatePlaylistForm = ({ playlistData }: UpdatePlaylistFormProps) => {
         playlist_name: values.playlist_name,
         playlist_image: uploadImage?.path,
         description: values.description
-      }).eq('id',playlistData.id)
+      }).eq('id', playlistData.id)
 
       if (updateError) {
         toast.error("failed update new data" + updateError)
@@ -113,8 +103,9 @@ const UpdatePlaylistForm = ({ playlistData }: UpdatePlaylistFormProps) => {
   }
   return (
     <form onSubmit={handleSubmit(handleUpdatePlaylist)}>
-      <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center">
-        {/* 2. MODAL BODY: Darker background (bg-neutral-900) to match Spotify's deep charcoal */}
+      <div className="fixed inset-0 
+      bg-black/70 backdrop-blur-sm z-50
+       flex items-center justify-center">
         <div
           className="
           relative 
@@ -139,14 +130,11 @@ const UpdatePlaylistForm = ({ playlistData }: UpdatePlaylistFormProps) => {
             <h2 className="text-white text-xl font-bold">
               Modifier les informations
             </h2>
-
-            {/* CLOSE BUTTON (Icon in top right, dark hover background) */}
-            <button
-              onClick={toggleModal}
-              className="text-neutral-400 hover:text-white transition p-1 rounded-full hover:bg-neutral-800"
-            >
-              <IoMdClose size={24} />
-            </button>
+            <DialogClose asChild>
+              <button title='close'>
+                <IoMdClose size={24} />
+              </button>
+            </DialogClose>
           </div>
 
           {/* CONTENT / FORM - Scrollable if needed */}
@@ -251,7 +239,6 @@ const UpdatePlaylistForm = ({ playlistData }: UpdatePlaylistFormProps) => {
             {/* ACTION BUTTON (Aligned Right) */}
             <div className="flex justify-end pt-4">
               <button
-                onClick={() => setIsOpen(false)}
                 className="
                 bg-white 
                 text-black 

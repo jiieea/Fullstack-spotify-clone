@@ -27,20 +27,12 @@ const useDailyPlaylist = (playlists: Playlist[]): Playlist | null => {
         if(playlists.length === 0 || !playlists)  return null
 
         const date = getSeedDate();
-        const minId = 1;
-        const maxId = playlists.length;
-        const randomId = seededRandom(date , minId , maxId);
+        const minIndex = 0;
+        const maxIndex = playlists.length - 1;
+        const randomIndex = seededRandom(date , minIndex , maxIndex);
         
-        
-        // find playlist id that equal to randomId 
-        return playlists.find((playlist) => {
-            try {
-                return JSON.parse(playlist.id) === randomId;
-            }catch {
-                console.warn('failed to retrive data')
-                return false;
-            }
-        }) ?? null
+        // Select playlist by array index (0-based)
+        return playlists[randomIndex] ?? null
 },[playlists])
     return chosenPlaylist;
 }
