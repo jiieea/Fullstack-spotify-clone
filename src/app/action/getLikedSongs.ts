@@ -4,19 +4,10 @@ import { cookies } from "next/headers";
 
 
 
-const getLikedSongs = async (): Promise<Song[]> => {
+const getLikedSongs = async (userId : string): Promise<Song[]> => {
     const supabaseClient = createServerComponentClient({
         cookies: cookies
     })
-
-
-    const {
-        data: {
-            user
-        },
-    } = await supabaseClient.auth.getUser();
-
-
 
     // fetch likedsongs table
     const {
@@ -26,7 +17,7 @@ const getLikedSongs = async (): Promise<Song[]> => {
         = await supabaseClient
             .from('liked_songs')
             .select("* , songs(*)")
-            .eq('user_id', user?.id)
+            .eq('user_id', userId)
             .order('created_at', { ascending: true })
 
     if (likedSongsError) {

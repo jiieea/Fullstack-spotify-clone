@@ -9,6 +9,7 @@ export interface Song {
     created_at: string
 }
 
+
 export interface AccountContentProps {
     user: UserDetails,
     songs: Song[],

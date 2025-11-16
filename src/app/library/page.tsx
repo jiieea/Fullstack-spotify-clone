@@ -13,17 +13,18 @@ const page = async () => {
     cookies : cookiesStore
   })
   const { data } = await supabase.auth.getUser();
-  const likedSongs = await getLikedSongs();
   const userId = data.user?.id
 
   const [
     dataUser,
     userPlaylists,
-    userSongs
+    userSongs,
+    likedSongs
   ]= await Promise.all([
     getUserData(userId!),
     getPlaylistByUserId(userId!),
-    getSongByUserId(userId!)
+    getSongByUserId(userId!),
+    getLikedSongs(userId!)
   ])
   return (
     <div className='w-full min-h-[85vh] bg-neutral-900 rounded-md md:hidden'>

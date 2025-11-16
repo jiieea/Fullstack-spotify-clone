@@ -9,10 +9,10 @@ import { MoreHorizontal, Play } from 'lucide-react';
 import { useGetDominantColor } from '@/hooks/useGetDominantColor';
 import useOnplay from '@/hooks/useOnPlay';
 import { useRouter } from 'next/navigation';
-import getPlaylistSongs from '../../utils/getPlaylistSongs';
+import getPlaylistSongs from '@/app/action/getPlaylistSong';
 interface HeroSectionProps {
     playlists: Playlist[]
-}
+}   
 
 const HeroSection = ({ playlists }: HeroSectionProps) => {
     const playlistData = useDailyPlaylist(playlists);
@@ -21,7 +21,7 @@ const HeroSection = ({ playlists }: HeroSectionProps) => {
     const bgColor = useGetDominantColor(playlistImage!);
     const [dailySongs, setDailySongs] = useState<Song[]>([]);
     const handlePlay = useOnplay(dailySongs)
-    console.log(dailySongs)
+
 
     // 3. Use useEffect to fetch data when playlistId is available
     useEffect(() => {
@@ -57,14 +57,15 @@ const HeroSection = ({ playlists }: HeroSectionProps) => {
                     width={208}
                     height={208}
                     className="w-full h-full object-cover rounded shadow-xl"
-                    onError={(e: React.SyntheticEvent<HTMLImageElement, Event>) => { e.currentTarget.onerror = null; e.currentTarget.src = "https://placehold.co/208x208/1db954/000000?text=FYP" }}
+                    onError={(e: React.SyntheticEvent<HTMLImageElement, Event>) =>
+                         { e.currentTarget.onerror = null; e.currentTarget.src = "https://placehold.co/208x208/1db954/000000?text=FYP" }}
                 />
             </div>
 
             {/* Right: Info and Buttons */}
             <div className="flex flex-col justify-end">
                 <p className="text-sm font-bold text-white uppercase mb-2">Playlist</p>
-                <h1 className="text-2xl lg:text-7xl  md:text-5xl font-black  text-white mb-6 leading-tight">Your Playlist of The Day</h1>
+                <h1 className="text-5xl 2xl:text-7xl   font-black  text-white mb-6 leading-tight">Your Playlist of The Day</h1>
                 <p className="text-gray-300 text-sm mb-6">Discover the playlist based on your mood!</p>
                 <div className="flex items-center space-x-4">
                     <button className="bg-green-500 p-4 rounded-full hover:scale-105 transition-transform duration-150 shadow-2xl"

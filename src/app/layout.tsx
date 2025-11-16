@@ -44,17 +44,18 @@ export default async function RootLayout({
   })
   const { data : userData , error : dataError } = await supabase.auth.getUser();
   const userId = userData.user?.id;
-  const likedSongs = await getLikedSongs();
   const songs = await getSong()
   if(!userData.user || dataError) {
     <div>Login oi</div>
   }
   const [
     data ,
-    playlistUser
+    playlistUser,
+    likedSongs
   ] = await Promise.all([
     getUserData(userId!),
-    getPlaylistByUserId(userId!)
+    getPlaylistByUserId(userId!),
+    getLikedSongs(userId!)
   ]
   )
   return (

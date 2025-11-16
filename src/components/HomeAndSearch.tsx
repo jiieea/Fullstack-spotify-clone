@@ -39,7 +39,7 @@ export const HomeAndSearch = (
             skipEmptyString : true , skipNull : true
         })
 
-        // router.push(url)
+        router.push(url)
     },[router , debounceValue])
 
     const handleClickOutside = useCallback((event : MouseEvent) => {
@@ -89,7 +89,6 @@ export const HomeAndSearch = (
                 <SearchResult 
                 value={ searchValue }
                 searchSong={ searchSongs}
-                handlePlaySong={() => console.log(searchValue)}
                 />
             )
           }
