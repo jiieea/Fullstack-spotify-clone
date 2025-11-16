@@ -89,7 +89,6 @@ export const HomeAndSearch = (
                 <SearchResult 
                 value={ searchValue }
                 searchSong={ searchSongs}
-                handlePlaySong={() => console.log(searchValue)}
                 />
             )
           }
