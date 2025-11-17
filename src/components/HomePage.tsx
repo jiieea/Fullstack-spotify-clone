@@ -135,9 +135,11 @@ const HomePage: React.FC<HomePageProps> = ({
                             <h2 className="text-xl md:text-2xl font-bold text-white hover:underline cursor-pointer">
                                 Playlist Recomendation
                             </h2>
-                            <a href="#" className="text-sm font-bold uppercase text-gray-400 hover:underline">
+                            <p 
+                            onClick={() => router.push('/playlists')}
+                            className="text-sm font-bold uppercase text-gray-400 hover:underline">
                                 See all
-                            </a>
+                            </p>
                         </div>
                         <div className='flex pb-8 overflow-x-scroll  horizontal-scroll-container
                         space-x-2 px-4  '

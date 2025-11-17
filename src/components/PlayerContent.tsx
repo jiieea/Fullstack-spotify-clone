@@ -14,17 +14,18 @@ import PlayerMedia from './PlayerMedia'
 import { useSearch } from '@/providers/SearchProviders'
 import { PiShuffleBold } from 'react-icons/pi'
 import { twMerge } from 'tailwind-merge'
-import usePlayShuffle from '@/hooks/usePlayShuffle'
+import { toast } from 'sonner'
+
+
 export const PlayerContent: React.FC<PlayerContentProps> = ({
     song,
     songUrl,
     userPlaylists
 }) => {
-    const { isShuffle } = useSearch();
-    const handlePlayShuffle = usePlayShuffle()
+    const { isShuffle, setIsShuffle } = useSearch();
     const player = usePlayerSong();
     const [volume, setVolume] = useState(0.5);
-    const [isPlaying, setIsPlaying] = useState(false);
+    const { isPlaying ,setIsPlaying } = useSearch()
     const [currentTime, setCurrentTime] = useState(0);
     const [duration, setDuration] = useState(0)
     const Icon = isPlaying ? BsPauseFill : BsPlayFill;
@@ -94,7 +95,6 @@ export const PlayerContent: React.FC<PlayerContentProps> = ({
             onPlayNext();
         },
         onpause: () => setIsPlaying(false),
-        // interrupt: true, 
         format: ['mp3']
     }
     )
@@ -197,6 +197,11 @@ export const PlayerContent: React.FC<PlayerContentProps> = ({
     }, [duration, currentTime]);
 
 
+    const handlePlayShuffle = () => {
+        setIsShuffle(!isShuffle);
+        const msg = isShuffle ? "InActive" : "Active"
+        toast.success(`Shuffle mode is ${msg}`)
+    }
 
     return (
         <div className="
@@ -230,6 +235,7 @@ export const PlayerContent: React.FC<PlayerContentProps> = ({
                       justify-center 
                       rounded-full 
                       p-1 
+                      mr-4
                       cursor-pointer
                       "
                 >
@@ -241,9 +247,9 @@ export const PlayerContent: React.FC<PlayerContentProps> = ({
                     className="hidden w-full md:flex justify-center items-center 
                  h-full max-w-[722px] gap-x-6 mt-1"
                 >
-                    {/* shuffle songs icon */}  
+                    {/* shuffle songs icon */}
                     <PiShuffleBold
-                        onClick={() => handlePlayShuffle}
+                        onClick={handlePlayShuffle}
                         size={30} className={twMerge(
                             `text-neutral-700 cursor-pointer`, isShuffle && "text-green-500 transition"
                         )} />

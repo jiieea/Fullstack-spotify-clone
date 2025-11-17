@@ -49,7 +49,7 @@ const PlayerMedia: React.FC<PlayerMediaProps> = ({
                     alt="song image"
                     src={imagePath || "/images/liked.png"}
                     fill
-                    className="object-cover z-30 transition-all duration-300 group-hover:brightness-50" // Adjusted brightness and transition
+                    className="object-cover  transition-all duration-300 group-hover:brightness-50" // Adjusted brightness and transition
                 />
                 <div
                     className="
@@ -67,7 +67,7 @@ const PlayerMedia: React.FC<PlayerMediaProps> = ({
                     <FaPlay className="text-white text-2xl" /> {/* Increased icon size */}
                 </div>
             </div>
-            <div className="flex-1 w-full max-w-[150px] overflow-hidden md:hidden">
+            <div className="flex-1 w-full max-w-[170px] overflow-hidden md:hidden">
                 <div className='marquee-wrapper'>
                     <div className="whitespace-nowrap 
   animate-marquee 

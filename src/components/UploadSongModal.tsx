@@ -119,7 +119,7 @@ const UploadSongModal = () => {
 
             router.refresh();
             setIsLoading(false);
-            toast.success("Song Created 🎉")
+            toast.success("Song Uploaded 🎉")
             reset();
             onClose(); // Call onClose AFTER reset and toast.success for better user experience
             

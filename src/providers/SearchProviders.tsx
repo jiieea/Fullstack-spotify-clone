@@ -4,29 +4,25 @@ import {
     useContext,
     createContext,
     useState,
-    Dispatch,
-    SetStateAction,
     ReactNode
 } from "react"
 
-interface SearchContextType {
-    searchValue: string,
-    setSearchValue: Dispatch<SetStateAction<string>>
-    isShuffle : boolean,
-    setIsShuffle : Dispatch<SetStateAction<boolean>>
-}
+import { SearchContextType } from '../app/interfaces/types'
 
 const SearchContext = createContext<SearchContextType | undefined>(undefined)
 const SearchProvider: React.FC<{ children: ReactNode }> = ({
     children
 }) => {
     const [searchValue, setSearchValue] = useState('');
-    const [ isShuffle , setIsShuffle ] = useState(false);
+    const [isShuffle, setIsShuffle] = useState(false);
+    const [isPlaying, setIsPlaying] = useState(false);
     const contextValue = {
         searchValue,
         isShuffle,
         setSearchValue,
-        setIsShuffle
+        setIsShuffle,
+        isPlaying,
+        setIsPlaying
     }
     return (
         <SearchContext.Provider value={contextValue} >

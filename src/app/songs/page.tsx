@@ -19,7 +19,7 @@ const page  =async() => {
     ]) 
   return (
     <div className='w-full  md:h-full rounded-2xl  bg-neutral-900 h-[85vh]'>
-        <CardContainer  songs={ songs } userData={ userData}/>
+        <CardContainer  songs={ songs } userData={ userData!}/>
     </div>
   )
 }

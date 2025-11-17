@@ -46,6 +46,7 @@ function SheetLibrary() {
       <SheetContent
         side="bottom"
         className="
+        z-50
           border-black
           p-0 
           mb-[60px]

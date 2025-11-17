@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import SidebarItems from './SidebarItems';
 import { GoPlus } from "react-icons/go";
 import { twMerge } from 'tailwind-merge';
@@ -13,6 +13,7 @@ import UploadMenu from './UploadMenu';
 import LikedSongs from './LikedSongs';
 import { MobileNavbar } from './MobileNavbar';
 import usePlayerSong from '@/hooks/usePlayer';
+import { useRouter } from 'next/navigation';
 export const Sidebar: React.FC<SidebarProps> = (
     {
         icon: Icon,
@@ -22,11 +23,18 @@ export const Sidebar: React.FC<SidebarProps> = (
         likedSongs,
     }
 ) => {
+    const router = useRouter()
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const { onOpen } = useUploadSongModal();
     const { user } = useUsers()
     const authModal = useAuthModal();
     const player = usePlayerSong()
+
+    useEffect(() => {
+        if(!user) {
+            router.push('/')
+        }
+    },[user , router])
 
     const handleOpenModal = () => {
         // if user not login  , open auth modal
@@ -46,8 +54,8 @@ export const Sidebar: React.FC<SidebarProps> = (
     return (
         <div>
             <div className={twMerge(
-                `flex 2xl:h-[90vh] h-[85vh] w-full bg-black  text-white`,
-                player.activeId && "md:h-[calc(100vh-140px)] mb-10 md:mb-0 "
+                `flex 2xl:h-[90vh]  h-[85vh] w-full bg-black  text-white`,
+                player.activeId && "2xl:h-[calc(100vh-150px)] mb-10 md:mb-0 "
             )}>
                 {/* Sidebar container */}
                 <div
