@@ -41,6 +41,18 @@ export const PlaylistContent: React.FC<PlaylistContentProps> = ({
   const [sort, setSort] = useState<SortType>('default');
   const [isDisabled, setIsDisabled] = useState(false); // Renamed for consistency
 
+  const handlePlayShuffle = () => {
+        try {
+            setIsShuffle(!isShuffle);
+            const msg = isShuffle ? "Incative" : "Active"
+            toast.success(`Shuffle mode ${msg}}`)
+        }catch(e : unknown) {
+            if(e instanceof Error ){
+                toast.error(e.message)
+            }
+        }
+  }
+
   useEffect(() => {
     if(dataOwner.id !== user?.id){
       setIsDisabled(true)

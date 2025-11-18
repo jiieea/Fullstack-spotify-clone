@@ -28,22 +28,27 @@ const AccountPage: React.FC<AccountPageProps> = (
                 mt-8 
                 space-y-2
             '>
-                {/* Section Title, styled prominently */}
-                <h2 className='
+                <div className='flex justify-between p-2'>
+                    {/* Section Title, styled prominently */}
+                    <h2 className='
                     text-white 
                     text-2xl 
                     font-bold 
                     mb-4 
                     md:text-3xl
                 '>
-                    Your Uploaded Songs
-                </h2>
+                        Your Uploaded Songs
+                    </h2>
+                    <p className='text-neutral-600 cursor-pointer hover:text-white transition font-semibold'>
+                        See all
+                    </p>
+                </div>
                 {songs.length === 0 ? (
                     <p className='text-neutral-400 text-base py-4'>
                         You haven&apos;t uploaded any songs yet.
                     </p>
                 ) : (
-                    songs.slice(0,4).map((song, index) => (
+                    songs.slice(0, 4).map((song, index) => (
                         <OwnedSongs
                             song={song}
                             key={song.id}
@@ -52,7 +57,6 @@ const AccountPage: React.FC<AccountPageProps> = (
                         />
                     ))
                 )}
-
 
             </div>
 

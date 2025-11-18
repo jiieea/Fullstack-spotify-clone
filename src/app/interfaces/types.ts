@@ -1,4 +1,4 @@
-import { JSX } from "react";
+import { Dispatch, JSX, SetStateAction } from "react";
 import { Playlist, Song, UserDetails } from "../../../types";
 
 
@@ -155,4 +155,19 @@ export interface PlaylistContentProps {
   data: Playlist;
   userPlaylist: Playlist[];
   onHandlePlay: (id: string) => void;
+}
+
+
+export interface SearchContextType {
+    searchValue: string,
+    isPlaying: boolean, setIsPlaying: Dispatch<SetStateAction<boolean>>,
+    setSearchValue: Dispatch<SetStateAction<string>>
+    isShuffle: boolean,
+    setIsShuffle: Dispatch<SetStateAction<boolean>>
+}
+
+
+export interface ContainerProviderProps {
+    children : React.ReactNode,
+    userName : string | null
 }

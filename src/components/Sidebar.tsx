@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import SidebarItems from './SidebarItems';
 import { GoPlus } from "react-icons/go";
 import { twMerge } from 'tailwind-merge';
@@ -13,6 +13,7 @@ import UploadMenu from './UploadMenu';
 import LikedSongs from './LikedSongs';
 import { MobileNavbar } from './MobileNavbar';
 import usePlayerSong from '@/hooks/usePlayer';
+import { useRouter } from 'next/navigation';
 export const Sidebar: React.FC<SidebarProps> = (
     {
         icon: Icon,
@@ -22,11 +23,18 @@ export const Sidebar: React.FC<SidebarProps> = (
         likedSongs,
     }
 ) => {
+    const router = useRouter()
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const { onOpen } = useUploadSongModal();
     const { user } = useUsers()
     const authModal = useAuthModal();
     const player = usePlayerSong()
+
+    useEffect(() => {
+        if(!user) {
+            router.push('/')
+        }
+    },[user , router])
 
     const handleOpenModal = () => {
         // if user not login  , open auth modal

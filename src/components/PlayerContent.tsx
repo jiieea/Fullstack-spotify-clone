@@ -22,7 +22,7 @@ export const PlayerContent: React.FC<PlayerContentProps> = ({
     const { isShuffle, handleToggleShuffle } = useShuffle();
     const player = usePlayerSong();
     const [volume, setVolume] = useState(0.5);
-    const [isPlaying, setIsPlaying] = useState(false);
+    const { isPlaying ,setIsPlaying } = useSearch()
     const [currentTime, setCurrentTime] = useState(0);
     const [duration, setDuration] = useState(0)
     const Icon = isPlaying ? BsPauseFill : BsPlayFill;
@@ -92,7 +92,6 @@ export const PlayerContent: React.FC<PlayerContentProps> = ({
             onPlayNext();
         },
         onpause: () => setIsPlaying(false),
-        // interrupt: true, 
         format: ['mp3']
     }
     )
@@ -226,6 +225,7 @@ export const PlayerContent: React.FC<PlayerContentProps> = ({
                       justify-center 
                       rounded-full 
                       p-1 
+                      mr-4
                       cursor-pointer
                       "
                 >

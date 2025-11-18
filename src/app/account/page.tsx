@@ -25,7 +25,7 @@ const page = async () => {
       getPlaylistByUserId(userId!)
     ])
   return (
-    <div className='w-full 2xl:h-[90vh] rounded-2xl overflow-y-auto bg-neutral-900 h-[85vh] '>
+    <div className='w-full 2xl:h-[90vh] rounded-2xl  bg-neutral-900 h-[85vh] '>
       <AccountHeader
         songs={userSongs}
         data={dataUser}
