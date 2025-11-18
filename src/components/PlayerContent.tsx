@@ -11,17 +11,15 @@ import PlaylistButton from './PlaylistButton'
 import usePlayerSong from '@/hooks/usePlayer'
 import SliderVolume from './SliderVol'
 import PlayerMedia from './PlayerMedia'
-import { useSearch } from '@/providers/SearchProviders'
 import { PiShuffleBold } from 'react-icons/pi'
 import { twMerge } from 'tailwind-merge'
-import usePlayShuffle from '@/hooks/usePlayShuffle'
+import useShuffle from './useShuffle'
 export const PlayerContent: React.FC<PlayerContentProps> = ({
     song,
     songUrl,
     userPlaylists
 }) => {
-    const { isShuffle } = useSearch();
-    const handlePlayShuffle = usePlayShuffle()
+    const { isShuffle, handleToggleShuffle } = useShuffle();
     const player = usePlayerSong();
     const [volume, setVolume] = useState(0.5);
     const [isPlaying, setIsPlaying] = useState(false);
@@ -196,8 +194,6 @@ export const PlayerContent: React.FC<PlayerContentProps> = ({
         return 0;
     }, [duration, currentTime]);
 
-
-
     return (
         <div className="
         grid grid-cols-2 md:grid-cols-3 h-full ">
@@ -241,9 +237,9 @@ export const PlayerContent: React.FC<PlayerContentProps> = ({
                     className="hidden w-full md:flex justify-center items-center 
                  h-full max-w-[722px] gap-x-6 mt-1"
                 >
-                    {/* shuffle songs icon */}  
+                    {/* shuffle songs icon */}
                     <PiShuffleBold
-                        onClick={() => handlePlayShuffle}
+                        onClick={handleToggleShuffle}
                         size={30} className={twMerge(
                             `text-neutral-700 cursor-pointer`, isShuffle && "text-green-500 transition"
                         )} />

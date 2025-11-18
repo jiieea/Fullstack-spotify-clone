@@ -17,8 +17,7 @@ import AddSong from './AddSong';
 import { useUsers } from '@/hooks/useUsers';
 import { PiShuffleBold } from "react-icons/pi";
 import Button from '@/components/Button';
-import { useSearch } from '@/providers/SearchProviders';
-import usePlayShuffle from '@/hooks/usePlayShuffle';
+import useShuffle from '@/components/useShuffle';
 // --- Type Refinement ---
 type SortType = "by artist" | "by title" | 'add recently' | 'default';
 
@@ -32,8 +31,7 @@ export const PlaylistContent: React.FC<PlaylistContentProps> = ({
   allSongs
 }) => {
   const supabase = useSupabaseClient();
-  const {  isShuffle } = useSearch();
-  const playShuffle = usePlayShuffle()
+  const {  isShuffle  , handleToggleShuffle } = useShuffle();
   const router = useRouter();
   const { user } = useUsers();
   const ownerId = dataOwner.id;
@@ -154,6 +152,7 @@ export const PlaylistContent: React.FC<PlaylistContentProps> = ({
     );
   }
 
+
   // --- Render ---
   return (
     <div className='mt-[-3rem] py-2 md:py-3 md:px-3 '>
@@ -177,7 +176,7 @@ export const PlaylistContent: React.FC<PlaylistContentProps> = ({
               `hover:scale-110 transition cursor-pointer`,
               isShuffle ? "text-green-500" : "text-neutral-400 hover:text-neutral-300",
             )}
-            onClick={() => playShuffle}
+            onClick={handleToggleShuffle}
           />
                <PlaylistOption
             disabled={isDisabled}
