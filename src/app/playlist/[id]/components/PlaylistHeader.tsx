@@ -21,7 +21,7 @@ const PlaylistPage: React.FC<PlaylistPageProps> = ({ allSongs , userName, data, 
   const desc = data?.description;
   const supabase = useSupabaseClient();
   const handlePlaySong = useOnplay(songs);
-  const avatar = useLoadAvatar(userName)
+  const avatar = useLoadAvatar(userName);
 
 
   const getSongUrls = useMemo(() => {
@@ -68,7 +68,7 @@ const PlaylistPage: React.FC<PlaylistPageProps> = ({ allSongs , userName, data, 
               {playlistName} </p>
             {
               desc && (
-                <p className='ml-[-1rem] hidden md:block text-neutral-400 
+                <p className='ml-[-1rem] mt-2 hidden md:block text-neutral-400 
                 text-start font-semibold text-[13px] md:text-[16px] md:ps-2 md:ml-0'>
                   {desc}
                 </p>
