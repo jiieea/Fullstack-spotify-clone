@@ -5,6 +5,7 @@ import React from 'react'
 import { AccountPageProps } from '../../interfaces/types'
 import { MyPlaylist } from './MyPlaylist'
 import OwnedSongs from './OwnedSongs'
+import { useRouter } from 'next/navigation'
 
 
 
@@ -15,7 +16,7 @@ const AccountPage: React.FC<AccountPageProps> = (
         userData
     }
 ) => {
-
+    const router = useRouter()
     return (
         <div className='
             h-full
@@ -39,7 +40,10 @@ const AccountPage: React.FC<AccountPageProps> = (
                 '>
                         Your Uploaded Songs
                     </h2>
-                    <p className='text-neutral-600 cursor-pointer hover:text-white transition font-semibold'>
+                    <p
+                        className='text-neutral-600 cursor-pointer
+                     hover:text-white transition font-semibold'
+                        onClick={() => router.push('/account/mySong')}>
                         See all
                     </p>
                 </div>

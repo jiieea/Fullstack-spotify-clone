@@ -11,10 +11,9 @@ import PlaylistButton from './PlaylistButton'
 import usePlayerSong from '@/hooks/usePlayer'
 import SliderVolume from './SliderVol'
 import PlayerMedia from './PlayerMedia'
-import { useSearch } from '@/providers/SearchProviders'
 import { PiShuffleBold } from 'react-icons/pi'
 import { twMerge } from 'tailwind-merge'
-import { toast } from 'sonner'
+import usePlayShuffle from '@/hooks/usePlayShuffle'
 
 
 export const PlayerContent: React.FC<PlayerContentProps> = ({
@@ -22,10 +21,10 @@ export const PlayerContent: React.FC<PlayerContentProps> = ({
     songUrl,
     userPlaylists
 }) => {
-    const { isShuffle, setIsShuffle } = useSearch();
+    const { isShuffle , handleToggleShuffle} = usePlayShuffle();
     const player = usePlayerSong();
     const [volume, setVolume] = useState(0.5);
-    const { isPlaying ,setIsPlaying } = useSearch()
+    const [ isPlaying ,setIsPlaying ]= useState(false)
     const [currentTime, setCurrentTime] = useState(0);
     const [duration, setDuration] = useState(0)
     const Icon = isPlaying ? BsPauseFill : BsPlayFill;
@@ -197,12 +196,6 @@ export const PlayerContent: React.FC<PlayerContentProps> = ({
     }, [duration, currentTime]);
 
 
-    const handlePlayShuffle = () => {
-        setIsShuffle(!isShuffle);
-        const msg = isShuffle ? "InActive" : "Active"
-        toast.success(`Shuffle mode is ${msg}`)
-    }
-
     return (
         <div className="
         grid grid-cols-2 md:grid-cols-3 h-full ">
@@ -249,7 +242,7 @@ export const PlayerContent: React.FC<PlayerContentProps> = ({
                 >
                     {/* shuffle songs icon */}
                     <PiShuffleBold
-                        onClick={handlePlayShuffle}
+                        onClick={handleToggleShuffle}
                         size={30} className={twMerge(
                             `text-neutral-700 cursor-pointer`, isShuffle && "text-green-500 transition"
                         )} />

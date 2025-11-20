@@ -160,10 +160,7 @@ export interface PlaylistContentProps {
 
 export interface SearchContextType {
     searchValue: string,
-    isPlaying: boolean, setIsPlaying: Dispatch<SetStateAction<boolean>>,
     setSearchValue: Dispatch<SetStateAction<string>>
-    isShuffle: boolean,
-    setIsShuffle: Dispatch<SetStateAction<boolean>>
 }
 
 

@@ -14,15 +14,9 @@ const SearchProvider: React.FC<{ children: ReactNode }> = ({
     children
 }) => {
     const [searchValue, setSearchValue] = useState('');
-    const [isShuffle, setIsShuffle] = useState(false);
-    const [isPlaying, setIsPlaying] = useState(false);
     const contextValue = {
         searchValue,
-        isShuffle,
         setSearchValue,
-        setIsShuffle,
-        isPlaying,
-        setIsPlaying
     }
     return (
         <SearchContext.Provider value={contextValue} >
