@@ -17,7 +17,6 @@ import AddSong from './AddSong';
 import { useUsers } from '@/hooks/useUsers';
 import { PiShuffleBold } from "react-icons/pi";
 import Button from '@/components/Button';
-import { useSearch } from '@/providers/SearchProviders';
 import usePlayShuffle from '@/hooks/usePlayShuffle';
 // --- Type Refinement ---
 type SortType = "by artist" | "by title" | 'add recently' | 'default';

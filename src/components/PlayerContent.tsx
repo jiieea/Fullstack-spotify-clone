@@ -15,7 +15,71 @@ import { PiShuffleBold } from 'react-icons/pi'
 import { twMerge } from 'tailwind-merge'
 import usePlayShuffle from '@/hooks/usePlayShuffle'
 
-
+/**
+ * PlayerContent Component
+ * 
+ * A comprehensive music player component that provides full playback controls
+ * and audio management functionality for a Spotify-like music application.
+ * 
+ * @component
+ * @example
+ * ```tsx
+ * <PlayerContent 
+ *   song={currentSong} 
+ *   songUrl="/api/songs/123.mp3"
+ *   userPlaylists={playlists}
+ * />
+ * ```
+ * 
+ * @features
+ * - **Playback Controls**: Play, pause, next, previous song navigation
+ * - **Shuffle Mode**: Random song selection with visual indicator
+ * - **Volume Control**: Volume slider with mute/unmute toggle
+ * - **Progress Tracking**: Real-time progress bar with seek functionality
+ * - **Time Display**: Current time and total duration formatting
+ * - **Auto-advance**: Automatically plays next song when current ends
+ * - **Responsive Design**: Different layouts for mobile and desktop
+ * 
+ * @props
+ * - `song`: The currently playing song object
+ * - `songUrl`: URL path to the audio file (MP3 format)
+ * - `userPlaylists`: Array of user's playlists for adding songs
+ * 
+ * @state
+ * - `volume`: Volume level (0-1), default 0.5
+ * - `isPlaying`: Boolean indicating if song is currently playing
+ * - `currentTime`: Current playback position in seconds
+ * - `duration`: Total song duration in seconds
+ * 
+ * @behavior
+ * - Automatically plays song when `songUrl` changes
+ * - Updates current time every 500ms while playing
+ * - Handles shuffle mode: random selection avoiding current song
+ * - Handles sequential mode: loops to first song when reaching end
+ * - Previous button loops to last song when at beginning
+ * - Volume changes are applied in real-time to the audio
+ * - Progress bar allows seeking to any position in the song
+ * 
+ * @dependencies
+ * - `use-sound`: Audio playback library (Howler.js wrapper)
+ * - `usePlayerSong`: Custom hook for player state management
+ * - `usePlayShuffle`: Custom hook for shuffle mode state
+ * 
+ * @layout
+ * - **Desktop (md+)**: 3-column grid with full controls
+ *   - Column 1: Song info, like button, playlist button
+ *   - Column 2: Playback controls, progress bar, time display
+ *   - Column 3: Volume controls
+ * - **Mobile**: 2-column grid with simplified controls
+ *   - Column 1: Song info, like button, playlist button
+ *   - Column 2: Play/pause button only
+ * 
+ * @audio
+ * - Supports MP3 format only
+ * - Uses Howler.js for audio processing
+ * - Handles audio cleanup on unmount
+ * - Volume range: 0 (muted) to 1 (max)
+ */
 export const PlayerContent: React.FC<PlayerContentProps> = ({
     song,
     songUrl,
@@ -29,7 +93,14 @@ export const PlayerContent: React.FC<PlayerContentProps> = ({
     const [duration, setDuration] = useState(0)
     const Icon = isPlaying ? BsPauseFill : BsPlayFill;
     const VolumeIcon = volume === 0 ? FaVolumeXmark : FaVolumeLow;
-    // helper function to return random song id 
+    
+    /**
+     * Helper function to get a random song ID that is different from the current song
+     * @param songIds - Array of all available song IDs
+     * @param currentIdx - Index of the currently playing song
+     * @returns Random index that is not the current index
+     * @note If only one song exists, returns 0 to loop the same song
+     */
     const getRandomSongId = (songIds: string[], currentIdx: number): number => {
         // if the song only one , loop the song 
         if (songIds.length <= 1) return 0;
@@ -43,7 +114,11 @@ export const PlayerContent: React.FC<PlayerContentProps> = ({
         return randomIndex;
     }
 
-    //  play  next song
+    /**
+     * Plays the next song in the queue
+     * Supports both shuffle and sequential modes
+     * Automatically loops to the first song when reaching the end
+     */
     const onPlayNext = () => {
         if (player.ids.length === 0) {
             return;
@@ -68,7 +143,10 @@ export const PlayerContent: React.FC<PlayerContentProps> = ({
         player.setId(nextSongId)
     }
 
-    // play previous song
+    /**
+     * Plays the previous song in the queue
+     * Automatically loops to the last song when at the beginning
+     */
     const onPlayPrevious = () => {
         if (!player) {
             return;
@@ -98,6 +176,10 @@ export const PlayerContent: React.FC<PlayerContentProps> = ({
     }
     )
 
+    /**
+     * Effect: Automatically plays the sound when it's loaded
+     * Cleans up by unloading the sound when component unmounts or sound changes
+     */
     useEffect(() => {
         sound?.play();
         return () => {
@@ -106,6 +188,9 @@ export const PlayerContent: React.FC<PlayerContentProps> = ({
 
     }, [sound])
 
+    /**
+     * Effect: Updates the sound volume when volume state changes
+     */
     useEffect(() => {
         if (sound) {
             sound.volume(volume)
@@ -113,6 +198,9 @@ export const PlayerContent: React.FC<PlayerContentProps> = ({
     }, [sound, volume])
 
 
+    /**
+     * Toggles play/pause state of the current song
+     */
     const handlePlayingMusic = () => {
         if (!isPlaying) {
             play()
@@ -121,7 +209,11 @@ export const PlayerContent: React.FC<PlayerContentProps> = ({
         }
     }
 
-    // format time for progress bar
+    /**
+     * Formats seconds into MM:SS format for display
+     * @param seconds - Time in seconds to format
+     * @returns Formatted time string (e.g., "3:45")
+     */
     const formatTime = (seconds: number): string => {
         if (isNaN(seconds) || seconds < 0) return '0:00';
         const minutes = Math.floor(seconds / 60);
@@ -131,6 +223,9 @@ export const PlayerContent: React.FC<PlayerContentProps> = ({
     };
 
 
+    /**
+     * Toggles volume between muted (0) and full volume (1)
+     */
     const handleSetVolume = () => {
         if (volume === 0) {
             setVolume(1)
@@ -140,7 +235,10 @@ export const PlayerContent: React.FC<PlayerContentProps> = ({
     }
 
 
-    // Effect to set the duration once the sound is ready
+    /**
+     * Effect: Sets the song duration once the sound is loaded and ready
+     * Uses a small delay to ensure Howler.js has the duration available
+     */
     useEffect(() => {
         if (sound) {
             // Howler.js needs a short delay/check for duration to be available
@@ -153,7 +251,10 @@ export const PlayerContent: React.FC<PlayerContentProps> = ({
         }
     }, [sound]);
 
-    // Effect to update currentTime while the song is playing
+    /**
+     * Effect: Updates currentTime every 500ms while the song is playing
+     * Clears the interval when paused or when sound changes
+     */
     useEffect(() => {
         let intervalId: NodeJS.Timeout | undefined;
         if (isPlaying && sound) {
@@ -179,6 +280,10 @@ export const PlayerContent: React.FC<PlayerContentProps> = ({
         };
     }, [isPlaying, sound]);
 
+    /**
+     * Handles seeking to a specific position in the song
+     * @param event - Change event from the progress bar input
+     */
     const handleSeek = (event: React.ChangeEvent<HTMLInputElement>) => {
         const newTime = parseFloat(event.target.value);
         setCurrentTime(newTime); // Update state for instant visual feedback
@@ -187,6 +292,10 @@ export const PlayerContent: React.FC<PlayerContentProps> = ({
         }
     }
 
+    /**
+     * Calculates the progress percentage for the progress bar
+     * Returns 0 if duration is not available
+     */
     const progressPercent = useMemo(() => {
         if (duration > 0) {
             return (currentTime / duration) * 100;

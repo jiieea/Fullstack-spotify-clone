@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Montserrat  ,Gothic_A1 } from "next/font/google";
 import "./globals.css";
 import { Sidebar } from "@/components/Sidebar";
 import SupabaseProvider from "@/providers/SupabaseProvider";
@@ -17,15 +16,6 @@ import getSong from "./action/getSong";
 import Header from "@/components/Header";
 
 
-const gothic = Gothic_A1({
-  variable : '--font-ghotic-a1',
-  subsets : ['latin'],
-  weight: '400'
-})
-const montserrat = Montserrat({
-  variable: '--font-montserrat',
-  subsets: ['latin']
-})
 export const metadata: Metadata = {
   title: "Spotify Clone",
   description: "NextJs Spotify clone app",
@@ -62,7 +52,7 @@ export default async function RootLayout({
     <html lang="en">
        <link rel="icon" href="/assets/soundwave.png" />
       <body
-        className={`${gothic.className} antialiased bg-black ${montserrat.className} `}
+        className={` antialiased bg-black `}
       >
         <SupabaseProvider >
           <UserProvider>

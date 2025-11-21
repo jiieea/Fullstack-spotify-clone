@@ -8,9 +8,47 @@ import { useSearch } from '@/providers/SearchProviders'
 import useDebounceValue from '@/hooks/useDebounceValue'
 import qs from 'query-string'
 
+/**
+ * Props for the HomeAndSearch component
+ */
 interface HomeAndSearchProps {
+    /** Array of songs to be used for search results */
     searchSongs : Song[]
 }
+
+/**
+ * HomeAndSearch Component
+ * 
+ * A navigation and search component that provides:
+ * - Home button navigation (desktop only)
+ * - Real-time search input with debouncing
+ * - Search results dropdown with click-outside detection
+ * - URL query parameter synchronization
+ * 
+ * @component
+ * @example
+ * ```tsx
+ * <HomeAndSearch searchSongs={songs} />
+ * ```
+ * 
+ * @features
+ * - **Debounced Search**: Uses 500ms debounce to prevent excessive API calls
+ * - **URL Sync**: Updates URL query parameters when search value changes
+ * - **Click Outside**: Automatically closes search results when clicking outside
+ * - **Responsive**: Home button and search input are hidden on mobile (md:hidden)
+ * - **Focus Management**: Shows search results only when input is focused
+ * 
+ * @dependencies
+ * - Requires SearchProvider context wrapper (useSearch hook)
+ * - Uses Next.js router for navigation
+ * - Uses query-string for URL parameter management
+ * 
+ * @behavior
+ * - On mount, skips initial URL update to prevent unnecessary navigation
+ * - Debounces search input by 500ms before updating URL
+ * - Closes search results when clicking outside the component
+ * - Only displays on medium screens and above (md:block)
+ */
 export const HomeAndSearch = (
     {
         searchSongs
@@ -22,6 +60,12 @@ export const HomeAndSearch = (
     const [isFocus, setIsFocus] = useState(false)
     const router = useRouter();
     const isInitialAmount = useRef(true)
+    
+    /**
+     * Effect: Updates URL query parameters when debounced search value changes
+     * Skips the initial render to prevent unnecessary navigation
+     * Only updates URL if search value is not empty
+     */
     useEffect(() => {
         if(isInitialAmount.current) {
             isInitialAmount.current = false;
@@ -42,17 +86,23 @@ export const HomeAndSearch = (
         router.push(url);
     },[router , debounceValue])
 
+    /**
+     * Handles click outside the search component to close search results
+     * @param event - Mouse event from document click
+     */
     const handleClickOutside = useCallback((event : MouseEvent) => {
         if(ref.current && !ref.current.contains(event.target as Node)) {
             setIsFocus(false)
         }
     },[])
 
+    /**
+     * Effect: Attaches click-outside listener to close search results
+     * Removes listener on unmount to prevent memory leaks
+     */
     useEffect(() => {
-        // Attach the listener when the component mounts
         document.addEventListener('mousedown', handleClickOutside);
         return () => {
-            // Detach the listener when the component unmounts
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, [handleClickOutside]);
