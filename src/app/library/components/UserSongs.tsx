@@ -6,43 +6,34 @@ import { Song } from '../../../../types'
 import { useLoadImage } from '@/hooks/useLoadImage'
 // import useLoadSongUrl from '@/hook/useLoadSongUrl'
 interface UserSongsProps {
-    data : Song,
-    // onHandlePlaySong : (id : string) => void;
+  data: Song,
+  onHandlePlay: (id: string) => void;
 }
-const UserSongs:React.FC<UserSongsProps>= (
-    {
-        data
-        // , onHandlePlaySong
-    }
+const UserSongs: React.FC<UserSongsProps> = (
+  {
+    data
+    , onHandlePlay
+  }
 ) => {
-    const loadImgUrl = useLoadImage(data);
-    // const songUrl = useLoadSongUrl(data);
-    // const player = usePlayerSong()
+  const loadImgUrl = useLoadImage(data);
 
-// Todo :
-// const handlePlaySong =() => {
-//   if(onHandlePlaySong) {
-//     return onHandlePlaySong(data.id);
-//   }else {
-//     return player.setId(data.id)
-//   }
-// }
   return (
     <>
       <div className='flex gap-x-4 items-center p-3' key={data.id} >
-                     {/* image song */}
-                    <div className='w-[60px] h-[60px]'>
-                       <Image src={loadImgUrl || "/images/liked.png"} alt='playlistimage'
-                       width={60}
-                       height={60}
-                       className='object-cover w-full h-full rounded-lg'
-                     />
-                    </div>
-                     <div className='flex flex-col'>
-                       <h1 className='text-white font-semibold '>{ data.title }</h1>
-                       <p className='text-neutral-600'>   songs &bull; { data.author}</p>
-                     </div>
-                   </div>
+        {/* image song */}
+        <div className='w-[60px] h-[60px]'>
+          <Image src={loadImgUrl || "/images/liked.png"} alt='playlistimage'
+            width={60}
+            height={60}
+            onClick={() => onHandlePlay(data.id)}
+            className='object-cover w-full h-full rounded-lg'
+          />
+        </div>
+        <div className='flex flex-col'>
+          <h1 className='text-white font-semibold '>{data.title}</h1>
+          <p className='text-neutral-600'>   songs &bull; {data.author}</p>
+        </div>
+      </div>
     </>
   )
 }

@@ -168,3 +168,12 @@ export interface ContainerProviderProps {
     children : React.ReactNode,
     userName : string | null
 }
+
+
+export interface CategoryTileProps {
+    title: string;
+    color: string;
+    imageUrl: string;
+    isLarge?: boolean;
+    route: string
+}

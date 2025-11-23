@@ -18,7 +18,7 @@ const MySongs: React.FC<MySongsProps> = (
 ) => {
     const handlePlay = useOnplay(songs)
     return (
-        <div>
+        <div className='mb-6'>
             {
                 songs.map((song, index) => (
                     <MediaItem

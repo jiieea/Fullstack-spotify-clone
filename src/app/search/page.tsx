@@ -2,8 +2,7 @@ import React from 'react'
 import SearchSong from './components/SearchSong'
 import getSong from '../action/getSong';
 import getPlaylists from '../action/getPlaylists';
-
-const page = async() => {
+const page = async () => {
   const [
     songs,
     playlists,
@@ -13,12 +12,12 @@ const page = async() => {
   ])
 
   return (
-<>
-    <SearchSong
-      songs={songs}
-      playlists={ playlists }
-    />
-</>
+    <>
+      <SearchSong
+        songs={songs}
+        playlists={playlists}
+      />
+    </>
   )
 }
 

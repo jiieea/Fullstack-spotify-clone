@@ -374,6 +374,7 @@ export const PlayerContent: React.FC<PlayerContentProps> = ({
                         value={currentTime}
                         onChange={handleSeek}
                         disabled={duration === 0}
+                        aria-label="Seek song progress"
                         className="w-full spotify-progress-bar rounded-lg appearance-none cursor-pointer hidden md:block "
                         style={{ '--progress-percent': `${progressPercent}%` } as CSSProperties}
                     />
