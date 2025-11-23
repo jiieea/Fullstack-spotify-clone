@@ -1,5 +1,6 @@
 "use client"
 
+import usePlayShuffle from '@/hooks/usePlayShuffle'
 import PlaylistWrapper from '@/app/playlist/[id]/components/PlaylistHeaderWrapper'
 import { useGetDominantColor } from '@/hooks/useGetDominantColor'
 import React, { useCallback, useState } from 'react';
@@ -37,24 +38,12 @@ const LikedSongPage: React.FC<LikedSongPageProps> = ({
   userData
 }) => {
   const imageUrl = "/assets/liked.png";
-  const { isShuffle   , setIsShuffle} = useSearch()
+const { isShuffle , handleToggleShuffle } = usePlayShuffle()
   const dominantColor = useGetDominantColor(imageUrl);
   const [isLoading, setIsLoading] = useState(false);
   const onPlay = useOnplay(likedSongs);
   const [songs, setSongs] = useState<Song[]>(likedSongs);
   const [sort, setSort] = useState<SortType>('default');
-
-    const playShuffle = () => {
-      try {
-      setIsShuffle(!isShuffle);
-      const msg = isShuffle === true ? "desactive " : "active"
-      toast.success(`Shuffel Mode ${msg}`);
-      }catch(e : unknown) {
-        if(e instanceof Error ) {
-          toast.error('failed to active shuffle' + e.message)
-        }
-      }
-    }
 
   // centralize all sorting functions 
   const sortSongs = useCallback((sortType: SortType) => {
@@ -129,7 +118,7 @@ const LikedSongPage: React.FC<LikedSongPageProps> = ({
                 `hover:scale-110 transition cursor-pointer`,
                 isShuffle ? "text-green-500" : "text-neutral-400 hover:text-neutral-300",
               )}
-              onClick={playShuffle}
+              onClick={handleToggleShuffle}
             />
           </div>
           <div className='hidden md:block mr-4'>

@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import { LibraryContentProps } from '../../interfaces/types'
 import UserSongs from './UserSongs';
 import UserPlaylists from './UserPlaylists';
+import useOnplay from '@/hooks/useOnPlay';
 const LibraryContent: React.FC<LibraryContentProps> = (
     {
         userSongs,
@@ -16,7 +17,7 @@ const LibraryContent: React.FC<LibraryContentProps> = (
     }
 ) => {
     const router = useRouter();
-    //   const onPlay = useOnplay(userSongs);
+      const handlePlay = useOnplay(userSongs);
 
     const onClick = () => {
         router.push('/liked')
@@ -43,7 +44,7 @@ const LibraryContent: React.FC<LibraryContentProps> = (
                 <div className='mb-[10em]'>
                     {
                         userSongs.map((song) => (
-                            <UserSongs key={song.id} data={song} />
+                            <UserSongs key={song.id} data={song} onHandlePlay={(id) => handlePlay(id) } />
                         ))
                     }
                     {

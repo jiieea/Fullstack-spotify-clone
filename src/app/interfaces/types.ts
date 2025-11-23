@@ -160,14 +160,20 @@ export interface PlaylistContentProps {
 
 export interface SearchContextType {
     searchValue: string,
-    isPlaying: boolean, setIsPlaying: Dispatch<SetStateAction<boolean>>,
     setSearchValue: Dispatch<SetStateAction<string>>
-    isShuffle: boolean,
-    setIsShuffle: Dispatch<SetStateAction<boolean>>
 }
 
 
 export interface ContainerProviderProps {
     children : React.ReactNode,
     userName : string | null
+}
+
+
+export interface CategoryTileProps {
+    title: string;
+    color: string;
+    imageUrl: string;
+    isLarge?: boolean;
+    route: string
 }

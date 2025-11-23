@@ -64,7 +64,7 @@ const PlayerMedia: React.FC<PlayerMediaProps> = ({
               duration-300
             " // Fade in play button on hover
                 >
-                    <FaPlay className="text-white text-2xl" /> {/* Increased icon size */}
+                    <FaPlay className="text-green text-2xl" /> {/* Increased icon size */}
                 </div>
             </div>
             <div className="flex-1 w-full max-w-[170px] overflow-hidden md:hidden">
