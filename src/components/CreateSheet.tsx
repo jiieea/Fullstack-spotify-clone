@@ -1,10 +1,14 @@
 
+import useCreatePlaylistModal from '@/hooks/useCreatePlaylistModal'
+import useUploadSongModal from '@/hooks/useUploadSongModal'
 import React from 'react'
 import { SlCloudUpload } from 'react-icons/sl'
 import { TbMusicPlus } from 'react-icons/tb'
 
 export const CreateSheet = () => {
-    return (
+    const songModal = useUploadSongModal();
+    const { onOpen } = useCreatePlaylistModal()
+    return ( 
         <div
             className={`
                 border-black
@@ -30,7 +34,7 @@ export const CreateSheet = () => {
                     <div className="bg-neutral-700 rounded-full p-4">
                         <SlCloudUpload size={30} className="text-neutral-400  " />
                     </div>
-                    <div className="flex flex-col text-neutral-500">
+                    <div className="flex flex-col text-neutral-500" onClick={songModal.onOpen}>
                         <h1 className="font-semibold text-white"> Song</h1>
                         <p className="text-[15px]">You can add songs from your local device</p>
                     </div>
@@ -44,7 +48,7 @@ export const CreateSheet = () => {
                     <div className="bg-neutral-700 rounded-full p-4">
                         <TbMusicPlus size={30} className="text-neutral-400  " />
                     </div>
-                    <div className="flex flex-col  text-neutral-500">
+                    <div className="flex flex-col  text-neutral-500" onClick={onOpen}>
                         <h1 className="font-semibold text-white"> Playlist</h1>
                         <p className="text-[15px] text-neutral-500">You can create a playlist</p>
                     </div>

@@ -3,7 +3,7 @@ import React from 'react'
 import { Song } from '../../types'
 import Image from 'next/image'
 import { FaPlay } from 'react-icons/fa'
-// import useGetDevice from '@/hook/useGetDevice'
+
 import { IoPhonePortraitOutline } from "react-icons/io5";
 import { useLoadImage } from '@/hooks/useLoadImage'
 import usePlayerSong from '@/hooks/usePlayer'
@@ -34,22 +34,24 @@ const PlayerMedia: React.FC<PlayerMediaProps> = ({
     return (
         <div
             className="
-          flex 
-          items-center 
-          gap-x-3 
-          cursor-pointer 
-          w-full 
-          px-2 py-1.5
-          rounded-md
-        "
+          flex 
+          items-center 
+          gap-x-3 
+          cursor-pointer 
+          w-full
+          px-2 
+          pt-1.5
+          md:py-1.5
+          rounded-md
+        "
             onClick={handleClick}
         >
-            <div className="relative min-h-[49px] min-w-[49px] rounded-md overflow-hidden group"> {/* Added group class */}
+            <div className="relative min-h-[50px] min-w-[50px] rounded-md overflow-hidden group"> {/* Added group class */}
                 <Image
                     alt="song image"
                     src={imagePath || "/images/liked.png"}
                     fill
-                    className="object-cover  transition-all duration-300 group-hover:brightness-50" // Adjusted brightness and transition
+                    className="w-full h-full object-cover  transition-all duration-300 group-hover:brightness-50" // Adjusted brightness and transition
                 />
                 <div
                     className="
@@ -86,7 +88,7 @@ const PlayerMedia: React.FC<PlayerMediaProps> = ({
                     <p className='text-green-400 font-light text-[12px]'>{deviceType}</p>
                 </div>
             </div>
-            <div className='md:flex flex-col  hidden w-[200px]'>
+            <div className='md:flex flex-col  hidden w-[159px]'>
                 <p className='text-white text-[14px] '>{title}</p>
                 <p className='text-neutral-500 text-[12px]'>{author}</p>
             </div>

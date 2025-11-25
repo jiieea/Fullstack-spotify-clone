@@ -14,6 +14,7 @@ import PlayerMedia from './PlayerMedia'
 import { PiShuffleBold } from 'react-icons/pi'
 import { twMerge } from 'tailwind-merge'
 import usePlayShuffle from '@/hooks/usePlayShuffle'
+import { usePlayerContext } from '@/providers/PlayerProviders'
 
 /**
  * PlayerContent Component
@@ -85,15 +86,15 @@ export const PlayerContent: React.FC<PlayerContentProps> = ({
     songUrl,
     userPlaylists
 }) => {
-    const { isShuffle , handleToggleShuffle} = usePlayShuffle();
+    const { isShuffle, handleToggleShuffle } = usePlayShuffle();
     const player = usePlayerSong();
     const [volume, setVolume] = useState(0.5);
-    const [ isPlaying ,setIsPlaying ]= useState(false)
     const [currentTime, setCurrentTime] = useState(0);
     const [duration, setDuration] = useState(0)
-    const Icon = isPlaying ? BsPauseFill : BsPlayFill;
     const VolumeIcon = volume === 0 ? FaVolumeXmark : FaVolumeLow;
-    
+    const { isPlaying ,setIsPlaying } = usePlayerContext()
+    const Icon = isPlaying ? BsPauseFill : BsPlayFill;
+
     /**
      * Helper function to get a random song ID that is different from the current song
      * @param songIds - Array of all available song IDs
@@ -308,9 +309,9 @@ export const PlayerContent: React.FC<PlayerContentProps> = ({
     return (
         <div className="
         grid grid-cols-2 md:grid-cols-3 h-full ">
-            <div className="flex w-full rounded-md
+            <div className="flex w-full rounded-md 
              justify-start md:bg-black">
-                <div className="flex items-center gap-x-4">
+                <div className="flex items-center gap-x-4   ">
                     < PlayerMedia data={song} />
                     <LikedButton songId={song.id} />
                     <PlaylistButton songId={song.id}

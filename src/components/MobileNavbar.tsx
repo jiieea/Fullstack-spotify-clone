@@ -68,7 +68,7 @@ export const MobileNavbar = () => {
 
     return (
         // Add a relative container for the positioning of the sheet
-        <div className="relative z-50 md:hidden w-full"> 
+        <div className="relative z-50 md:hidden w-full "> 
             {/* The sheet needs to be outside the nav, positioned relative to the container/viewport */}
             
            {

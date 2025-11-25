@@ -10,6 +10,9 @@ import Arrow from './Arrow';
 import Playlists from './Playlists';
 import { SortContent } from './SortContent';
 import { useRouter } from 'next/navigation';
+import MusicComponent from './MusicComponent';
+
+
 const HomePage: React.FC<HomePageProps> = ({
     songs,
     playlist,
@@ -78,8 +81,7 @@ const HomePage: React.FC<HomePageProps> = ({
                             setActive={setActiveTab}
                         />
 
-                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 
-                        lg:grid-cols-3 xl:grid-cols-4  gap-4 
+                        <div className="grid grid-cols-2 sm:grid-cols-3  xl:grid-cols-4  gap-4 
                         px-4 sm:px-6 lg:px-8 ">
                             {userPlaylists.map(item => (
                                 <QuickPickCard key={item.id} data={item} />
@@ -104,10 +106,10 @@ const HomePage: React.FC<HomePageProps> = ({
                             <div className="flex space-x-2 overflow-x-scroll 
                                 horizontal-scroll-container pb-8 px-4
                                 sm:px-6 lg:px-8"
-                                        ref={scrollRef}
-                                    >
-                                        <style>
-                                            {`
+                                ref={scrollRef}
+                            >
+                                <style>
+                                    {`
                                 .horizontal-scroll-container::-webkit-scrollbar {
                                 display: none;
                                 }
@@ -116,15 +118,18 @@ const HomePage: React.FC<HomePageProps> = ({
                                 scrollbar-width: none;  /* Firefox */
                                 }
                                 `}
-                                        </style>
-                                        {songs.map(item => (
-                                            <DailyMixCard
-                                                key={item.id}
-                                                song={item}
-                                                onHandlePlay={(id: string) => handlePlay(id)}
-                                            />
-                                        ))}
-                                    </div>
+                                </style>
+                                {songs.map(item => (
+                                    <DailyMixCard
+                                        key={item.id}
+
+                                    >
+                                        <MusicComponent
+                                            song={item}
+                                            handlePlay={(id: string) => handlePlay(id)} />
+                                    </DailyMixCard>
+                                ))}
+                            </div>
                             <Arrow
                                 isVisible={canScrolRight}
                                 onClick={rigthScroll}
@@ -135,9 +140,9 @@ const HomePage: React.FC<HomePageProps> = ({
                             <h2 className="text-xl md:text-2xl font-bold text-white hover:underline cursor-pointer">
                                 Playlist Recomendation
                             </h2>
-                            <p 
-                            onClick={() => router.push('/playlists')}
-                            className="text-sm font-bold uppercase text-gray-400 hover:underline">
+                            <p
+                                onClick={() => router.push('/playlists')}
+                                className="text-sm font-bold uppercase text-gray-400 hover:underline">
                                 See all
                             </p>
                         </div>

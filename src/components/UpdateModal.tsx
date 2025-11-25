@@ -7,7 +7,7 @@ import Button from './Button'
 import Image from 'next/image'
 import { Input } from './ui/input'
 import {
-    SubmitHandler
+SubmitHandler
     , FieldValues,
     useForm
 } from 'react-hook-form'
@@ -18,6 +18,8 @@ import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
 import { ModalProvidersProps } from '@/app/interfaces/types'
 import useLoadAvatar from '@/hooks/useLoadAvatar'
+import { sanitizeDisplayName } from '@/app/action/sanitizeFile'
+
 
 const UpdateModal: React.FC<ModalProvidersProps> = (
     {
@@ -29,10 +31,9 @@ const UpdateModal: React.FC<ModalProvidersProps> = (
     const { onClose, isOpen } = useUpdateProfile()
     const { user } = useUsers();
     const router = useRouter();
-    
+
     // Get the initial avatar URL, this will be the currently stored image
     const initialAvatarUrl = useLoadAvatar(userData!);
-
     // Handle form with react-hook-form
     const {
         watch,
@@ -43,7 +44,7 @@ const UpdateModal: React.FC<ModalProvidersProps> = (
     } = useForm<FieldValues>({
         // Set a default value that can be reset later
         defaultValues: {
-            full_name: '',
+            full_name: userData?.full_name || "",
             avatar_url: null,
         }
     })
@@ -52,13 +53,13 @@ const UpdateModal: React.FC<ModalProvidersProps> = (
     const [previewImg, setPreviewImg] = useState<string | null>(initialAvatarUrl || null);
 
     // Watch the form's avatar_url field for changes
-    const newImageFile = watch('avatar_url');
+    const newImageFile = watch('avatar_url') as FileList | null;
 
     // This useEffect will reset the form values when userData becomes available
     useEffect(() => {
         if (userData) {
             // Use setValue to programmatically update the form fields
-            setValue('full_name', userData.full_name, { shouldDirty: true });
+            setValue('full_name', userData.full_name ?? '', { shouldDirty: true });
         }
     }, [userData, setValue]);
 
@@ -66,14 +67,17 @@ const UpdateModal: React.FC<ModalProvidersProps> = (
     useEffect(() => {
         if (newImageFile && newImageFile.length > 0) {
             const file = newImageFile[0];
-            const previewUrl = URL.createObjectURL(file);
-            setPreviewImg(previewUrl);
-            // Clean up the object URL to free up memory
-            return () => URL.revokeObjectURL(previewUrl);
-        } else {
-            // If no new image is selected, show the existing avatar
-            setPreviewImg(initialAvatarUrl);
+
+            if (file instanceof File) {
+                const previewUrl = URL.createObjectURL(file);
+                setPreviewImg(previewUrl);
+                // Clean up the object URL to free up memory
+                return () => URL.revokeObjectURL(previewUrl);
+            }
         }
+
+        // If no new image is selected, show the existing avatar
+        setPreviewImg(initialAvatarUrl || null);
     }, [newImageFile, initialAvatarUrl]);
 
     const handleSubmitForm: SubmitHandler<FieldValues> = async (values) => {
@@ -81,8 +85,10 @@ const UpdateModal: React.FC<ModalProvidersProps> = (
             setIsLoading(true);
 
             // Handle image upload logic
-            let avatarPath = initialAvatarUrl;
+            let avatarPath = userData?.avatar_url ?? null;
             const newAvatarFile = values.avatar_url?.[0];
+            // retrieve value of name
+            const sanitizedFullName = sanitizeDisplayName(values.full_name);
 
             if (newAvatarFile) {
                 const uniqueID = uniqid()
@@ -103,7 +109,7 @@ const UpdateModal: React.FC<ModalProvidersProps> = (
             // Update user table
             const { error: fetchError } = await supabaseClient.from('users')
                 .update({
-                    full_name: values.full_name,
+                    full_name: sanitizedFullName || userData?.full_name || '',
                     avatar_url: avatarPath
                 }).eq('id', user?.id);
 

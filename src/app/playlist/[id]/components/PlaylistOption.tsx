@@ -74,7 +74,7 @@ export const PlaylistOption:React.FC<PlaylistOptionProps> = (
                     >
                         <div className={twMerge(
                             `p-1`
-                        )} role='menu' aria-orientation='vertical' aria-labelledby='options-menu'>
+                        )}>
                             <button 
                             onClick={() => handleDeletePlaylist(playlistId)}
                                 className={twMerge(

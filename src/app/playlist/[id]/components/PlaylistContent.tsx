@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { Song } from '../../../../../types';
 import MediaItem from '@/components/MediaItem';
-import { FaPlay, FaPlus } from "react-icons/fa";
+import { FaPause, FaPlay, FaPlus } from "react-icons/fa";
 import LikedSongContent from '@/app/liked/components/LikedSongContent';
 import { toast } from 'sonner';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
@@ -18,6 +18,7 @@ import { useUsers } from '@/hooks/useUsers';
 import { PiShuffleBold } from "react-icons/pi";
 import Button from '@/components/Button';
 import usePlayShuffle from '@/hooks/usePlayShuffle';
+import { usePlayerContext } from '@/providers/PlayerProviders';
 // --- Type Refinement ---
 type SortType = "by artist" | "by title" | 'add recently' | 'default';
 
@@ -40,8 +41,8 @@ export const PlaylistContent: React.FC<PlaylistContentProps> = ({
   const [isAddSongSheetOpen, setIsAddSongSheetOpen] = useState(false);
   const [sort, setSort] = useState<SortType>('default');
   const [isDisabled, setIsDisabled] = useState(false); // Renamed for consistency
-
-
+  const { isPlaying  } = usePlayerContext()
+  const Icon = isPlaying ? FaPause : FaPlay;
 
   useEffect(() => {
     if(dataOwner.id !== user?.id){
@@ -168,7 +169,7 @@ export const PlaylistContent: React.FC<PlaylistContentProps> = ({
               'bg-green-500 rounded-full p-3 hover:scale-110 transition cursor-pointer',
             )}
           >
-            <FaPlay size={20} className='text-black' />
+            <Icon size={20} className='text-black' />
           </button>
 
           <PiShuffleBold
