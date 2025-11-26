@@ -14,13 +14,19 @@ import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import SearchProvider from "@/providers/SearchProviders";
 import getSong from "./action/getSong";
 import Header from "@/components/Header";
-
+import { Metrophobic } from 'next/font/google';
+import PlayerProviders from "@/providers/PlayerProviders";
 
 export const metadata: Metadata = {
   title: "Spotify Clone",
   description: "NextJs Spotify clone app",
 };
 
+const metrophobic  =  Metrophobic({
+  weight : "400",
+  variable : "--font-metrophobic",
+  subsets : ['latin']
+})
 interface RooteLayoutProps {
   children: React.ReactNode;
 }
@@ -52,11 +58,12 @@ export default async function RootLayout({
     <html lang="en">
        <link rel="icon" href="/assets/soundwave.png" />
       <body
-        className={` antialiased bg-black `}
+        className={` antialiased bg-black ${ metrophobic.className}`}
       >
         <SupabaseProvider >
           <UserProvider>
             <SearchProvider>
+              <PlayerProviders>
               <ModalProviders  userData={  data!  }/>
               <Header  data={ data! }
                     searchSongs={songs}
@@ -72,6 +79,7 @@ export default async function RootLayout({
         <div>
       <Player userPlaylist={playlistUser}/>
         </div>
+              </PlayerProviders>
             </SearchProvider>
           </UserProvider>
         </SupabaseProvider>

@@ -1,9 +1,11 @@
+import getSong from '@/app/action/getSong'
 import React from 'react'
-
-const page = () => {
+import Musics from './components/Musics'
+const page = async() => {
+ const songs = await getSong()
   return (
     <div>
-      This is where musics will be render
+      <Musics  songs={ songs }/>
     </div>
   )
 }

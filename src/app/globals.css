@@ -258,3 +258,28 @@
   white-space: nowrap; /* Prevents wrapping */
   padding-right: 1rem; /* Adjust padding for gap between repeats */
 }
+
+@keyframes loading-wave {
+  0%, 100% {
+    height: 0.625rem;
+  }
+  50% {
+    height: 1.25rem;
+  }
+}
+
+.loading-bar {
+  animation: loading-wave 1s ease-in-out infinite;
+}
+
+.loading-bar-delay-1 {
+  animation: loading-wave 1s ease-in-out infinite 0.1s;
+}
+
+.loading-bar-delay-2 {
+  animation: loading-wave 1s ease-in-out infinite 0.2s;
+}
+
+.loading-bar-delay-3 {
+  animation: loading-wave 1s ease-in-out infinite 0.3s;
+}

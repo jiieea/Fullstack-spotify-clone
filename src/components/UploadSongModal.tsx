@@ -11,26 +11,10 @@ import { useUsers } from '@/hooks/useUsers'
 import { toast } from 'sonner'
 import { useSupabaseClient } from '@supabase/auth-helpers-react'
 import { useRouter } from 'next/navigation'
+import { sanitizeFilename } from '@/app/action/sanitizeFile'
 
-// Helper function to sanitize filenames for Supabase storage
-// Converts Unicode characters (like Japanese hiragana) to safe ASCII
-const sanitizeFilename = (filename: string): string => {
-    return filename
-        // Remove or replace non-ASCII characters with hyphens
-        .replace(/[^\x00-\x7F]/g, '-')
-        // Replace spaces with hyphens
-        .replace(/\s+/g, '-')
-        // Remove any characters that aren't alphanumeric, hyphens, or underscores
-        .replace(/[^a-zA-Z0-9_-]/g, '-')
-        // Remove multiple consecutive hyphens
-        .replace(/-+/g, '-')
-        // Remove leading/trailing hyphens
-        .replace(/^-+|-+$/g, '')
-        // Limit length to avoid issues
-        .substring(0, 100)
-        // Ensure it's not empty (fallback to 'file' if all characters were removed)
-        || 'file'
-}
+
+
 
 const UploadSongModal = () => {
     const { onClose, isOpen } = useUploadSongModal()
@@ -54,11 +38,11 @@ const UploadSongModal = () => {
 
     // event handler to submit the upload form
     const handleUploadSong: SubmitHandler<FieldValues> = async (values) => {
-        setIsLoading(true); 
+        setIsLoading(true);
         try {
-            const songFile = values.song?.[0]; 
+            const songFile = values.song?.[0];
             const imageFile = values.image?.[0];
-            
+
             if (!songFile || !imageFile || !user) {
                 toast.error('Missing required files or user not logged in');
                 setIsLoading(false);
@@ -66,10 +50,9 @@ const UploadSongModal = () => {
             }
 
             const uniqueID = uniqid();
-            
             // Sanitize the title for use in filename (handles Japanese characters and special symbols)
             const sanitizedTitle = sanitizeFilename(values.title);
-
+            // Extract genre from the song file
             // fetch songs bucket 
             const {
                 data: songData,
@@ -102,15 +85,24 @@ const UploadSongModal = () => {
                 return toast.error(`Image upload failed: ${imageError.message}`) // Added error message
             }
 
-            //  push the data to table song
+            //  push the data to table song
+            const insertData: {
+                user_id: string;
+                title: string;
+                author: string;
+                song_path: string;
+                image_path: string;
+            } = {
+                user_id: user.id,
+                title: values.title,
+                author: values.author,
+                song_path: songData.path,
+                image_path: imageData.path
+            };
+
+            // Add genre if it was extracted
             const { error: pushError } = await supabaseClient.from('songs')
-                .insert({
-                    user_id: user.id, // --- CHANGE 3: Changed 'id' to 'user_id' ---
-                    title: values.title,
-                    author: values.author,
-                    song_path: songData.path,
-                    image_path: imageData.path
-                })
+                .insert(insertData)
 
             if (pushError) {
                 setIsLoading(false);
@@ -122,7 +114,7 @@ const UploadSongModal = () => {
             toast.success("Song Uploaded 🎉")
             reset();
             onClose(); // Call onClose AFTER reset and toast.success for better user experience
-            
+
         } catch (err: unknown) {
             console.error("Upload failed:", err);
             toast.error("Unexpected error occurred");
@@ -134,6 +126,7 @@ const UploadSongModal = () => {
             onClose()
         }
     }
+
     return (
 
         <ModalContainer

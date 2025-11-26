@@ -10,6 +10,8 @@ import DropDownMenu from "./DropDownMenu";
 import useLoadSongUrl from '@/hooks/useLoadSongUrl'
 import useGetSongDuration from '@/hooks/useGetSongDuration'
 import usePlayerSong from '@/hooks/usePlayer'
+import Loader from './Loader'
+
 
 const MediaItem: React.FC<MediaItemProps> =
     (
@@ -21,12 +23,14 @@ const MediaItem: React.FC<MediaItemProps> =
             onHandlePlay
         }
     ) => {
+
         const songImg = useLoadImage(data);
         const created_at = useTimeFormat(data.created_at);
         const songUrl = useLoadSongUrl(data);
         const songDuration = useGetSongDuration(songUrl!);
         const { author, title } = data;
         const player = usePlayerSong();
+        const isPlaying = player.activeId === data.id;
 
         const handleClick = () => {
             if (onHandlePlay) {
@@ -39,12 +43,14 @@ const MediaItem: React.FC<MediaItemProps> =
                 onClick={handleClick}
                 key={index}
                 className="grid md:grid-cols-9 sm:grid-cols-6 grid-cols-5 items-center py-2 px-2 
-            rounded-lg hover:bg-neutral-800 transition
-            duration-150 ease-in-out cursor-pointer group"
+            rounded-lg hover:bg-neutral-800 transition
+            duration-150 ease-in-out cursor-pointer group"
             >
                 <div className='col-span-4 md:col-span-5 flex items-center justify-start gap-x-8'> {/* col-span-7 applied to the flex container */}
-                    {/* Show index number by default, switch to play button on hover */}
-                    <span className='hidden md:block'>{index + 1}</span>
+                    {/* Show loader when playing, index number otherwise */}
+                    <div className='hidden md:flex items-center justify-center min-w-[48px]'>
+                        {isPlaying ? <Loader /> : <span>{index + 1}</span>}
+                    </div>
                     <div className="relative min-h-[49px] min-w-[49px] rounded-md overflow-hidden ">
                         <Image
                             alt="song image"

@@ -29,6 +29,7 @@ const Playlists:React.FC<PlaylistProps> = (
                     src={playlistImage || "/assets/liked.png"}
                     alt="Mix Cover"
                     fill
+                    sizes='100'
                     className="w-full h-full object-cover opacity-70"
                     onError={(e: React.SyntheticEvent<HTMLImageElement, Event>) => { e.currentTarget.onerror = null; e.currentTarget.src = "https://placehold.co/192x192/181818/1db954?text=MIX" }}
                 />
