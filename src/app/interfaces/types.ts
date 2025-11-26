@@ -65,9 +65,10 @@ export interface PlayerContentProps {
 export
   interface MediaItemProps {
   data: Song,
-  index: number
+  index: number,
+  setPlaylistSong : Dispatch<SetStateAction<Song[]>>
+  playlistData : Playlist
   userPlaylists: Playlist[]
-  onHandleRemoveSong: (songId: string) => void
   isLoading: boolean,
   onHandlePlay: (id: string) => void
 }

@@ -23,9 +23,9 @@ export const Player: React.FC<PlayerProps> = ({
     return (
         <div className='
           fixed
-          bottom-[50px]
+          bottom-[60px]
           md:bottom-0 
-          w-[95%] 
+          w-full
           md:w-full 
           left-1/2 
           -translate-x-1/2 
@@ -35,7 +35,6 @@ export const Player: React.FC<PlayerProps> = ({
           rounded-lg
           bg-neutral-800/80 
           md:bg-black
-          z-5
           ps-1
           pr-1
         

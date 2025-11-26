@@ -7,8 +7,7 @@ import { useSessionContext } from '@supabase/auth-helpers-react';
 import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
-import { toast } from 'sonner';
-
+import { handleLikeSong } from '../../utils/likedSong';
 interface LikedButtonProps {
     songId: string
 }
@@ -56,47 +55,27 @@ const LikedButton: React.FC<LikedButtonProps> = ({
 
 
     const Icon = isLiked ? AiFillHeart : AiOutlineHeart;
-
-    const handleLikeSong = async () => {
-        if (!user) {
-            return authModal.onOpen();
-        }
-
-        // Handle delete song after unlike song
-        if (isLiked) {
-            const { error } = await supabaseClient.from('liked_songs').delete()
-                .eq('user_id', user.id)
-                .eq('song_id', songId)
-
-            if (error) {
-                toast.error(error.message);
-            } else {
-                setIsLiked(false);
-                toast.success('Unliked !');
-            }
-        } else {
-            // handle like song
-            const { error } = await supabaseClient.from('liked_songs')
-                .insert({
-                    user_id: user.id,
-                    song_id: songId
-                })
-
-            if (error) {
-                toast.error(error.message);
-            } else {
-                setIsLiked(true);
-                toast.success('Liked !');
-            }
-
-        }
-        router.refresh();
+    const handleLike = () => {
+        handleLikeSong({
+            songId,
+            isLiked,
+            user,
+            supabaseClient,
+            authModal,
+            setIsLiked,
+            router
+        });
     }
+
+
+
+
+
     return (
         <button
             type='submit'
             title='likeSong'
-            onClick={handleLikeSong}
+            onClick={handleLike}
             className='cursor-pointer opacity-75 transition'>
             <Icon className='hover:scale-110'
                 color={isLiked ? '#22c55e' : "white"} size={25} />

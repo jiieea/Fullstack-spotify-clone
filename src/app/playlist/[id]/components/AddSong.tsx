@@ -23,7 +23,7 @@ const AddSong = (
     return (
         <div className='bg-neutral-900 z-10 h-[85vh] max-w-lg p-4 mt-15 md:p-6 fixed inset-0'>
             <header className='flex items-center justify-start gap-x-3 mb-4 pt-2'>
-                <button onClick={() => setIsAddSheetOpen(false)}>
+                <button title='open' onClick={() => setIsAddSheetOpen(false)}>
                     <FaArrowLeft size={15} className='text-white' />
                 </button>
                 <p className='text-lg font-bold flex-1 text-center pr-8'>add to this playlist</p>

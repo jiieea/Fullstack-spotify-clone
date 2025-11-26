@@ -19,6 +19,7 @@ import { PiShuffleBold } from "react-icons/pi";
 import Button from '@/components/Button';
 import usePlayShuffle from '@/hooks/usePlayShuffle';
 import { usePlayerContext } from '@/providers/PlayerProviders';
+import removeSongFromPlaylist from '../../../../../utils/removeSongFromPlaylist';
 // --- Type Refinement ---
 type SortType = "by artist" | "by title" | 'add recently' | 'default';
 
@@ -31,9 +32,7 @@ export const PlaylistContent: React.FC<PlaylistContentProps> = ({
   data,
   allSongs
 }) => {
-  const supabase = useSupabaseClient();
-  const { isShuffle , handleToggleShuffle } = usePlayShuffle()
-  const router = useRouter();
+  const { isShuffle, handleToggleShuffle } = usePlayShuffle()
   const { user } = useUsers();
   const ownerId = dataOwner.id;
   const [playlistSongs, setPlaylistSongs] = useState<Song[]>(songs);
@@ -41,23 +40,22 @@ export const PlaylistContent: React.FC<PlaylistContentProps> = ({
   const [isAddSongSheetOpen, setIsAddSongSheetOpen] = useState(false);
   const [sort, setSort] = useState<SortType>('default');
   const [isDisabled, setIsDisabled] = useState(false); // Renamed for consistency
-  const { isPlaying  } = usePlayerContext()
+  const { isPlaying } = usePlayerContext()
   const Icon = isPlaying ? FaPause : FaPlay;
 
   useEffect(() => {
-    if(dataOwner.id !== user?.id){
+    if (dataOwner.id !== user?.id) {
       setIsDisabled(true)
     }
-  } , [dataOwner , user?.id ])
+  }, [dataOwner, user?.id])
 
 
   useEffect(() => {
-    if(user?.id !== ownerId) {
+    if (user?.id !== ownerId) {
       setIsDisabled(true);
     }
-  },[user, ownerId])
+  }, [user, ownerId])
 
-  const playlist_id = data.id;
 
   const openSheet = () => {
     setIsAddSongSheetOpen(true);
@@ -65,7 +63,7 @@ export const PlaylistContent: React.FC<PlaylistContentProps> = ({
 
   useEffect(() => {
 
-    if(songs.length !== playlistSongs.length) {
+    if (songs.length !== playlistSongs.length) {
       setPlaylistSongs(songs)
     }
     // Optionally, reset sort to 'default' when new songs are loaded
@@ -118,42 +116,9 @@ export const PlaylistContent: React.FC<PlaylistContentProps> = ({
   const handleSortByTitle = useCallback(() => handleSort('by title'), [handleSort]);
   const handleSortByRecentlyAdd = useCallback(() => handleSort('add recently'), [handleSort]);
 
-
-  // 5. Improved Remove Song Handler
-  const handleRemoveSong = async (songId: string) => {
-    setIsDisabled(true); 
-    try {
-      const { error } = await supabase.from('playlist_songs')
-        .delete()
-        .eq('song_id', songId)
-        .eq('playlist_id', playlist_id);
-
-      if(error) {
-        toast.error('failed to remove the songs' + error.message)
-      }
-
-      toast.success('removed from the playlist')
-      setPlaylistSongs((song) => song.filter((currentSong) => currentSong.id !== songId))
-      router.refresh()
-    } catch (e) {
-      console.error('Error removing song:', e);
-      toast.error("An unexpected error occurred while removing the song.");
-    } finally {
-      setIsDisabled(false);
-    }
-  }
-
   // 6. Memoize the empty state check
   const hasSongs = useMemo(() => songs.length > 0, [songs.length]);
 
-  if (!hasSongs) {
-    return (
-      <div className='mt-[-3rem] py-10 px-6 text-center text-neutral-400'>
-        <p>There are no songs in this playlist yet.</p>
-        <p className='mt-2'>Use the &quot;button&quot; to get started!</p>
-    </div>
-    );
-  }
 
   // --- Render ---
   return (
@@ -161,30 +126,30 @@ export const PlaylistContent: React.FC<PlaylistContentProps> = ({
       <div className='flex flex-col'>
         {/* Playback Controls and Options */}
         <div className="flex space-x-4 items-center justify-between mb-4 px-6">
-         <div className='flex items-center gap-x-4'>
-           <button
-            title='Play All'
-            onClick={() => onHandlePlay(playlistSongs[0].id)} // Play the first song in the current list
-            className={twMerge(
-              'bg-green-500 rounded-full p-3 hover:scale-110 transition cursor-pointer',
-            )}
-          >
-            <Icon size={20} className='text-black' />
-          </button>
+          <div className='flex items-center gap-x-4'>
+            <button
+              title='Play All'
+              onClick={() => onHandlePlay(playlistSongs[0].id)} // Play the first song in the current list
+              className={twMerge(
+                'bg-green-500 rounded-full p-3 hover:scale-110 transition cursor-pointer',
+              )}
+            >
+              <Icon size={20} className='text-black' />
+            </button>
 
-          <PiShuffleBold
-            size={30}
-            className={twMerge(
-              `hover:scale-110 transition cursor-pointer`,
-              isShuffle ? "text-green-500" : "text-neutral-400 hover:text-neutral-300",
-            )}
-            onClick={ handleToggleShuffle }
-          />
-               <PlaylistOption
-            disabled={isDisabled}
-            playlistData={data}
-          />
-         </div>
+            <PiShuffleBold
+              size={30}
+              className={twMerge(
+                `hover:scale-110 transition cursor-pointer`,
+                isShuffle ? "text-green-500" : "text-neutral-400 hover:text-neutral-300",
+              )}
+              onClick={handleToggleShuffle}
+            />
+            <PlaylistOption
+              disabled={isDisabled}
+              playlistData={data}
+            />
+          </div>
           {/* Desktop Sort Dropdown */}
           <div className='hidden md:block'>
             <SortDropdown
@@ -200,7 +165,7 @@ export const PlaylistContent: React.FC<PlaylistContentProps> = ({
         <div className='flex items-center gap-x-4 md:hidden px-6 mb-4'>
           <Button
             onClick={openSheet}
-            disabled={ isDisabled }
+            disabled={isDisabled}
             className='bg-neutral-800 text-white px-5 py-2 flex items-center gap-x-2 cursor-pointer'
           >
             < FaPlus className='text-white' /><span>Add</span>
@@ -211,7 +176,7 @@ export const PlaylistContent: React.FC<PlaylistContentProps> = ({
                 songs={songs}
                 setIsAddSheetOpen={setIsAddSongSheetOpen}
                 playlistData={data}
-                allSongs={ allSongs }
+                allSongs={allSongs}
               />
             )
           }
@@ -224,7 +189,7 @@ export const PlaylistContent: React.FC<PlaylistContentProps> = ({
           />
 
           <Button
-          disabled={ isDisabled }
+            disabled={isDisabled}
             className='bg-neutral-800 text-white px-5 py-2 flex items-center gap-x-2 cursor-pointer'
           >
             <RxPencil1 /><span>Update</span>
@@ -233,21 +198,33 @@ export const PlaylistContent: React.FC<PlaylistContentProps> = ({
       </div>
 
       {/* Song List */}
-      <LikedSongContent>
-        {
-          playlistSongs.map((song, index) => (
-            <MediaItem
-              isLoading={isLoading} // Show loading state on individual items during sort
-              onHandlePlay={onHandlePlay}
-              onHandleRemoveSong={handleRemoveSong}
-              key={song.id}
-              data={song}
-              index={index}
-              userPlaylists={userPlaylist}
-            />
-          ))
-        }
-      </LikedSongContent>
+      {
+        !hasSongs ? (
+          <div className='mt-[3rem] py-10 px-6 text-center text-neutral-400'>
+            <p>There are no songs in this playlist yet.</p>
+            <p className='mt-2'>Use the &quot;button&quot; to get started!</p>
+          </div>
+
+        ) : (
+          <LikedSongContent>
+            {
+              playlistSongs.map((song, index) => (
+                <MediaItem
+                  setPlaylistSong={setPlaylistSongs}
+                  isLoading={isLoading} // Show loading state on individual items during sort
+                  onHandlePlay={onHandlePlay}
+                  key={song.id}
+                  data={song}
+                  playlistData={data}
+                  index={index}
+                  userPlaylists={userPlaylist}
+                />
+              ))
+            }
+          </LikedSongContent>
+        )
+      }
+
     </div>
   );
 }

@@ -11,6 +11,9 @@ import useLoadSongUrl from '@/hooks/useLoadSongUrl'
 import useGetSongDuration from '@/hooks/useGetSongDuration'
 import usePlayerSong from '@/hooks/usePlayer'
 import Loader from './Loader'
+import removeSongFromPlaylist from '../../utils/removeSongFromPlaylist'
+import { useSupabaseClient } from '@supabase/auth-helpers-react'
+import { useRouter } from 'next/navigation'
 
 
 const MediaItem: React.FC<MediaItemProps> =
@@ -18,19 +21,25 @@ const MediaItem: React.FC<MediaItemProps> =
         {
             data,
             index,
+            playlistData,
+            setPlaylistSong,
             userPlaylists,
-            onHandleRemoveSong,
             onHandlePlay
         }
     ) => {
-
         const songImg = useLoadImage(data);
         const created_at = useTimeFormat(data.created_at);
         const songUrl = useLoadSongUrl(data);
         const songDuration = useGetSongDuration(songUrl!);
         const { author, title } = data;
+        const supabase = useSupabaseClient()
         const player = usePlayerSong();
         const isPlaying = player.activeId === data.id;
+        const router = useRouter()
+
+        const handleRemoveSong =( ) => {
+            removeSongFromPlaylist(data.id , supabase , playlistData.id , setPlaylistSong , ()=> router.refresh() );
+        }
 
         const handleClick = () => {
             if (onHandlePlay) {
@@ -89,8 +98,8 @@ const MediaItem: React.FC<MediaItemProps> =
                 </div>
 
                 {/* 4. Duration and Liked Button (col-span-1) */}
-                <div className="col-span-1 md:col-span-1 flex items-center justify-start gap-x-3 pr-4">
-                    <div className="opacity-0 group-hover:opacity-100 transition mt-2 duration-150">
+                <div className="col-span-1 md:col-span-1 flex items-center justify-start gap-x-3 pr-4 ">
+                    <div className="opacity-0 group-hover:opacity-100 transition mt-2 duration-150 hidden">
                         <LikedButton songId={data.id} />
                     </div>
                     {/* Duration */}
@@ -98,7 +107,7 @@ const MediaItem: React.FC<MediaItemProps> =
                         {/* Use data.duration if available, otherwise use mock value */}
                         {songDuration}
                     </span>
-                    <DropDownMenu userPlaylist={userPlaylists} song={data} onHandleRemoveSong={() => onHandleRemoveSong(data.id)} />
+                    <DropDownMenu userPlaylist={userPlaylists} song={data} onHandleRemoveSong={handleRemoveSong} />
                 </div>
             </div>
         )

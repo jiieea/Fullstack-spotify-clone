@@ -4,11 +4,10 @@ import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react'
 import { BsThreeDots } from 'react-icons/bs';
-import { toast } from 'sonner';
 import UpdateButtonModal from './UpdatePlaylistTrigger';
 import { AiOutlineMinusCircle } from "react-icons/ai";
 import { twMerge } from 'tailwind-merge';
-
+import deletePlaylist from '../../../../../utils/deletePlaylist';
 
 export const PlaylistOption:React.FC<PlaylistOptionProps> = (
     {
@@ -19,6 +18,7 @@ export const PlaylistOption:React.FC<PlaylistOptionProps> = (
     const [openDropdown, setOpenDropdown] = useState(false);
     const router = useRouter();
     const supabaseClient = useSupabaseClient();
+    
     const handleOpenDropdown = () => {
         setOpenDropdown(!openDropdown);
     }
@@ -26,29 +26,8 @@ export const PlaylistOption:React.FC<PlaylistOptionProps> = (
     const playlistId = playlistData.id
 
     // handle delete playlist
-    const handleDeletePlaylist = async (playlistId: string) => {
-        try {
-            const {
-                data,
-                error
-            } = await supabaseClient.from('playlist')
-                .delete().eq('id', playlistId);
-
-            if (error) {
-                toast.error(error.message);
-            }
-
-            if (data) {
-                toast.success('playlist removed!')
-            }
-
-            router.push('/');
-            router.refresh()
-        } catch (e: unknown) {
-            if (e instanceof Error) {
-                toast.error('failed to remove the playlist ' + e.message)
-            }
-        }
+    const handleDeletePlaylist = () => {
+        deletePlaylist(playlistId,supabaseClient , () =>router.push('/'))
     }
 
 
@@ -76,7 +55,7 @@ export const PlaylistOption:React.FC<PlaylistOptionProps> = (
                             `p-1`
                         )}>
                             <button 
-                            onClick={() => handleDeletePlaylist(playlistId)}
+                            onClick={handleDeletePlaylist}
                                 className={twMerge(
                                     `flex items-center gap-x-2 w-full text-left px-4 py-2 text-sm transition` 
                                 )}

@@ -18,7 +18,7 @@ const PlaylistPage: React.FC<PlaylistPageProps> = ({ allSongs , userName, data, 
   const playlistImage = useLoadPlaylistImage(data!);
   const bgColor = useGetDominantColor(playlistImage!);
   const playlistName = data?.playlist_name;
-  const desc = data?.description;
+const desc = data?.description;
   const supabase = useSupabaseClient();
   const handlePlaySong = useOnplay(songs);
   const avatar = useLoadAvatar(userName)
@@ -58,7 +58,7 @@ const PlaylistPage: React.FC<PlaylistPageProps> = ({ allSongs , userName, data, 
           width={250}
           height={250}
           quality={100}
-          className=' relative 2xl:w-60 2xl:h-60 md:w-48 md:h-48  object-cover rounded-2xl'
+          className=' relative 2xl:w-60 2xl:h-60 w-48 h-48  object-cover rounded-2xl'
         />
         <div className='flex flex-col justify-start  space-y-2.5 w-full md:w-2/3'>
           <div className='flex justify-start flex-col mt-6'>

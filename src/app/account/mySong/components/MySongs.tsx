@@ -2,9 +2,8 @@
 
 import React from 'react'
 import { Playlist, Song } from '../../../../../types'
-import MediaItem from '@/components/MediaItem'
 import useOnplay from '@/hooks/useOnPlay'
-
+import OwnedSongs from './OwnedSongs'
 interface MySongsProps {
     playlists: Playlist[],
     songs: Song[]
@@ -16,20 +15,20 @@ const MySongs: React.FC<MySongsProps> = (
         songs
     }
 ) => {
-    const handlePlay = useOnplay(songs)
+    const handlePlay = useOnplay(songs);
     return (
         <div className='mb-6'>
             {
                 songs.map((song, index) => (
-                    <MediaItem
-                        data={song}
-                        key={song.id}
-                        isLoading
-                        index={index}
-                        userPlaylists={playlists}
-                        onHandlePlay={(id) => handlePlay(id)}
-                        onHandleRemoveSong={() => console.log(song.id)}
-                    />
+                   <OwnedSongs 
+                   key={index}
+                   data={song
+                   }
+                   index={ index }
+                   userPlaylists={ playlists }
+                   onHandlePlay={(id : string) => handlePlay(id)}
+
+                   />
                 ))
             }
         </div>

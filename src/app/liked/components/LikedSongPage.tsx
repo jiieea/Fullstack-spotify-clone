@@ -19,6 +19,7 @@ import {
 import SortDropdown from '@/components/SortListButton';
 import { LiaRandomSolid } from 'react-icons/lia';
 import { twMerge } from 'tailwind-merge';
+import OwnedSongs from '@/app/account/mySong/components/OwnedSongs';
 
 
 interface LikedSongPageProps {
@@ -132,11 +133,14 @@ const { isShuffle , handleToggleShuffle } = usePlayShuffle()
         <LikedSongContent >
           {
             likedSongs.map((song, index) => (
-              <MediaItem
-                onHandlePlay={(id: string) => onPlay(id)}
-                isLoading={isLoading}
-                index={index} key={index} data={song} userPlaylists={userPlaylists} onHandleRemoveSong={handle} />
-            ))
+             <OwnedSongs 
+              data={ song}
+              key={index}
+              onHandlePlay={(id : string) => onPlay(id)}
+              index={ index }
+              userPlaylists={ userPlaylists }
+             />
+            )) 
           }
         </LikedSongContent>
       </div>

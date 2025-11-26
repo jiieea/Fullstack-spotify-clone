@@ -31,7 +31,7 @@ const MusicComponent:React.FC<MusicComponentProps> = (
                                                     fill
                                                     className="w-full h-full object-cover opacity-70"
                                                     onError={(e: React.SyntheticEvent<HTMLImageElement, Event>) => { e.currentTarget.onerror = null; e.currentTarget.src = "https://placehold.co/192x192/181818/1db954?text=MIX" }}
-                                                />
+                                            />
                                                 {/* Badge */}
                                                 {/* Play Button Overlay */}
                                                 <div className="absolute right-2 bottom-2 p-3
