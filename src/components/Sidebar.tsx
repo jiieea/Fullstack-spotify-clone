@@ -54,7 +54,7 @@ export const Sidebar: React.FC<SidebarProps> = (
     return (
         <div>
             <div className={twMerge(
-                `flex 2xl:h-[90vh]  h-[85vh] w-full bg-black  text-white`,
+                `flex h-[85vh] w-full bg-black 2xl:h-[90vh]  text-white overflow-hidden`,
                 player.activeId && "2xl:h-[calc(100vh-150px)] mb-10 md:mb-0 "
             )}>
                 {/* Sidebar container */}
@@ -67,8 +67,10 @@ export const Sidebar: React.FC<SidebarProps> = (
                     md:flex flex-col 
                     rounded-r-2xl 
                     shadow-xl 
+                    overflow-y-auto
                     p-2                 
                     ${isSidebarOpen ? 'w-74' : 'w-20'} 
+                    hide-scrollbar
                 `)}
                 >
                     {/* Sidebar Header */}

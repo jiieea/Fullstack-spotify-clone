@@ -19,7 +19,6 @@ import {
 import SortDropdown from '@/components/SortListButton';
 import { LiaRandomSolid } from 'react-icons/lia';
 import { twMerge } from 'tailwind-merge';
-import { useSearch } from '@/providers/SearchProviders';
 
 
 interface LikedSongPageProps {
