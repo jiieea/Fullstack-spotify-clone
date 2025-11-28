@@ -69,7 +69,7 @@ const PlayerMedia: React.FC<PlayerMediaProps> = ({
                     <FaPlay className="text-green text-2xl" /> {/* Increased icon size */}
                 </div>
             </div>
-            <div className="flex-1 w-full max-w-[170px] overflow-hidden md:hidden">
+            <div className="flex-1 w-full max-w-[200px] overflow-hidden md:hidden">
                 <div className='marquee-wrapper'>
                     <div className="whitespace-nowrap 
   animate-marquee 

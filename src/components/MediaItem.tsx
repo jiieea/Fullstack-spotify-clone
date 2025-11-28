@@ -55,7 +55,7 @@ const MediaItem: React.FC<MediaItemProps> =
             rounded-lg hover:bg-neutral-800 transition
             duration-150 ease-in-out cursor-pointer group"
             >
-                <div className='col-span-4 md:col-span-5 flex items-center justify-start gap-x-8'> {/* col-span-7 applied to the flex container */}
+                <div className='col-span-4 md:col-span-5 flex items-center justify-start gap-x-5'> {/* col-span-7 applied to the flex container */}
                     {/* Show loader when playing, index number otherwise */}
                     <div className='hidden md:flex items-center justify-center min-w-[48px]'>
                         {isPlaying ? <Loader /> : <span>{index + 1}</span>}

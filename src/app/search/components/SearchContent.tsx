@@ -6,7 +6,7 @@ import { CATEGORY_DATA, SONGS_Genre } from '../../../../datas';
 const SearchContent = () => {
     const router = useRouter();
     return (
-        <div className='flex flex-col gap-y-4 mb-5'>
+        <div className='flex flex-col gap-y-4 mb-20'>
             <div className='grid grid-cols-2 gap-2'>
                 {
                     CATEGORY_DATA.map((cat) => (

@@ -1,16 +1,14 @@
 "use client"
 
-import usePlayShuffle from '@/hooks/usePlayShuffle'
 import PlaylistWrapper from '@/app/playlist/[id]/components/PlaylistHeaderWrapper'
 import { useGetDominantColor } from '@/hooks/useGetDominantColor'
 import React, { useCallback, useState } from 'react';
 import { Playlist, Song, UserDetails } from '../../../../types';
 import LikedSongContent from './LikedSongContent';
 import LikedSongHeader from './LikedSongHeader';
-import MediaItem from '@/components/MediaItem';
 import { toast } from 'sonner';
 import useOnplay from '@/hooks/useOnPlay';
-import { FaPlay } from "react-icons/fa";
+import { FaPause, FaPlay } from "react-icons/fa";
 import {
   sortDataByArtist,
   sortDataByTitle,
@@ -20,7 +18,7 @@ import SortDropdown from '@/components/SortListButton';
 import { LiaRandomSolid } from 'react-icons/lia';
 import { twMerge } from 'tailwind-merge';
 import OwnedSongs from '@/app/account/mySong/components/OwnedSongs';
-
+import { usePlayerContext } from '@/providers/PlayerProviders';
 
 interface LikedSongPageProps {
   likedSongs: Song[]
@@ -38,12 +36,12 @@ const LikedSongPage: React.FC<LikedSongPageProps> = ({
   userData
 }) => {
   const imageUrl = "/assets/liked.png";
-const { isShuffle , handleToggleShuffle } = usePlayShuffle()
+const { isShuffle , handleToggleShuffle , isPlaying  } = usePlayerContext()
   const dominantColor = useGetDominantColor(imageUrl);
-  const [isLoading, setIsLoading] = useState(false);
   const onPlay = useOnplay(likedSongs);
   const [songs, setSongs] = useState<Song[]>(likedSongs);
   const [sort, setSort] = useState<SortType>('default');
+  const Icon = !isPlaying ? FaPlay : FaPause
 
   // centralize all sorting functions 
   const sortSongs = useCallback((sortType: SortType) => {
@@ -53,8 +51,6 @@ const { isShuffle , handleToggleShuffle } = usePlayShuffle()
       setSongs(likedSongs);
       return;
     }
-
-    setIsLoading(true);
     setSort(sortType);
     let sortData: Song[];
 
@@ -77,10 +73,7 @@ const { isShuffle , handleToggleShuffle } = usePlayShuffle()
         setSongs(likedSongs);
         setSort('default');
       }
-    } finally {
-      setIsLoading(false);
-    }
-
+    } 
   }, [sort, likedSongs, songs])
 
   // helper function for spesific sort button
@@ -88,9 +81,6 @@ const { isShuffle , handleToggleShuffle } = usePlayShuffle()
   const handleSortByTitle = useCallback(() => sortSongs('by title'), [sortSongs])
   const handleSortByRecentlyAdd = useCallback(() => sortSongs('recently add'), [sortSongs])
 
-  const handle = () => {
-    toast.success('hello')
-  }
   return (
     <div >
       <PlaylistWrapper
@@ -110,7 +100,7 @@ const { isShuffle , handleToggleShuffle } = usePlayShuffle()
               'bg-green-500 rounded-full p-3 hover:scale-110 transition cursor-pointer'
 
             >
-              <FaPlay size={20} className='text-black' />
+              <Icon size={20} className='text-black' />
             </button>
             <LiaRandomSolid
               size={30}

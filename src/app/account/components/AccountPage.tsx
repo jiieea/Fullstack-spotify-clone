@@ -6,8 +6,7 @@ import { AccountPageProps } from '../../interfaces/types'
 import { MyPlaylist } from './MyPlaylist'
 import OwnedSongs from './OwnedSongs'
 import { useRouter } from 'next/navigation'
-
-
+import useOnplay from '@/hooks/useOnPlay'
 
 const AccountPage: React.FC<AccountPageProps> = (
     {
@@ -16,7 +15,8 @@ const AccountPage: React.FC<AccountPageProps> = (
         userData
     }
 ) => {
-    const router = useRouter()
+    const router = useRouter();
+    const handlePlay = useOnplay(songs);
     return (
         <div className='
             h-full
@@ -58,6 +58,7 @@ const AccountPage: React.FC<AccountPageProps> = (
                             key={song.id}
                             index={index}
                             userPlaylists={playlists}
+                            onHandlePlaySong={ (id: string) => handlePlay(id) }
                         />
                     ))
                 )}

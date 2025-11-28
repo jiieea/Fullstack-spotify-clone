@@ -10,7 +10,7 @@ import {
     DropdownMenuSubTrigger,
 } from "@/components/ui/dropdown-menu"
 import React from 'react'
-import { BsThreeDots } from "react-icons/bs"
+import { BsThreeDots , BsThreeDotsVertical } from "react-icons/bs"
 import { SlTrash } from "react-icons/sl";
 import { Playlist, Song } from "../../types";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
@@ -77,7 +77,8 @@ const DropDownMenu = ({ userPlaylist, song , onHandleRemoveSong}: DropDownMenuPr
             <DropdownMenuTrigger asChild>
                 {/* The 'group' class on the parent is what makes the hover effect work on the trigger div */}
                 <div className="md:opacity-0 md:group-hover:opacity-100  transition duration-150 group">
-                    <BsThreeDots className="text-neutral-400" size={20} />
+                    <BsThreeDots className="hidden md:block text-neutral-400" size={20} />
+                    <BsThreeDotsVertical className="text-neutral-400 md:hidden" size={20}  />
                 </div>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-60" align="start" side="left">

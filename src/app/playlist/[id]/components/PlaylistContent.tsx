@@ -4,22 +4,19 @@ import MediaItem from '@/components/MediaItem';
 import { FaPause, FaPlay, FaPlus } from "react-icons/fa";
 import LikedSongContent from '@/app/liked/components/LikedSongContent';
 import { toast } from 'sonner';
-import { useSupabaseClient } from '@supabase/auth-helpers-react';
-import { useRouter } from 'next/navigation';
 import { sortDataByArtist, sortDataByTitle, sortedDataByCreatedDate } from '@/hooks/useSortData';
 import SortDropdown from '@/components/SortListButton';
 import { PlaylistOption } from './PlaylistOption';
 import { twMerge } from 'tailwind-merge';
-import { RxPencil1 } from 'react-icons/rx';
 import SortButtonSheet from '@/components/SortSheet';
 import { PlaylistContentProps } from '../../../interfaces/types'
 import AddSong from './AddSong';
 import { useUsers } from '@/hooks/useUsers';
 import { PiShuffleBold } from "react-icons/pi";
 import Button from '@/components/Button';
-import usePlayShuffle from '@/hooks/usePlayShuffle';
 import { usePlayerContext } from '@/providers/PlayerProviders';
-import removeSongFromPlaylist from '../../../../../utils/removeSongFromPlaylist';
+import UpdatePlaylistMobile from './UpdatePlaylistMobile';
+
 // --- Type Refinement ---
 type SortType = "by artist" | "by title" | 'add recently' | 'default';
 
@@ -32,7 +29,7 @@ export const PlaylistContent: React.FC<PlaylistContentProps> = ({
   data,
   allSongs
 }) => {
-  const { isShuffle, handleToggleShuffle } = usePlayShuffle()
+  const { isShuffle, handleToggleShuffle } = usePlayerContext()
   const { user } = useUsers();
   const ownerId = dataOwner.id;
   const [playlistSongs, setPlaylistSongs] = useState<Song[]>(songs);
@@ -187,13 +184,7 @@ export const PlaylistContent: React.FC<PlaylistContentProps> = ({
             onHandleSortByDate={handleSortByRecentlyAdd}
             onHandleSortByTitle={handleSortByTitle}
           />
-
-          <Button
-            disabled={isDisabled}
-            className='bg-neutral-800 text-white px-5 py-2 flex items-center gap-x-2 cursor-pointer'
-          >
-            <RxPencil1 /><span>Update</span>
-          </Button>
+          <UpdatePlaylistMobile playlist={ data }/>
         </div>
       </div>
 

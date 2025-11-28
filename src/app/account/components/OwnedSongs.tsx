@@ -14,8 +14,10 @@ interface OwnedSongsProps {
     song: Song,
     index: number,
     userPlaylists: Playlist[]
+    onHandlePlaySong : (id : string) => void
 }
-const OwnedSongs = ({ song, index, userPlaylists }: OwnedSongsProps) => {
+
+const OwnedSongs = ({ song, index, userPlaylists , onHandlePlaySong}: OwnedSongsProps) => {
     const imagePath = useLoadImage(song);
     const songUrl = useLoadSongUrl(song)
     const songDuration = useGetSongDuration(songUrl!);
@@ -27,11 +29,6 @@ const OwnedSongs = ({ song, index, userPlaylists }: OwnedSongsProps) => {
     return (
         <div
             key={index}
-            // Base grid (mobile): 5 columns (index/info, duration/actions).
-            // Small/Medium screens: 7 columns (to include Date Added, duration/actions).
-            // Original grid-cols-9 was a bit too wide. 
-            // We use grid-cols-[1fr_minmax(0,_3fr)_auto] for a flexible approach, 
-            // but sticking to standard grid-* for simplicity:
             className="
                 grid 
                 grid-cols-5 
@@ -78,7 +75,7 @@ const OwnedSongs = ({ song, index, userPlaylists }: OwnedSongsProps) => {
                             duration-300
                         "
                     >
-                        <FaPlay className="text-white text-2xl" />
+                        <FaPlay className="text-white text-2xl"  onClick={() => onHandlePlaySong(song.id)}/>
                     </div>
                 </div>
                 

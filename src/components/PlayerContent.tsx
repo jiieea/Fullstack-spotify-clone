@@ -13,9 +13,9 @@ import SliderVolume from './SliderVol'
 import PlayerMedia from './PlayerMedia'
 import { PiShuffleBold } from 'react-icons/pi'
 import { twMerge } from 'tailwind-merge'
-import usePlayShuffle from '@/hooks/usePlayShuffle'
 import { usePlayerContext } from '@/providers/PlayerProviders'
-
+import { getRandomSongId } from '../../utils/getRandomId'
+import { formatTime } from '../../utils/formatTime'
 /**
  * PlayerContent Component
  * 
@@ -86,13 +86,12 @@ export const PlayerContent: React.FC<PlayerContentProps> = ({
     songUrl,
     userPlaylists
 }) => {
-    const { isShuffle, handleToggleShuffle } = usePlayShuffle();
+    const { isShuffle, handleToggleShuffle , isPlaying , setIsPlaying } = usePlayerContext();
     const player = usePlayerSong();
     const [volume, setVolume] = useState(0.5);
     const [currentTime, setCurrentTime] = useState(0);
     const [duration, setDuration] = useState(0)
     const VolumeIcon = volume === 0 ? FaVolumeXmark : FaVolumeLow;
-    const { isPlaying ,setIsPlaying } = usePlayerContext()
     const Icon = isPlaying ? BsPauseFill : BsPlayFill;
 
     /**
@@ -102,18 +101,7 @@ export const PlayerContent: React.FC<PlayerContentProps> = ({
      * @returns Random index that is not the current index
      * @note If only one song exists, returns 0 to loop the same song
      */
-    const getRandomSongId = (songIds: string[], currentIdx: number): number => {
-        // if the song only one , loop the song 
-        if (songIds.length <= 1) return 0;
 
-        let randomIndex;
-        // get random 
-        do {
-            randomIndex = Math.floor(Math.random() * songIds.length);
-        } while (randomIndex === currentIdx); // to ensure the song is not the same
-
-        return randomIndex;
-    }
 
     /**
      * Plays the next song in the queue
@@ -209,20 +197,6 @@ export const PlayerContent: React.FC<PlayerContentProps> = ({
             pause()
         }
     }
-
-    /**
-     * Formats seconds into MM:SS format for display
-     * @param seconds - Time in seconds to format
-     * @returns Formatted time string (e.g., "3:45")
-     */
-    const formatTime = (seconds: number): string => {
-        if (isNaN(seconds) || seconds < 0) return '0:00';
-        const minutes = Math.floor(seconds / 60);
-        const secs = Math.floor(seconds % 60);
-        const formattedSecs = secs < 10 ? `0${secs}` : `${secs}`;
-        return `${minutes}:${formattedSecs}`;
-    };
-
 
     /**
      * Toggles volume between muted (0) and full volume (1)
