@@ -12,7 +12,7 @@ interface MySongsProps {
 const MySongs: React.FC<MySongsProps> = (
     {
         playlists,
-        songs
+        songs,
     }
 ) => {
     const handlePlay = useOnplay(songs);

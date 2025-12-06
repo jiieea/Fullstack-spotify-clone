@@ -67,10 +67,6 @@ const LikedButton: React.FC<LikedButtonProps> = ({
         });
     }
 
-
-
-
-
     return (
         <button
             type='submit'

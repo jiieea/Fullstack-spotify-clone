@@ -1,21 +1,13 @@
 "use client"
 import React, {
     createContext,
-    Dispatch,
-    SetStateAction,
     useContext,
     useState
 } from "react";
 import { toast } from "sonner";
 
+import { PlayerProvidersProps } from '../app/interfaces/types'
 
-interface PlayerProvidersProps {
-    isPlaying: boolean
-    setIsPlaying: Dispatch<SetStateAction<boolean>>
-    isShuffle: boolean,
-    setIsShuffle: Dispatch<SetStateAction<boolean>>
-    handleToggleShuffle : () => void
-}
 
 const PlayerContext = createContext<PlayerProvidersProps | undefined>(undefined)
 const PlayerProviders: React.FC<{ children: React.ReactNode }> = ({

@@ -6,6 +6,14 @@ export interface ModalProvidersProps {
   userData?: UserDetails
 }
 
+export interface PlayerProvidersProps {
+  isPlaying: boolean
+  setIsPlaying: Dispatch<SetStateAction<boolean>>
+  isShuffle: boolean,
+  setIsShuffle: Dispatch<SetStateAction<boolean>>
+  handleToggleShuffle : () => void
+}
+
 export interface SortButtonSheetProps {
     onHandleSortByArtist : () => void,
     onHandleSortByTitle : () =>void,
@@ -75,6 +83,7 @@ export
 
 export interface HeaderProps {
   data?: UserDetails
+  playlists : Playlist[]
   searchSongs : Song[]
 }
 

@@ -84,6 +84,7 @@ const SearchSong: React.FC<SearchSongProps> = (
                             isFocus && (
                                 <SearchResult
                                     value={searchValue}
+                                    playlists={ playlists }
                                     searchSong={songs}
                                 />
                             )

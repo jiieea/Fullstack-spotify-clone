@@ -55,7 +55,7 @@ export const Sidebar: React.FC<SidebarProps> = (
         <div>
             <div className={twMerge(
                 `flex h-[85vh] w-full bg-black 2xl:h-[90vh]  text-white overflow-hidden`,
-                player.activeId && "2xl:h-[calc(100vh-150px)] mb-10 md:mb-0 "
+                player.activeId && "2xl:h-[calc(100vh-150px)] h-[calc(100vh-20vh)] mb-10 md:mb-0 "
             )}>
                 {/* Sidebar container */}
                 <div

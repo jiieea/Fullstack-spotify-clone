@@ -3,7 +3,7 @@ import React, { useCallback, useRef, useState , useEffect} from 'react'
 import { GoHome } from 'react-icons/go'
 import { IoSearch } from 'react-icons/io5'
 import SearchResult from './SearchResult'
-import { Song } from '../../types'
+import { Playlist, Song } from '../../types'
 import { useSearch } from '@/providers/SearchProviders'
 import useDebounceValue from '@/hooks/useDebounceValue'
 import qs from 'query-string'
@@ -13,7 +13,8 @@ import qs from 'query-string'
  */
 interface HomeAndSearchProps {
     /** Array of songs to be used for search results */
-    searchSongs : Song[]
+    searchSongs : Song[],
+    playlists : Playlist[]
 }
 
 /**
@@ -51,7 +52,8 @@ interface HomeAndSearchProps {
  */
 export const HomeAndSearch = (
     {
-        searchSongs
+        searchSongs,
+        playlists
     }: HomeAndSearchProps
 ) => {
     const { searchValue , setSearchValue } = useSearch();
@@ -139,6 +141,7 @@ export const HomeAndSearch = (
                 <SearchResult 
                 value={ searchValue }
                 searchSong={ searchSongs}
+                playlists = { playlists }
                 />
             )
           }

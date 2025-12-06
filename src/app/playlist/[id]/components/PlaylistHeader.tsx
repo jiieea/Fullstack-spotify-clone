@@ -62,7 +62,7 @@ const desc = data?.description;
           className=' relative 2xl:w-60 2xl:h-60 w-48 h-48  object-cover rounded-2xl'
         />
         </div>
-        <div className='flex flex-col justify-start  space-y-2.5 w-full md:w-2/3'>
+        <div className='flex flex-col justify-start  space-y-3 w-full md:w-2/3'>
           <div className='flex justify-start flex-col mt-6'>
             <p className='text-[1rem] ps-0 md:ps-2 font-semibold text-white md:block hidden'>Playlist</p>
             <p

@@ -15,8 +15,8 @@ import { SlTrash } from "react-icons/sl";
 import { Playlist, Song } from "../../types";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useRouter } from "next/navigation";
-import { toast } from "sonner";
 import useCreatePlaylistModal from "@/hooks/useCreatePlaylistModal";
+import { addSongToPlaylist } from "../../utils/addSongToPlaylist";
 
 interface DropDownMenuProps {
     userPlaylist: Playlist[]
@@ -29,46 +29,8 @@ const DropDownMenu = ({ userPlaylist, song , onHandleRemoveSong}: DropDownMenuPr
     const songId = song.id;
     const { onOpen } = useCreatePlaylistModal()
 
-
-    const handleAddSongToPlaylist = async (playlistId: string) => {
-
-        try {
-            const {
-                data: existingEntry,
-                error: fetchFailed } = await supabaseClient.from('playlist_songs')
-                    .select('song_id').eq('song_id', songId).eq('playlist_id', playlistId)
-                    .maybeSingle()
-
-
-            if (existingEntry) {
-                toast.warning('The song already in the playlist!')
-                return;
-            }
-
-            if (fetchFailed) {
-                toast.error(fetchFailed.message);
-                return;
-            }
-
-            const { error } = await supabaseClient.from('playlist_songs')
-                .insert({
-                    playlist_id: playlistId,
-                    song_id: songId
-                })
-
-            if (error) {
-                toast.error(error.message)
-            } else {
-                toast.success(`${song.title} added to playlist!`)
-                router.refresh()
-            }
-
-        } catch (e: unknown) {
-            if (e instanceof Error) {
-                toast.error(e.message)
-                return;
-            }
-        }
+    const handleAddSongToPlaylist = (playlistId : string) => {
+        addSongToPlaylist(supabaseClient,playlistId,songId,() => router.refresh())
     }
 
 

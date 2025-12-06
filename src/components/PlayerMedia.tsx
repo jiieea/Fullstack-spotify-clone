@@ -3,7 +3,6 @@ import React from 'react'
 import { Song } from '../../types'
 import Image from 'next/image'
 import { FaPlay } from 'react-icons/fa'
-
 import { IoPhonePortraitOutline } from "react-icons/io5";
 import { useLoadImage } from '@/hooks/useLoadImage'
 import usePlayerSong from '@/hooks/usePlayer'
