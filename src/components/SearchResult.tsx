@@ -3,8 +3,7 @@ import { Playlist, Song } from '../../types'
 import SearchSongs from './SearchSongs'
 import useOnplay from '@/hooks/useOnPlay'
 import { useUsers } from '@/hooks/useUsers'
-import { useRouter } from 'next/navigation'
-import { FaCompactDisc } from 'react-icons/fa' // Import an icon for playlists
+import SearchPlaylist from './SearchPlaylist'
 
 interface SearchResultProps {
     value: string,
@@ -14,8 +13,6 @@ interface SearchResultProps {
 
 const SearchResult: React.FC<SearchResultProps> = ({ value, searchSong, playlists }) => {
     const { user } = useUsers();
-    const router = useRouter()
-
     // searched songs
     const filteredSongs = useMemo(() => {
         if (!value) {
@@ -41,11 +38,6 @@ const SearchResult: React.FC<SearchResultProps> = ({ value, searchSong, playlist
 
     const handleOnPlay = useOnplay(filteredSongs);
 
-    // Function to navigate to the playlist page
-    const handlePlaylistClick = (playlistId: string) => {
-        router.push(`/playlist/${playlistId}`);
-    };
-
     return (
         <div className="absolute top-full left-0 mt-2 w-full bg-[#282828] border border-neutral-700 rounded-lg
          shadow-2xl z-20   transform  transition-all duration-300 animate-in fade-in slide-in-from-top-1">
@@ -65,23 +57,17 @@ const SearchResult: React.FC<SearchResultProps> = ({ value, searchSong, playlist
                                 {/* 1. Display Playlists */}
                                 {filteredPlaylists.length > 0 && (
                                     <>
-                                        <h4 className='text-white font-bold mt-3 mb-1'>Playlists</h4>
                                         {filteredPlaylists.map((playlist) => (
-                                            <div
-                                                key={playlist.id}
-                                                onClick={() => handlePlaylistClick(playlist.id)}
-                                                className='flex items-center gap-x-3 w-full p-2 rounded-md hover:bg-neutral-800/50 cursor-pointer transition'
-                                            >
-                                                <FaCompactDisc className='text-neutral-400 min-w-4 min-h-4' />
-                                                <p className='text-white truncate'>{playlist.playlist_name}</p>
-                                            </div>
+                                          <SearchPlaylist 
+                                            playlist={ playlist }
+                                            key={playlist.id}
+
+                                          />
                                         ))}
-                                        {filteredSongs.length > 0 && <hr className='my-2 border-neutral-700' />}
                                     </>
                                 )}
 
                                 {/* 2. Display Songs */}
-                                <h4 className='text-white font-bold mt-3 mb-1'>Songs</h4>
                                 {filteredSongs.length > 0 ? (
                                     filteredSongs.map((song: Song) => (
                                         <SearchSongs

@@ -16,6 +16,7 @@ import { twMerge } from 'tailwind-merge'
 import { usePlayerContext } from '@/providers/PlayerProviders'
 import { getRandomSongId } from '../../utils/getRandomId'
 import { formatTime } from '../../utils/formatTime'
+// import usePlayBehavior from '@/hooks/playBehavior'
 /**
  * PlayerContent Component
  * 
@@ -88,6 +89,7 @@ export const PlayerContent: React.FC<PlayerContentProps> = ({
 }) => {
     const { isShuffle, handleToggleShuffle , isPlaying , setIsPlaying } = usePlayerContext();
     const player = usePlayerSong();
+    // const { onPlayNext , onPlayPrevious } = usePlayBehavior()
     const [volume, setVolume] = useState(0.5);
     const [currentTime, setCurrentTime] = useState(0);
     const [duration, setDuration] = useState(0)
