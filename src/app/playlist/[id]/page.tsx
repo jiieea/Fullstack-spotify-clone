@@ -6,7 +6,7 @@ import getPlaylistByUserId from '@/app/action/getPlaylistsByUserId';
 import getPlaylistSongs from '@/app/action/getPlaylistSong';
 import getPlaylistOwner from '@/app/action/getPlaylistOwner';
 import { cookies } from 'next/headers';
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
+import { createServerClient } from '@supabase/ssr';
 import getSong from '@/app/action/getSong';
 
 interface PageProps {
@@ -15,8 +15,24 @@ interface PageProps {
 
 const page = async ({ params }: PageProps) => {
   const { id } = await params;
-  const cookiesStore = cookies;
-  const supabase = createServerComponentClient({ cookies : cookiesStore })
+  const cookiesStore = cookies();
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        async get(name: string) {
+          return (await cookiesStore).get(name)?.value;
+        },
+        async set(name: string, value: string, options) {
+          (await cookiesStore).set(name, value, options);
+        },
+       async remove(name : string, options) {
+         (await cookiesStore).set(name, '', options);
+       }
+        },
+      },
+  );
   const playlistData = await getPlaylistById(id);
   const playlistSongs = await getPlaylistSongs(id);
   const playlistOwner = await getPlaylistOwner(id);
@@ -43,3 +59,4 @@ const page = async ({ params }: PageProps) => {
 }
 
 export default page
+

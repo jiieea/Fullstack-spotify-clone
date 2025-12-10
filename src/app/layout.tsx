@@ -10,7 +10,7 @@ import getLikedSongs from "./action/getLikedSongs";
 import getPlaylistByUserId from "./action/getPlaylistsByUserId";
 import { Player } from "@/components/Player";
 import { cookies } from "next/headers";
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
+import { createServerClient } from "@supabase/auth-helpers-nextjs";
 import SearchProvider from "@/providers/SearchProviders";
 import getSong from "./action/getSong";
 import Header from "@/components/Header";
@@ -35,10 +35,24 @@ export const revalidate = 0;
 export default async function RootLayout({
   children,
 }: RooteLayoutProps) {
-  const cookiesStore = cookies;
-  const supabase = createServerComponentClient({
-    cookies: cookiesStore
-  })
+  const cookiesStore = cookies();
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        async get(name: string) {
+          return (await cookiesStore).get(name)?.value;
+        },
+        async set(name: string, value: string, options) {
+          (await cookiesStore).set(name, value, options);
+        },
+        async remove(name: string, options) {
+          (await cookiesStore).set(name, '', options);
+        }
+      },
+    },
+  );
   const { data: userData, error: dataError } = await supabase.auth.getUser();
   const userId = userData.user?.id;
   const songs = await getSong()

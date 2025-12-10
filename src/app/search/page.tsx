@@ -1,4 +1,3 @@
-import React from 'react'
 import SearchSong from './components/SearchSong'
 import getSong from '../action/getSong';
 import getPlaylists from '../action/getPlaylists';
