@@ -1,4 +1,4 @@
-import { SupabaseClient } from "@supabase/auth-helpers-nextjs"
+import { SupabaseClient } from "@supabase/auth-helpers-react"
 import { Dispatch, SetStateAction } from "react";
 import { toast } from "sonner"
 import { Song } from "../types";

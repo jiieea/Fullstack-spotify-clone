@@ -1,13 +1,14 @@
 // use a custom hook to manage all necessary external dependencies 
 
-import { SupabaseClient, User } from "@supabase/auth-helpers-nextjs";
+import { SupabaseClient } from "@supabase/auth-helpers-react";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { toast } from "sonner";
+import { UserDetails } from "../types";
 // to keep this function pure (or pass them as arguments)
 interface HandleLikeSongParams {
     songId: string;
     isLiked: boolean;
-    user: User | null; // Replace 'any' with your actual Supabase User type
+    user: UserDetails | null; // Replace 'any' with your actual Supabase User type
     supabaseClient: SupabaseClient; // Replace 'any' with your actual Supabase Client type
     authModal: { onOpen: () => void };
     setIsLiked: (liked: boolean) => void;

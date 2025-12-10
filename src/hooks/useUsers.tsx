@@ -7,7 +7,6 @@
  */
 "use client"
 
-import { User } from '@supabase/auth-helpers-nextjs';
 import { Playlist, UserDetails } from '../../types';
 import { createContext, useContext, useEffect, useState, useCallback } from 'react';
 import { useSessionContext, useUser as useSupaUser } from '@supabase/auth-helpers-react';
@@ -23,7 +22,7 @@ import { useSessionContext, useUser as useSupaUser } from '@supabase/auth-helper
  */
 type UserContextType = {
     accessToken: string | null,
-    user: User | null,
+    user: UserDetails | null,
     userDetails: UserDetails | null,
     isLoading: boolean,
     playlist: Playlist | null

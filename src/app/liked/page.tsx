@@ -1,4 +1,3 @@
-import React from 'react'
 import LikedSongPage from './components/LikedSongPage'
 import getLikedSongs from '../action/getLikedSongs'
 import getUserData from '../action/getUserData';

@@ -5,20 +5,11 @@ import getSong from "./action/getSong";
 import getPlaylists from "./action/getPlaylists";
 import getPlaylistByUserId from "./action/getPlaylistsByUserId";
 import getUserData from "./action/getUserData";
-
-// ⚠️ CHANGE 1: Import the new utility from @supabase/ssr
 import { createServerClient } from "@supabase/ssr";
-
-// ⚠️ CHANGE 2: We no longer need to import the old auth-helpers package
-// import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"; // <--- DELETE THIS LINE
-
 import { cookies } from "next/headers"; // Keep this, as it's required
 
 export default async function Home() {
   const cookiesStore = cookies(); // ⚠️ FIX: cookies is a function, not a variable
-
-  // ⚠️ CHANGE 3: Initialize Supabase client using the new function
-  // It requires the URL and Anon Key from your environment variables
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,

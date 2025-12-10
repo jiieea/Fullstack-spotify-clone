@@ -1,4 +1,4 @@
-import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
+import { SupabaseClient } from "@supabase/auth-helpers-react";
 import { toast } from "sonner";
 
 const handleLogOut = async (supabase: SupabaseClient) => {

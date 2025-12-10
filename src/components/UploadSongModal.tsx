@@ -93,7 +93,7 @@ const UploadSongModal = () => {
                 song_path: string;
                 image_path: string;
             } = {
-                user_id: user.id,
+                user_id: user.id!,
                 title: values.title,
                 author: values.author,
                 song_path: songData.path,

@@ -1,16 +1,16 @@
 "use client"
 
-import { User } from '@supabase/auth-helpers-nextjs'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import React from 'react'
 import Btn from './Button'
+import { UserDetails } from '../../types'
 
 interface AuthButtonsProps {
     onOpen : () => void,
     onHandleLogout : ()=> Promise<void>
     avatar : string | null
-    user :  User | null
+    user :  UserDetails | null
 }
 const AuthButtons:React.FC<AuthButtonsProps> = (
     {
